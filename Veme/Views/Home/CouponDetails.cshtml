@@ -72,9 +72,10 @@
                 <aside id="sidebar">
                     <!-- Widget of the page -->
                     <section class="widget search-widget">
-                        <form action="#" class="search-form">
+                        <form action="@Url.Action("Search","Search")" class="search-form">
                             <fieldset>
-                                <input type="search" class="form-control" placeholder="Enter Keyword">
+                                <!--input type="search" class="form-control" placeholder="Enter Keyword"-->
+                                @Html.TextBox("SearchKey", "", new { @class = "form-control", placeholder = "Enter Keyword . . .", id = "search" })
                                 <button type="submit" class="sub-btn text-center text-uppercase">GO</button>
                             </fieldset>
                         </form>

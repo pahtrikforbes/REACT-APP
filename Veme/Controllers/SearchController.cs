@@ -68,24 +68,44 @@ namespace Veme.Controllers
             return sb.ToString();
         }
 
-    async Task FilterOffersByCategory(string category)
-    {
-        if (!String.IsNullOrEmpty(category))
+        async Task FilterOffersByCategory(string category)
         {
-            //get all offers with joining Merchant details
-            var filterByCategory = _context.Offers.Include(m => m.Merchant).ToList();
-
-            List<Offer> searchResult = new List<Offer>();
-
-            foreach (var offer in filterByCategory)
+            if (!String.IsNullOrEmpty(category))
             {
-                foreach (var categories in offer.Merchant.Categories)
+                //get all offers with joining Merchant details
+                var filterByCategory = _context.Offers.Include(m => m.Merchant).ToList();
+
+                //Get the categoryId
+                var catId = _context.Categories.FirstOrDefault(c => c.CategoryName.Contains(category));
+
+                if (catId == null)
+                    return;
+
+                //get merchants with that offer
+                //var getMerchants = _context.Merchants.Where(c => c.Categories.Any(m => m.CategoryName.Contains(category)));
+                //var getOffers = _context.Offers.Include(c => c.Merchant).Where(m => m.MerchantID == getMerchants.Any(r => r.));
+                List<Offer> searchResult = new List<Offer>();
+
+                foreach (var offer in filterByCategory)
                 {
-                    await Task.Run(() => Console.WriteLine(categories.CategoryName));
+                    foreach (var categories in offer.Merchant.Categories)
+                    {
+                        await Task.Run(() => Console.WriteLine(categories.CategoryName));
+                    }
                 }
             }
         }
 
+        public ActionResult Categories(int CategoryId)
+        {
+            var filterByCat = _context.Offers.Include(c => c.Categories)
+                                 .Include(m => m.Merchant)
+                                 .Where(o => o.Categories.Any(c => c.CategoryId == CategoryId));
+            var search = new SearchViewModel
+            {
+                AllOffers = filterByCat.ToList()
+            };
+            return Index(search);
+        }
     }
-}
 }

@@ -1,0 +1,103 @@
+﻿@using Microsoft.AspNet.Identity
+@using Veme.Models
+@model Veme.Models.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<!--style>
+
+    .stripe-button-el {
+    }
+</style-->
+<!-- banner of the page -->
+<section class="banner bg-full overlay" style="background-image: url(http://placehold.it/1920x900);">
+    <div class="holder">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 text-left">
+                    <h1 class="text-uppercase">It looks like it's <br class="hidden-xs">been furnished <br class="hidden-xs">by <span class="clr">discount</span> <br class="hidden-xs">stores.</h1>
+                    <form action="@Url.Action("Search", "Search")" class="search-form lg-round">
+                        <fieldset>
+                            <label for="search"><i class="icon icon-search"></i></label>
+                            <!--input type="search" class="form-control" id="search" placeholder="Search coupons & deals"-->
+                            @Html.TextBox("SearchKey", "", new { @class = "form-control", placeholder = "Search coupons . . .", id = "search", autocomplete = "off" })
+                            <button type="submit" class="btn-icon"><i class="icon-right-arrow"></i></button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- latest coupon of the page -->
+<section class="latest-coupon container pad-top-lg pad-bottom-md">
+    <div class="row">
+        <header class="col-xs-12 text-center header">
+            @*<h2 class="heading">Latest Coupon Codes &amp; Deals</h2>*@
+            <h2 class="heading">Latest Offers &amp; Deals</h2>
+        </header>
+    </div>
+    <div class="row" id="firstRow">
+        @{
+            if (Model.LatestOffers.Count > 0)
+            {
+                <div class="container">
+                    <div class="latest-coupon container pad-top-lg pad-bottom-md">
+                        <div class="row">
+
+                            @for (byte i = 0; i < Model.LatestOffers.Count && i < Model.LatestOffers.Count; i++)
+                            {
+                                if (i > 0 && i % 4 == 0)
+                                {
+
+                                    @Html.Raw(":</div><div class=\"row\">")
+                                }
+
+                                using (Html.BeginForm("GetCoupon", "Home", FormMethod.Post))
+                                {
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <!-- coupon box of the page -->
+                                        <div class="coupon-box mar-bottom-xs">
+                                            <div class="img-holder">
+                                                @*@if (Model.LatestOffers[i].OfferImg != null)*@
+                                                @{
+                                                    //var userId = User.Identity.GetUserId();
+                                                    var userId = Model.LatestOffers[i].Merchant.MerchantID;
+                                                    var basePath = Server.MapPath("~/Content/FileUpload/" + userId + @"/OfferImg/" + Model.LatestOffers[i].OfferName + "/");
+                                                    var files = Directory.EnumerateFiles(basePath);
+                                                    var basePathWithoutServer = "~/Content/FileUpload/" + userId + @"/OfferImg/" + Model.LatestOffers[i].OfferName + "/";
+                                                    var fileName = Path.GetFileName(files.First());
+                                                    var fullPath = basePathWithoutServer + fileName;
+                                                    @*<img src="~/Content/Img.jpg" class="img-resposnive" />*@
+                                                    @*<img src="~/Content/FileUpload/17eec02c-53c8-4c21-8187-4ead57844c06/OfferImg/Burger Day/Img.jpg" alt="Image not showing" class="img-resposnive" />*@
+                                                    <img src="@Url.Content(fullPath)" alt="Image not showing" class="img-resposnive" />
+
+                                                    //var image = string.Format(@"<image src={0} />",getImage.RawFormat);
+                                                }
+                                                @*else
+                                                    {
+                                                        <img src="http://placehold.it/260x190" alt="image description" class="img-resposnive">
+                                                    }*@
+                                            </div>
+                                            <div class="txt-holder">
+                                                <h3 class="heading6" style="color:black;"><a href="coupon-detail.html">@Model.LatestOffers[i].Merchant.CompanyName</a></h3>
+                                                <h3 class="heading6" style="color:black;"><a href="coupon-detail.html">@Model.LatestOffers[i].OfferName</a></h3>
+                                                <h5 class=""><a href="coupon-detail.html">@Model.LatestOffers[i].OfferDetails</a></h5>
+                                                @Html.ActionLink("Get Coupon", "CouponDetails", "Home", new { OfferId = @Model.LatestOffers[i].OfferId }, htmlAttributes: new { @class = "btn-primary md-round text-center text-uppercase" })
+                                                <time class="time text-center" datetime="2017-02-03">Expires On : @Model.LatestOffers[i].OfferEnds.ToString("MMM-dd-yyyy")</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            }
+        }
+    </div>
+
+</section>

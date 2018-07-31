@@ -26,7 +26,7 @@ namespace Veme.Models.POCO
         //Navigation proper for many-to-many relationship
         public virtual ICollection<MerchantAddress> Addresses { get; set; }
 
-        //Create Many-to-many relationship between merchant and Offer
+        //Create Many-to-many relationship between merchant and category
         public virtual ICollection<Category> Categories { get; set; }
     }
 
@@ -52,15 +52,5 @@ namespace Veme.Models.POCO
         
         public virtual ICollection<Merchant> Merchants { get; set; }
 
-    }
-
-    public class Category
-    {
-        public int CategoryId { get; set; }
-
-        public string CategoryName { get; set; }
-
-        //Create Many-to-many relationship between merchant and Offer
-        public virtual ICollection<Merchant> Merchants { get; set; }
     }
 }

@@ -10,6 +10,8 @@ using System.Net.Mail;
 using System.Web.Configuration;
 using System.Net;
 using System.Web.Security;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Veme.Controllers
 {
@@ -25,8 +27,11 @@ namespace Veme.Controllers
             ViewBag.PublicKey = WebConfigurationManager.AppSettings["StripePublicKeyTest"];
             var viewModel = new HomeViewModel()
             {
-                LatestOffers = _context.Offers.Include(c=> c.Merchant).OrderByDescending(c => c.CreationDate).Take(8).ToList()
+                LatestOffers = _context.Offers.Include(c => c.Merchant).Include(c => c.Categories).OrderByDescending(c => c.CreationDate).Take(8).ToList()
+                
             };
+            //var getImg = viewModel.LatestOffers[0].OfferImg;
+            //System.IO.File.WriteAllBytes(Server.MapPath("~/Content/Img.jpg"),getImg);
             return View(viewModel);
         }
 
@@ -88,7 +93,7 @@ namespace Veme.Controllers
         //Action shows the Preview of the Coupon
         public ActionResult PreviewCoupon(GenCouponViewModel model)
         {
-            return View("PreviewCoupon",model);
+            return View("PreviewCoupon", model);
         }
 
         //Sends Coupon to customer
@@ -111,9 +116,9 @@ namespace Veme.Controllers
                 //Replace dummy Value in Coupon Email Template
                 body = body.Replace("#Offerer", model.OfferDetails.Merchant.CompanyName);
                 body = body.Replace("#OfferName", model.OfferDetails.OfferName);
-                body = body.Replace("#OfferEnds",model.OfferDetails.OfferEnds.ToString("MMM-dd-yyyy"));
+                body = body.Replace("#OfferEnds", model.OfferDetails.OfferEnds.ToString("MMM-dd-yyyy"));
                 body = body.Replace("#OfferDetails", model.OfferDetails.OfferDetails);
-                body = body.Replace("#DiscountRate%", model.OfferDetails.DiscountRate.ToString() +"%");
+                body = body.Replace("#DiscountRate%", model.OfferDetails.DiscountRate.ToString() + "%");
                 body = body.Replace("#CouponCode", model.CouponCode);
 
                 MailMessage mail = new MailMessage();
@@ -136,8 +141,10 @@ namespace Veme.Controllers
                     mailClient.EnableSsl = false;
                     mailClient.UseDefaultCredentials = false;
                     mailClient.Credentials = cred;
+#if DEBUG
                     mail.To.Add("dwes_deomar@hotmail.com");
-                    //mail.To.Add(email);
+#endif
+                    mail.To.Add(email);
                     mailClient.Send(mail);
                 }
             }

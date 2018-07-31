@@ -76,6 +76,11 @@ namespace Veme.Models
                         .WithRequired(c => c.User)
                         .WillCascadeOnDelete();
 
+            //Implement many-to-many relationship between Offer and category
+            modelBuilder.Entity<Offer>()
+                        .HasMany<Category>(c => c.Categories)
+                        .WithMany(c => c.Offers)
+                        .Map(c => c.ToTable("OfferCategories"));
 
 
             base.OnModelCreating(modelBuilder);

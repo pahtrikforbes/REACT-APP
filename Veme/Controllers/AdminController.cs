@@ -128,7 +128,7 @@ namespace Veme.Controllers
         [HttpGet]
         public ActionResult EditOffer()
         {
-            var viewModel = new EditOfferViewModel()
+            var viewModel = new Models.ViewModels.EditOfferViewModel()
             {
                 Merchants = _context.Merchants.ToList(),
                 Offers = new List<Offer>()
@@ -137,7 +137,7 @@ namespace Veme.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditOffer(EditOfferViewModel model)
+        public ActionResult EditOffer(Models.ViewModels.EditOfferViewModel model)
         {
             var getOfferToEdit = _context.Offers.FirstOrDefault(c => c.OfferId == model.Offer_Id);
 

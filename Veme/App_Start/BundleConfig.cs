@@ -36,6 +36,11 @@ namespace Veme
                "~/Content/bootstrap-datepicker.css"
                ));
 
+            //Select2 Bundle
+            bundles.Add(new StyleBundle("~/Content/select2.min.css").Include(
+                "~/Content/select2css/select2.min.css"
+                ));
+
         }
     }
 }

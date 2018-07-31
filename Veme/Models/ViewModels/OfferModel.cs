@@ -79,7 +79,8 @@ namespace Veme.Models
         //public byte[] OfferImg { get; set; }
 
         [DataType(DataType.Upload)]
-        [Display(Name ="Offer Display Image")]
+        [Display(Name = "Offer Display Image")]
+        [Required]
         public HttpPostedFileBase OfferImg { get; set; }
 
         [Required]
@@ -88,6 +89,12 @@ namespace Veme.Models
 
         [Required]
         public decimal? CouponPrice { get; set; }
+
+        //List to control category object
+        public IEnumerable<Category> Categories { get; set; }
+
+        [Required]
+        public int[] CategoryIds { get; set; }
 
         public byte[] ConvertImgToByteArray()
         {
@@ -109,11 +116,34 @@ namespace Veme.Models
             //}
             #endregion
         }
+
+        public Image ByteArrayToImg(byte[] byteArray)
+        {
+            MemoryStream ms = new MemoryStream(byteArray);
+            //Image returnImage = Image.FromStream(ms);
+            return Image.FromStream(ms);
+        }
     }
 
     public class CouponDetailsViewModel
     {
         public Offer Offer { get; set; }
+
+    }
+
+    public class SelectOfferViewModel
+    {
+        public int OfferId { get; set; }
+        public IEnumerable<Offer> Offers { get; set; } = new List<Offer>();
+    }
+
+    public class EditViewModel
+    {
+        public MerchantCreateOfferViewModel offer { get; set; }
+        public List<Category> OfferCategories { get; set; }
+
+        [Required]
+        public int[] CategoryIds { get; set; }
 
     }
 }

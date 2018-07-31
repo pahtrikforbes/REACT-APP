@@ -49,5 +49,8 @@ namespace Veme.Models.POCO
         [Column(TypeName = "Money")]
         public decimal CouponPrice { get; set; }
 
+        //Create many-to-many relationship between Offer and category
+        public ICollection<Category> Categories { get; set; }
+
     }
 }

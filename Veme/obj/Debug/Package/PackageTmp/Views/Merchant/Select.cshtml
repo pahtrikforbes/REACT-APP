@@ -1,0 +1,54 @@
+﻿@model Veme.Models.SelectOfferViewModel
+@{
+    ViewBag.Title = "RedeemCoupon";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+@Styles.Render("~/Content/register")
+@Styles.Render("~/Content/datepicker")
+@Styles.Render("~/Content/select2.min.css")
+
+<div class="container">
+    @*@using (Ajax.BeginForm("GetOffer", "Merchant", null, new AjaxOptions()
+        {
+            HttpMethod = "GET",
+            OnSuccess = "OnSuccess",
+
+        }))*@
+    @using (Html.BeginForm("Select", "Merchant", FormMethod.Post))
+    {
+        <div class="row main">
+            <div class="main-login main-center">
+                <h5>Select Coupons to Edit</h5>
+                <div class="form-group">
+                    @*@Html.LabelFor(c => c.CouponCode, new { @class = "cols-sm-2 control-label" })*@
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user fa" style="visibility:hidden" aria-hidden="true"></i></span>
+                            @*@Html.TextBoxFor(c => c.OfferId, new { @class = "form-control", placeholder = "xxx-xxx-xxx", autocomplete = "off" })*@
+                            @Html.DropDownListFor(c => c.OfferId, new SelectList(Model.Offers, "OfferId", "OfferName"), "--Select Offer--", new { @class = "form-control" })
+                            @*@Html.DropDownListFor(c => c.OfferId, new SelectList(Model.Offers, "OfferId", "OfferName"), "", new { @class = "form-control", id = "ddshowOffers" })*@
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    @*@Html.ValidationMessageFor(c => c.CouponCode)*@
+                </div>
+                <div class="form-group ">
+                    <center>
+                        @*@Html.HiddenFor(c => c.MerchantId)*@
+                        <input target="_blank" value="Redeem Coupon" type="submit" id="button" class="btn btn-primary btn-lg btn-block login-button" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts
+{
+    <script src="~/Scripts/select2/js/select2.min.js"></script>
+    <script>
+        $(function () {
+            $('#OfferId').select2();
+        });
+    </script>
+}

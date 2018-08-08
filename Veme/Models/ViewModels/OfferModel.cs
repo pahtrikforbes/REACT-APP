@@ -49,22 +49,26 @@ namespace Veme.Models
     {
         public int? OfferId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required *")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyy", ApplyFormatInEditMode = true)]
         public DateTime? OfferBegins { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required *")]
         [DisplayFormat(DataFormatString ="{0:dd/MM/yyy",ApplyFormatInEditMode =true)]
         public DateTime? OfferEnds { get; set; }
 
+        [Required(ErrorMessage ="Required *")]
         public byte? DiscountRate { get; set; }
 
+        [Required(ErrorMessage = "Required *")]
         public int? TotalOffer { get; set; }
 
         [MaxLength(255)]
+        [Required(ErrorMessage = "Required *")]
         public string OfferName { get; set; }
 
         [MaxLength(255)]
+        [Required(ErrorMessage = "Required *")]
         public string OfferDetails { get; set; }
 
         public int CouponUsed { get; set; }
@@ -80,20 +84,20 @@ namespace Veme.Models
 
         [DataType(DataType.Upload)]
         [Display(Name = "Offer Display Image")]
-        [Required]
+        [Required(ErrorMessage = "Required *")]
         public HttpPostedFileBase OfferImg { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required *")]
         [Range(minimum: 1, maximum: 12)]
         public byte? CouponDurationInMonths { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required *")]
         public decimal? CouponPrice { get; set; }
 
         //List to control category object
         public IEnumerable<Category> Categories { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required *")]
         public int[] CategoryIds { get; set; }
 
         public byte[] ConvertImgToByteArray()

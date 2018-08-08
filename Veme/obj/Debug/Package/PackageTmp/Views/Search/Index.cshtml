@@ -60,14 +60,19 @@
                                         //var userId = User.Identity.GetUserId();
                                         const int textMaxLength = 10;
                                         var userId = Model.AllOffers[i].Merchant.MerchantID;
-                                        var basePath = Server.MapPath(@"~\Content\images\" + userId + @"\" + Model.AllOffers[i].OfferName + @"\");
+                                        var basePath = Server.MapPath("~/Content/FileUpload/" + userId + @"/OfferImg/" + Model.AllOffers[i].OfferName + "/");
                                         var files = Directory.EnumerateFiles(basePath);
-                                        var basePathWithoutServer = @"~\Content\images\" + userId + @"\" + Model.AllOffers[i].OfferName + @"\";
+                                        var basePathWithoutServer = "~/Content/FileUpload/" + userId + @"/OfferImg/" + Model.AllOffers[i].OfferName + "/";
                                         var fileName = Path.GetFileName(files.First());
                                         var fullPath = basePathWithoutServer + fileName;
-                                        
-                                        <img src="@Url.Content(fullPath)" alt="Image not showing" height="190" width="260" class="img-resposnive" />
+                                        @*<img src="~/Content/Img.jpg" class="img-resposnive" />*@
+                                        @*<img src="~/Content/FileUpload/17eec02c-53c8-4c21-8187-4ead57844c06/OfferImg/Burger Day/Img.jpg" alt="Image not showing" class="img-resposnive" />*@
+                                        <img src="@Url.Content(fullPath)" alt="Image not showing" height="260" width="190" class="img-resposnive" />
                                     }
+                                    @*else
+                                        {
+                                            <img src="http://placehold.it/260x190" alt="image description" class="img-resposnive">
+                                        }*@
                                 </div>
                                 <div class="txt-holder">
                                     <!--h3 class="heading6"><a href="coupon-detail.html">Extra Up To 20% Off On All Furnitures</a></h3-->

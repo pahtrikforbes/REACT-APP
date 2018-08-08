@@ -50,7 +50,17 @@ namespace Veme.Controllers
             viewModel.Categories = _context.Categories.ToList();
             return View(viewModel);
         }
+        public ActionResult Preview(MerchantCreateOfferViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View("CreateOffer", model);
 
+            var viewModel = model;
+            if(model.OfferImg != null)
+                TempData["img"] = model.OfferImg;
+
+            return View(model);
+        }
         #region CreateOffer
         //[HttpPost]
         //public async Task<ActionResult> CreateOffer(MerchantCreateOfferViewModel model)
@@ -73,8 +83,8 @@ namespace Veme.Controllers
         public async Task<ActionResult> StoreOffer(MerchantCreateOfferViewModel model)
         {
             var userId = User.Identity.GetUserId();
-            var file = Request.Files.Count > 0 ? Request.Files["OfferImg"] : null;
-
+            //var file = Request.Files.Count > 0 ? Request.Files["OfferImg"] : null;
+            var file = TempData["img"] as HttpPostedFileBase;
             if (model == null)
                 return RedirectToAction("CreateOffer");//return View("CreateOffer");
            
@@ -118,23 +128,47 @@ namespace Veme.Controllers
                 Categories = new List<Category>()
             };
             //for storing img to file
-            var basePath = Server.MapPath("~/Content/FileUpload/" + userId + @"/OfferImg/" + offerObj.OfferName + "/");
+            var basePath = Server.MapPath(@"~\Content\images\" + userId + @"\" + offerObj.OfferName + @"\");
 
             if (!Directory.Exists(basePath))
                 Directory.CreateDirectory(basePath);
+            else
+            {
+                /**************************/
+                /*Code delete files in dir*/
+                /**************************/
+                var files = new DirectoryInfo(basePath);
+                foreach (var item in files.GetFiles())
+                    item.Delete();
+            }
 
             if (file != null && file.ContentLength > 0 && file.ContentLength < MAXMEGABYTES)
             {
                 //get file name
                 var fileName = Path.GetFileName(file.FileName);
+
                 if (!System.IO.File.Exists(basePath + fileName))
                 {
-                    var files = new DirectoryInfo(basePath);
-                    foreach (var item in files.GetFiles())
-                        item.Delete();
+                    try
+                    {
 
-                    file.SaveAs(basePath + fileName);
-                    //System.IO.File.WriteAllBytes(basePath, ImgManipulator.ConvertImgToByteArray(file));
+                        /*************************/
+                        /**Code to save the file**/
+                        /*************************/
+                        file.SaveAs(basePath + fileName);
+
+                        //string filePath = basePath + Path.GetFileName(file.FileName);
+                        //var target = new MemoryStream();
+                        //var fileContentSize = file.ContentLength;
+                        //file.InputStream.CopyTo(target);
+                        //var fileBytes = target.ToArray();
+                        //System.IO.File.WriteAllBytes(filePath, fileBytes);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.StackTrace.ToString());
+                        throw;
+                    }
                 }
             }
 

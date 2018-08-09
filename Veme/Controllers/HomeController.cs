@@ -28,7 +28,7 @@ namespace Veme.Controllers
             var viewModel = new HomeViewModel()
             {
                 LatestOffers = _context.Offers.Include(c => c.Merchant).Include(c => c.Categories).OrderByDescending(c => c.CreationDate).Take(8).ToList()
-                
+
             };
             //var getImg = viewModel.LatestOffers[0].OfferImg;
             //System.IO.File.WriteAllBytes(Server.MapPath("~/Content/Img.jpg"),getImg);

@@ -15,14 +15,14 @@
 @Styles.Render("~/Content/datepicker")
 @Styles.Render("~/Content/select2.min.css")
 
-@using (Html.BeginForm("StoreOffer", "Merchant", FormMethod.Post, new { autocomplete = "off", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Preview", "Merchant", FormMethod.Post, new { autocomplete = "off", enctype = "multipart/form-data" }))
 {
     <div class="container" id="form">
         <div class="row main">
             <div class="main-login main-center" style="background-color:#f6f6f6;">
                 <h5 class="heading3">Register Coupon</h5>
                 <p style="color:black;">Fill in the form below</p>
-                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
 
 
                 <div class="form-group">
@@ -30,6 +30,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextBoxFor(c => c.OfferName, new { @class = "form-control", placeholder = "Offer Name" })
+                            @Html.ValidationMessageFor(c => c.OfferName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -38,6 +39,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.EditorFor(c => c.DiscountRate, new { htmlAttributes = new { @class = "form-control", placeholder = "Discount Percent *", @min = "1", @type = "number", @max = "100" } })
+                            @Html.ValidationMessageFor(c => c.DiscountRate, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
                 </div>
@@ -46,6 +49,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.EditorFor(c => c.TotalOffer, new { htmlAttributes = new { @class = "form-control", placeholder = "Total Coupon" } })
+                            @Html.ValidationMessageFor(c => c.TotalOffer, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
                 </div>
@@ -54,6 +59,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextAreaFor(c => c.OfferDetails, new { @class = "form-control", placeholder = "Offer Details *" })
+                            @Html.ValidationMessageFor(c => c.OfferDetails, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
                 </div>
@@ -81,6 +88,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextBoxFor(c => c.OfferBegins, new { @class = "form-control datepicker", placeholder = "Offer Begins" })
+                            @Html.ValidationMessageFor(c => c.OfferBegins, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
                 </div>
@@ -89,6 +98,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextBoxFor(c => c.OfferEnds, new { @class = "form-control datepicker", placeholder = "Offer Ends" })
+                            @Html.ValidationMessageFor(c => c.OfferEnds, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
                 </div>
@@ -98,6 +109,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextBoxFor(c => c.OfferImg, new { @class = "form-control", @type = "file", placeholder = "Upload Display Image" })
+                            @Html.ValidationMessageFor(c => c.OfferImg, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
                 </div>
@@ -106,6 +119,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextBoxFor(c => c.CouponDurationInMonths, new { @class = "form-control", placeholder = "Coupon Valid Duration in Months" })
+                            @Html.ValidationMessageFor(c => c.CouponDurationInMonths, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
                 </div>
@@ -114,6 +129,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextBoxFor(c => c.CouponPrice, new { @class = "form-control", placeholder = "Coupon Price" })
+                            @Html.ValidationMessageFor(c => c.CouponPrice, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
                 </div>
@@ -121,7 +138,7 @@
                 @Html.HiddenFor(c => c.MerchantID)
                 <div class="form-group ">
                     <center>
-                        <input target="_blank" value="Submit Coupon" type="button" id="button" class="btn btn-primary btn-lg btn-block login-button" />
+                        <input target="_blank" value="Submit Coupon" type="submit" id="button" class="btn btn-primary btn-lg btn-block login-button" />
                     </center>
                 </div>
             </div>
@@ -129,8 +146,9 @@
     </div>
 
 
+    <!---------------------------------->
     <!--Section for Previewing Coupons-->
-
+    <!---------------------------------->
     <div class="container" id="preview">
         <div id="div1" width="100%" style="padding: 0px 0px; font-family:arial; line-height:28px; height:100%;  width: 100%; color: #514d6a;">
             <div id="div2" style="max-width: 700px; padding:50px 0;  margin: 0px auto; font-size: 14px">
@@ -198,9 +216,25 @@
     </div>
 }
 @section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/select2/js/select2.min.js"></script>
     <script>
+        //$(document).ready(function () {
+        //    $('#button').on('click', function (e) {
+        //        e.preventDefault();
+
+        //        if ($('form').isValid) {
+        //            alert('form is valid');
+        //        }
+        //        else {
+        //            alert('form not valid');
+        //        }
+        //        alert('button click');
+        //        //alert(formValid);
+        //    });
+        //});
+
         $(function () {
             //alert("Hello World");
             $('#preview').hide();
@@ -216,25 +250,39 @@
         });
 
         function ShowPreview() {
-            $('#button').click(function (e) {
-                e.preventDefault();
+            //$(document).on('click', 'form button[type=submit]', function (e) {
+            //    var isValid = $(e.target).parents('form').isValid();
+            //    if (!isValid) {
+            //        e.preventDefault(); //prevent the default action
+            //        alert('form prevented');
+            //    }
+            //});
+            //$('#button').click(function (e) {
+            //    e.preventDefault();
+            //    alert($(e.target).parent('form').isValid());
+            //    return;
+            //    //var isValid = $(e.target).parent('form').isValid();
+            //    //alert('About to validate');
+            //    //if (!isValid) {
+            //    //    alert('form not valid');
+            //    //    return;
+            //    //}
+            //    $('#form').fadeToggle();
+            //    $('#preview').fadeToggle();
+            //    //Update preview
+            //    var getCompanyName = $('#Merchant_CompanyName').val();
+            //    $('.CompanyName').html(getCompanyName);
+            //    $('.OfferName').text($('#OfferName').val());
+            //    var begin = $('#OfferBegins').val().toString();
+            //    var ends = $('#OfferEnds').val().toString();
+            //    $('.OfferPeriod').append('<b>' + begin + ' - ' + ends + '</b>');
+            //    $('.OfferDetails').append('<br>' + $('#OfferDetails').val() + '</b>');
+            //    $('.DiscountRate').text($('#DiscountRate').val() + '%');
+            //    //selected catogories
+            //    //var catsText = $('#Cats :selected').text();
+            //    //alert($('#DiscountRate').val() + '%');
 
-                $('#form').fadeToggle();
-                $('#preview').fadeToggle();
-                //Update preview
-                var getCompanyName = $('#Merchant_CompanyName').val();
-                $('.CompanyName').html(getCompanyName);
-                $('.OfferName').text($('#OfferName').val());
-                var begin = $('#OfferBegins').val().toString();
-                var ends = $('#OfferEnds').val().toString();
-                $('.OfferPeriod').append('<b>' + begin + ' - ' + ends + '</b>');
-                $('.OfferDetails').append('<br>' + $('#OfferDetails').val() + '</b>');
-                $('.DiscountRate').text($('#DiscountRate').val() + '%');
-                //selected catogories
-                //var catsText = $('#Cats :selected').text();
-                //alert($('#DiscountRate').val() + '%');
-
-            });
+            //});
         }
     </script>
 }}

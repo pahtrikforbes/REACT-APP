@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="veme.solutechinnovation.com" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Wesley\ Dwyer\\Documents\\GitHub\\veme\\Veme\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Wesley\ Dwyer\\Documents\\GitHub\\veme\\Veme\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="Add write permission to App_Data Folder" description="Add write permission to App_Data folder" value="veme.solutechinnovation.com/App_Data" tags="Hidden">
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Wesley\ Dwyer\\Documents\\GitHub\\veme\\Veme\\obj\\Release\\Package\\PackageTmp\\App_Data$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=lilac.arvixe.com;Initial Catalog=veme;Persist Security Info=True;User ID=veme_user;Password=e4XEZVp788" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Wesley\ Dwyer\\Documents\\GitHub\\veme\\Veme\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

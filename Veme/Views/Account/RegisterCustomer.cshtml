@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Veme.Models
 @model Veme.Models.CustomerRegisterViewModel
 @{
     ViewBag.Title = "Register";
     //Layout = "~/Views/Shared/_Layout.cshtml";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewBag.Subcriber = SocialCaller.CustomerRegister;//"Customer";
 }
 <!-- banner of the page -->
 <section class="banner banner3 bg-full overlay" style="background-image: url(http://placehold.it/1920x320);">
@@ -33,34 +35,32 @@
                             @Html.AntiForgeryToken()
                             <fieldset>
                                 @Html.TextBoxFor(c => c.FirstName, new { @class = "form-control", placeholder = "First Name *" })
-                                @*@Html.ValidationMessageFor(c => c.FirstName)*@
                                 @Html.TextBoxFor(c => c.LastName, new { @class = "form-control", placeholder = "Last Name *" })
-                                @*@Html.ValidationMessageFor(c => c.LastName)*@
-                                @Html.TextBoxFor(c => c.DOB, new { @class = "form-control", placeholder = "DOB  31/12/1999*" })
-                                @*@Html.ValidationMessageFor(c => c.DOB)*@
+                                @Html.TextBoxFor(c => c.DOB, new { @class = "form-control", placeholder = "DOB  MM/DD/yyyy*" })
                                 @Html.TextBoxFor(c => c.MobileNumber, new { @class = "form-control", placeholder = "Mobile Number 876-555-6635 *" })
-                                @*@Html.ValidationMessageFor(c => c.MobileNumber)*@
                                 @Html.TextBoxFor(c => c.Email, new { @class = "form-control", placeholder = "Email *", type = "email" })
-                                @*@Html.ValidationMessageFor(c => c.Email)*@
                                 @Html.TextBoxFor(c => c.ConfirmEmail, new { @class = "form-control", placeholder = "Confirm Email *", type = "email" })
-                                @*@Html.ValidationMessageFor(c => c.ConfirmEmail)*@
                                 @Html.PasswordFor(c => c.Password, new { @class = "form-control", placeholder = "Password *" })
-                                @*@Html.ValidationMessageFor(c => c.Password)*@
                                 @Html.PasswordFor(c => c.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password *" })
-                                @*@Html.ValidationMessageFor(c => c.ConfirmPassword)*@
-                                @*<div class="form-check">
+
+                                <!--div class="form-check">
                                       <input type="checkbox" name="vehicle" value="Car"> Accept <a href="#" class="clr">Terms and Conditions</a>
-                                    </div>*@
+                                </div-->
                                 <button type="submit" class="btn-primary text-center text-uppercase">Register Now</button>
                             </fieldset>
                         }
                         <div class="btn-holder">
+                            @Html.Partial("_ExternalLoginsListPartialCustomer", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl, Subcriber = ViewBag.Subcriber })
+                        </div>
+
+                        <!--div class="btn-holder">
                             <a href="#" class="google-btn"><i class="fa fa-google-plus"></i> Sign in with Goolge</a>
                             <a href="#" class="fb-btn"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
-                        </div>
+                        </div-->
                     </div>
                     <div class="img-holder">
-                        <img src="http://placehold.it/600x520" alt="image description" class="img-responsive">
+                        @*<img src="http://placehold.it/600x520" alt="image description" class="img-responsive">*@
+                        <img src="~/Content/Site-theme/images/signup.jpg" height="520" width="600" alt="image description" class="img-responsive">
                     </div>
                 </div>
             </div>
@@ -69,17 +69,18 @@
 </div>
 @section Scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/cleave.min.js"></script>
     <script>
         $(function () {
             var cleave = new Cleave('#DOB', {
                 delimiter: '/',
-                blocks:[2,2,4]
+                blocks: [2, 2, 4]
             });
 
             var teleFormat = new Cleave('#MobileNumber', {
                 delimiter: '-',
-                blocks:[3,3,4]
+                blocks: [3, 3, 4]
             });
 
             /*

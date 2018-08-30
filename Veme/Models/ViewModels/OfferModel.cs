@@ -137,7 +137,9 @@ namespace Veme.Models
 
     public class SelectOfferViewModel
     {
+        [Required(ErrorMessage = "Required *")]
         public int OfferId { get; set; }
+
         public IEnumerable<Offer> Offers { get; set; } = new List<Offer>();
     }
 

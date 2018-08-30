@@ -42,6 +42,8 @@ label {
     margin-bottom: 15px;
 }
 
+select,
+select::-webkit-input-placeholder,
 input,
 input::-webkit-input-placeholder {
     font-size: 11px;

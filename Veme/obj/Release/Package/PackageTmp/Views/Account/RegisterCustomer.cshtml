@@ -36,7 +36,7 @@
                                 @*@Html.ValidationMessageFor(c => c.FirstName)*@
                                 @Html.TextBoxFor(c => c.LastName, new { @class = "form-control", placeholder = "Last Name *" })
                                 @*@Html.ValidationMessageFor(c => c.LastName)*@
-                                @Html.TextBoxFor(c => c.DOB, new { @class = "form-control", placeholder = "DOB  31/12/1999*" })
+                                @Html.TextBoxFor(c => c.DOB, new { @class = "form-control", placeholder = "DOB  MM/DD/yyyy*" })
                                 @*@Html.ValidationMessageFor(c => c.DOB)*@
                                 @Html.TextBoxFor(c => c.MobileNumber, new { @class = "form-control", placeholder = "Mobile Number 876-555-6635 *" })
                                 @*@Html.ValidationMessageFor(c => c.MobileNumber)*@
@@ -60,7 +60,8 @@
                         </div>
                     </div>
                     <div class="img-holder">
-                        <img src="http://placehold.it/600x520" alt="image description" class="img-responsive">
+                        @*<img src="http://placehold.it/600x520" alt="image description" class="img-responsive">*@
+                        <img src="~/Content/Site-theme/images/signup.jpg" height="520" width="600" alt="image description" class="img-responsive">
                     </div>
                 </div>
             </div>
@@ -69,17 +70,18 @@
 </div>
 @section Scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/cleave.min.js"></script>
     <script>
         $(function () {
             var cleave = new Cleave('#DOB', {
                 delimiter: '/',
-                blocks:[2,2,4]
+                blocks: [2, 2, 4]
             });
 
             var teleFormat = new Cleave('#MobileNumber', {
                 delimiter: '-',
-                blocks:[3,3,4]
+                blocks: [3, 3, 4]
             });
 
             /*

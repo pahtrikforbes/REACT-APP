@@ -32,13 +32,13 @@ namespace Veme.Controllers
         }
 
 
-        //GET: // Create Offer
+        [HttpGet]
         public ActionResult CreateOffer()
         {
             var userId = User.Identity.GetUserId();
             var getUser = _context.Users.Include(c => c.Merchant).FirstOrDefault(c => c.Id == userId);
 
-            //Gets a set the Merchant Id to the page
+            //Gets and set the Merchant Id to the page
             var viewModel = new MerchantCreateOfferViewModel();
             viewModel.MerchantID = getUser.Merchant.MerchantID;
             viewModel.Merchant = getUser.Merchant;
@@ -50,12 +50,20 @@ namespace Veme.Controllers
             viewModel.Categories = _context.Categories.ToList();
             return View(viewModel);
         }
+
+
         public ActionResult Preview(MerchantCreateOfferViewModel model)
         {
+            //Returns to Create Offer if Offer Invalid
             if (!ModelState.IsValid)
                 return View("CreateOffer", model);
 
+            //1.Store model in a variable
+            //To Send send to View
             var viewModel = model;
+
+            //2.Stores the image in temp varibale to
+            //pass to another action
             if(model.OfferImg != null)
                 TempData["img"] = model.OfferImg;
 
@@ -84,7 +92,10 @@ namespace Veme.Controllers
         {
             var userId = User.Identity.GetUserId();
             //var file = Request.Files.Count > 0 ? Request.Files["OfferImg"] : null;
+            
+            //retrieve the image file stored in tempData
             var file = TempData["img"] as HttpPostedFileBase;
+
             if (model == null)
                 return RedirectToAction("CreateOffer");//return View("CreateOffer");
            
@@ -127,9 +138,11 @@ namespace Veme.Controllers
                 CouponPrice = model.CouponPrice.Value,
                 Categories = new List<Category>()
             };
-            //for storing img to file
+
+            //path for storing img to file
             var basePath = Server.MapPath(@"~\Content\images\" + userId + @"\" + offerObj.OfferName + @"\");
 
+            //1.Checks if the path exist before creating
             if (!Directory.Exists(basePath))
                 Directory.CreateDirectory(basePath);
             else
@@ -147,22 +160,16 @@ namespace Veme.Controllers
                 //get file name
                 var fileName = Path.GetFileName(file.FileName);
 
+                //1.Check if the file already exist before create
                 if (!System.IO.File.Exists(basePath + fileName))
                 {
                     try
                     {
-
                         /*************************/
                         /**Code to save the file**/
                         /*************************/
                         file.SaveAs(basePath + fileName);
 
-                        //string filePath = basePath + Path.GetFileName(file.FileName);
-                        //var target = new MemoryStream();
-                        //var fileContentSize = file.ContentLength;
-                        //file.InputStream.CopyTo(target);
-                        //var fileBytes = target.ToArray();
-                        //System.IO.File.WriteAllBytes(filePath, fileBytes);
                     }
                     catch (Exception ex)
                     {
@@ -172,11 +179,14 @@ namespace Veme.Controllers
                 }
             }
 
-            //Add each category the user selects
+            //1.Add each category the user selects
             foreach (byte item in model.CategoryIds)
                 offerObj.Categories.Add(_context.Categories.First(c => c.CategoryId == item));
 
+            //2.Add the offer created to memory
             _context.Offers.Add(offerObj);
+
+            //3.Update the database with the offer
             _context.SaveChanges();
 
             //1. Ensures that production database has 
@@ -247,7 +257,42 @@ namespace Veme.Controllers
             return "Valid Coupon";
         }
 
-        //for offer edit
+        //Renders the Select Offer to Edit Page
+        public ActionResult Select()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var getUser = _context.Users.Include(c => c.Merchant).FirstOrDefault(c => c.Id == userId);
+
+            var viewModel = new Models.SelectOfferViewModel
+            {
+                Offers = _context.Offers.Include(c => c.Merchant).Where(c => c.MerchantID == getUser.Merchant.MerchantID)
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Select(SelectOfferViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var userId = User.Identity.GetUserId();
+
+            var getOffer = _context.Offers.Include(c => c.Merchant).FirstOrDefault(c => c.OfferId == model.OfferId);
+
+            var getUser = _context.Users.Include(c => c.Merchant).FirstOrDefault(c => c.Id == userId);
+
+            var viewModel = new Models.SelectOfferViewModel
+            {
+                Offers = _context.Offers.Include(c => c.Merchant).Include(c => c.Categories).Where(c => c.MerchantID == getUser.Merchant.MerchantID),
+                OfferId = model.OfferId
+            };
+            //return RedirectToAction("Edit",viewModel);
+            return Edit(viewModel);
+        }
+
+        //Method called after Offer to edit is selected
         public ActionResult Edit(SelectOfferViewModel model)
         {
             var userId = User.Identity.GetUserId();
@@ -284,38 +329,7 @@ namespace Veme.Controllers
             return View("Edit", viewModel);
         }
 
-        //Select Offer
-        public ActionResult Select()
-        {
-            var userId = User.Identity.GetUserId();
-
-            var getUser = _context.Users.Include(c => c.Merchant).FirstOrDefault(c => c.Id == userId);
-
-            var viewModel = new Models.SelectOfferViewModel
-            {
-                Offers = _context.Offers.Include(c => c.Merchant).Where(c => c.MerchantID == getUser.Merchant.MerchantID)
-            };
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public ActionResult Select(SelectOfferViewModel model)
-        {
-            var userId = User.Identity.GetUserId();
-
-            var getOffer = _context.Offers.Include(c => c.Merchant).FirstOrDefault(c => c.OfferId == model.OfferId);
-
-            var getUser = _context.Users.Include(c => c.Merchant).FirstOrDefault(c => c.Id == userId);
-
-            var viewModel = new Models.SelectOfferViewModel
-            {
-                Offers = _context.Offers.Include(c => c.Merchant).Include(c => c.Categories).Where(c => c.MerchantID == getUser.Merchant.MerchantID),
-                OfferId = model.OfferId
-            };
-            //return RedirectToAction("Edit",viewModel);
-            return Edit(viewModel);
-        }
-
+ 
         [HttpPost]
         public ActionResult Edit(EditViewModel model)
         {
@@ -324,19 +338,9 @@ namespace Veme.Controllers
             //retrieve upload file
             var file = Request.Files.Count > 0 ? Request.Files["OfferImg"]:null;
 
-            //if (Request.Files.Count > 0)
-            //{
-            //    //var file = Request.Files["OfferImg"];
-            //    if (file != null && file.ContentLength > 0 && file.ContentLength < MAXMEGABYTES)
-            //    {
-            //        var fileName = Path.GetFileName(file.FileName);
-            //        model.offer.OfferImg = file;
-            //        //var path = Path.Combine(Server.MapPath("~/Content"));
-            //    }
-            //}
-
             if (model == null)
-                return RedirectToAction("CreateOffer");//return View("CreateOffer");
+                return RedirectToAction("CreateOffer");
+            //return View("CreateOffer");
 
             //Checks if offer has Id
             if (model.offer.OfferId.HasValue)
@@ -347,9 +351,10 @@ namespace Veme.Controllers
                 if (!Directory.Exists(basePath))
                     Directory.CreateDirectory(basePath);
 
+                //Check if new file has been created
                 if (file != null && file.ContentLength > 0 && file.ContentLength < MAXMEGABYTES)
                 {
-                    //get file name
+                    //get the name of the file
                     var fileName = Path.GetFileName(file.FileName);
                     if(!System.IO.File.Exists(basePath + fileName))
                     {
@@ -358,7 +363,6 @@ namespace Veme.Controllers
                             item.Delete();
 
                         file.SaveAs(basePath + fileName);
-                        //System.IO.File.WriteAllBytes(basePath, ImgManipulator.ConvertImgToByteArray(file));
                     }
                 }
 
@@ -368,14 +372,6 @@ namespace Veme.Controllers
                 editOffer.OfferDetails = model.offer.OfferDetails;
                 editOffer.TotalOffer = model.offer.TotalOffer;
                 editOffer.OfferName = model.offer.OfferName;
-                //editOffer.Merchant.MerchantID = model.offer.Merchant.MerchantID;
-                
-                //uncomment to add offer image to database
-                //Gets the byte array of the image
-                //if (model.offer.OfferImg != null)
-                //    editOffer.OfferImg = ImgManipulator.ConvertImgToByteArray(model.offer.OfferImg);
-                    //editOffer.OfferImg = model.offer.ConvertImgToByteArray();//convert image file to byte array
-
                 editOffer.CouponDurationInMonths = model.offer.CouponDurationInMonths.Value;
                 editOffer.CouponPrice = model.offer.CouponPrice.Value;
 

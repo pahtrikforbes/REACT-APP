@@ -109,7 +109,6 @@ namespace Veme.Controllers
                 else
                     return RedirectToAction("Index");
 
-
                 //renders the coupon html to string
                 string body = System.IO.File.ReadAllText(Server.MapPath("~/Views/Home/_PreCoupon.html"));
 

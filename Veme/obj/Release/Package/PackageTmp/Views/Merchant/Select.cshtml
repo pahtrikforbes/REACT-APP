@@ -28,6 +28,7 @@
                             @Html.DropDownListFor(c => c.OfferId, new SelectList(Model.Offers, "OfferId", "OfferName"), "--Select Offer--", new { @class = "form-control" })
                             @*@Html.DropDownListFor(c => c.OfferId, new SelectList(Model.Offers, "OfferId", "OfferName"), "", new { @class = "form-control", id = "ddshowOffers" })*@
                         </div>
+                        @Html.ValidationMessageFor(c => c.OfferId)
                     </div>
                 </div>
                 <div>
@@ -45,6 +46,7 @@
 </div>
 @section Scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/select2/js/select2.min.js"></script>
     <script>
         $(function () {

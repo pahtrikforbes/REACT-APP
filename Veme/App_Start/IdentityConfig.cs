@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Veme.Models;
-
+using System.Web;
 namespace Veme
 {
     public class EmailService : IIdentityMessageService
@@ -19,7 +23,66 @@ namespace Veme
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            //return Task.FromResult(0);
+            return SendEmailAsync(message);
+        }
+        private async Task SendEmailAsync(IdentityMessage message)
+        {
+            //#region formatter
+            //string text = string.Format("Please click on this link to {0}: {1}", message.Subject, message.Body);
+            //string html = "Please confirm your account by clicking this link: <a href=\"" + message.Body + "\">link</a><br/>";
+
+            //html += HttpUtility.HtmlEncode(@"Or click on the copy the following link on the browser:" + message.Body);
+            //#endregion
+           
+            var basePath = System.Web.HttpContext.Current.Server.MapPath(@"~\Content\EmailTemplates\confirmEmail.html");
+            var body = System.IO.File.ReadAllText(basePath);
+            body = body.Replace("@url", message.Body);
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress(WebConfigurationManager.AppSettings["fromEmail"]);
+            msg.To.Add(new MailAddress(message.Destination));
+            msg.Subject = message.Subject;
+            msg.Body = body;
+            //msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
+            //msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+            msg.IsBodyHtml = true;
+
+            SmtpClient smtpClient = new SmtpClient(WebConfigurationManager.AppSettings["smtpHost"], Convert.ToInt32(WebConfigurationManager.AppSettings["smtpPort"]));
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(WebConfigurationManager.AppSettings["smtpUser"], WebConfigurationManager.AppSettings["smtpPassword"]);
+            smtpClient.Credentials = credentials;
+            smtpClient.EnableSsl = false;
+            await smtpClient.SendMailAsync(msg);
+
+            //            MailMessage mail = new MailMessage();
+            //            mail.From = new MailAddress(WebConfigurationManager.AppSettings["fromEmail"]);
+            //            mail.Subject = message.Subject;
+            //            mail.Body = html;
+            //            //mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
+            //            mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+
+            //            mail.IsBodyHtml = true;
+            //            mail.Priority = MailPriority.Normal;
+            //            //mail.AlternateViews.Add(textView);
+
+            //            string smtpHost = WebConfigurationManager.AppSettings["smtpHost"];
+            //            string smtpAcc = WebConfigurationManager.AppSettings["smtpUser"];
+            //            string smtpPassword = WebConfigurationManager.AppSettings["smtpPassword"];
+            //            int smtpPort = Convert.ToInt32(WebConfigurationManager.AppSettings["smtpPort"]);
+            //            NetworkCredential cred = new NetworkCredential(smtpAcc, smtpPassword);
+
+            //            using (SmtpClient mailClient = new SmtpClient(smtpHost, smtpPort))
+            //            {
+            //                mailClient.EnableSsl = false;
+            //                mailClient.UseDefaultCredentials = false;
+            //                mailClient.Credentials = cred;
+            //#if DEBUG
+            //                    mail.To.Add("dwes_deomar@hotmail.com");
+            //#endif
+            //                mail.To.Add(message.Destination);
+            //                await mailClient.SendMailAsync(mail);
+            //            }
+
         }
     }
 

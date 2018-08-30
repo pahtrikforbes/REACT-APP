@@ -22,9 +22,13 @@
                             @*<img src="http://placehold.it/770x340" alt="image description" class="img-responsive">*@
                             @{
                                 var userId = Model.Offer.Merchant.MerchantID;
-                                var basePath = Server.MapPath("~/Content/FileUpload/" + userId + @"/OfferImg/" + Model.Offer.OfferName + "/");
+                                //var basePath = Server.MapPath("~/Content/images/" + userId + @"/OfferImg/" + Model.Offer.OfferName + "/");
+                                var basePath = Server.MapPath(@"~\Content\images\" + userId + @"\" + Model.Offer.OfferName + @"\");
+
                                 var files = Directory.EnumerateFiles(basePath);
-                                var basePathWithoutServer = "~/Content/FileUpload/" + userId + @"/OfferImg/" + Model.Offer.OfferName + "/";
+                                //var basePathWithoutServer = "~/Content/images/" + userId + @"/OfferImg/" + Model.Offer.OfferName + "/";
+                                var basePathWithoutServer = @"~\Content\images\" + userId + @"\" + Model.Offer.OfferName + @"\";
+
                                 var fileName = Path.GetFileName(files.First());
                                 var fullPath = basePathWithoutServer + fileName;
                                 @*<img src="~/Content/Img.jpg" class="img-resposnive" />*@
@@ -37,7 +41,8 @@
                         <div class="txt-holder">
                             <header class="header">
                                 <div class="coupon-logo">
-                                    <img src="http://placehold.it/100x50" alt="Red Cart" class="img-responsive">
+                                    <!--img src="http://placehold.it/100x50" alt="Red Cart" class="img-responsive"-->
+                                    <img src="@Url.Content(fullPath)" height="50" width="100" alt="Red Cart" class="img-responsive">
                                 </div>
                                 <div class="align-left">
                                     <!--h3 class="heading3">Upto 15% + Extra 10% Off Home &amp; Kitchen Appliances</h3-->
@@ -76,17 +81,19 @@
                                 </form>
 
                                 <ul class="list-unstyled social-network">
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-linkedin"></i></a></li>
                                 </ul>
                             </footer>
                         </div>
                     </div>
 
                 </article>
+                <!------------------------->
                 <!-- sidebar of the page -->
+                <!------------------------->
                 <aside id="sidebar">
                     <!-- Widget of the page -->
                     <section class="widget search-widget">
@@ -110,18 +117,21 @@
                         </ul>
                     </section-->
                     <!-- Widget of the page -->
-                    <section class="widget popular-widget">
-                        <h3 class="heading4">Popular Offers</h3>
-                        <ul class="list-unstyled popular-list">
-                            <li><a href="#"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                            <li><a href="#"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                            <li><a href="#"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                            <li><a href="#"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                            <li><a href="#"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                            <li><a href="#"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                            <li><a href="#" class="text-uppercase">View All Stores</a></li>
-                        </ul>
-                    </section>
+                    <!--Section for popular Offers-->
+                    <!--
+                                        <section class="widget popular-widget">
+                                            <h3 class="heading4">Popular Offers</h3>
+                                            <ul class="list-unstyled popular-list">
+                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
+                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
+                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
+                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
+                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
+                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
+                                                <li><a href="javascript:void(0);" class="text-uppercase">View All Stores</a></li>
+                                            </ul>
+                                        </section>
+                    -->
                     <!-- Widget of the page -->
                     <section class="widget news-widget">
                         <h3 class="heading4">Latest Offers</h3>
@@ -132,20 +142,20 @@
                                 foreach (var offer in latestOffers)
                                 {
                                     var userId2 = offer.Merchant.MerchantID;
-                                    var imgbasePath = Server.MapPath("~/Content/FileUpload/" + userId2 + @"/OfferImg/" + offer.OfferName + "/");
+                                    var imgbasePath = Server.MapPath(@"~\Content\images\" + userId2 + @"\" + offer.OfferName + @"\");
                                     var imgfiles = Directory.EnumerateFiles(imgbasePath);
-                                    var imgbasePathWithoutServer = "~/Content/FileUpload/" + userId2 + @"/OfferImg/" + offer.OfferName + "/";
+                                    var imgbasePathWithoutServer = @"~\Content\images\" + userId2 + @"\" + offer.OfferName + @"\";
                                     var imgfileName = Path.GetFileName(imgfiles.First());
                                     var imgfullPath = imgbasePathWithoutServer + imgfileName;
 
                                     <li>
                                         <div class="img-holder round">
-                                            <a href="#"><img src="@Url.Content(imgfullPath)" alt="image description" class="img-responsive"></a>
+                                            <a href="javascript:void(0)"><img src="@Url.Content(imgfullPath)" height="75" width="75" alt="image description" class="img-responsive"></a>
                                         </div>
                                         <div class="txt-holder">
-                                            <h3><a href="#">@offer.OfferName</a></h3>
+                                            <h3><a href="javascript:void(0);">@offer.OfferName</a></h3>
                                             <ul class="list-unstyled news-nav">
-                                                <li>By <a href="#">@offer.Merchant.CompanyName</a></li>
+                                                <li>By <a href="javascript:void(0)">@offer.Merchant.CompanyName</a></li>
                                                 <li>|</li>
                                                 <li><time datetime="2017-02-03 20:00">Sep 07, 2017</time></li>
                                             </ul>
@@ -154,49 +164,9 @@
 
                                 }
                             }
-                            <!--
-                                <li>
-                                    <div class="img-holder round">
-                                        <a href="#"><img src="http://placehold.it/75x75" alt="image description" class="img-responsive"></a>
-                                    </div>
-                                    <div class="txt-holder">
-                                        <h3><a href="#">Veritatis Euas Arch Beatae Vitae</a></h3>
-                                        <ul class="list-unstyled news-nav">
-                                            <li>By <a href="#">Admin</a></li>
-                                            <li>|</li>
-                                            <li><time datetime="2017-02-03 20:00">Sep 07, 2017</time></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="img-holder round">
-                                        <a href="#"><img src="http://placehold.it/75x75" alt="image description" class="img-responsive"></a>
-                                    </div>
-                                    <div class="txt-holder">
-                                        <h3><a href="#">Numquam Eius Modi Tempora Incid</a></h3>
-                                        <ul class="list-unstyled news-nav">
-                                            <li>By <a href="#">Admin</a></li>
-                                            <li>|</li>
-                                            <li><time datetime="2017-02-03 20:00">Sep 07, 2017</time></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="img-holder round">
-                                        <a href="#"><img src="http://placehold.it/75x75" alt="image description" class="img-responsive"></a>
-                                    </div>
-                                    <div class="txt-holder">
-                                        <h3><a href="#">Vel Illum Qui Dolore Eum Fugiat</a></h3>
-                                        <ul class="list-unstyled news-nav">
-                                            <li>By <a href="#">Admin</a></li>
-                                            <li>|</li>
-                                            <li><time datetime="2017-02-03 20:00">Sep 07, 2017</time></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                                    -->
+                        </ul>
                     </section>
+
                     <!-- Widget of the page -->
                     <section class="widget tags-widget">
                         <h3 class="heading4">@*Popular*@Tags</h3>

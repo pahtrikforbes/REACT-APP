@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Security.Claims;
+using System.Web.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Veme.Models;
@@ -34,7 +37,7 @@ namespace Veme
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -54,14 +57,62 @@ namespace Veme
             //   consumerKey: "",
             //   consumerSecret: "");
 
+
+            var faceBookOptions = new FacebookAuthenticationOptions()
+            {
+                AppId = WebConfigurationManager.AppSettings["FacebookAppId"],
+                AppSecret = WebConfigurationManager.AppSettings["FacebookAppSecret"],
+                AuthenticationType = LoginProviders.Facebook,
+                SignInAsAuthenticationType = "ExternalCookie",
+                Provider = new FacebookAuthenticationProvider
+                {
+                    OnAuthenticated = async context =>
+                    {
+                        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                        foreach (var claim in context.User)
+                        {
+                            var claimType = string.Format("urn:facebook:{0}", claim.Key);
+                            string claimValue = claim.Value.ToString();
+                            if (!context.Identity.HasClaim(claimType, claimValue))
+                                context.Identity.AddClaim(new System.Security.Claims.Claim(claimType, claimValue, "XmlSchemaString", "Facebook"));
+                        }
+                    }
+                }
+            };
+            //faceBookOptions.Scope.Add("email");
+
+            app.UseFacebookAuthentication(faceBookOptions);
+
+
             //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            //   appId: WebConfigurationManager.AppSettings["FacebookAppId"],
+            //   appSecret: WebConfigurationManager.AppSettings["FacebookAppSecret"]);
+
+
+            var googleAuthOptions = new GoogleOAuth2AuthenticationOptions();
+            googleAuthOptions.ClientId = WebConfigurationManager.AppSettings["GoogleClientId"]; //Enter your ClientId 
+            googleAuthOptions.ClientSecret = WebConfigurationManager.AppSettings["GoogleSecret"]; //Enter your ClientSecret
+            googleAuthOptions.Provider = new GoogleOAuth2AuthenticationProvider()
+            {
+                OnAuthenticated = async context =>
+                {
+                    context.Identity.AddClaim(new Claim("GoogleAccessToken", context.AccessToken));
+                    foreach (var claim in context.User)
+                    {
+                        var claimType = string.Format("urn:google:{0}", claim.Key);
+                        string claimValue = claim.Value.ToString();
+                        if (!context.Identity.HasClaim(claimType, claimValue))
+                            context.Identity.AddClaim(new Claim(claimType, claimValue, "XmlSchemaString", "Google"));
+                    }
+                }
+            };
+
+            app.UseGoogleAuthentication(googleAuthOptions);
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
-            //    ClientId = "",
-            //    ClientSecret = ""
+            //    ClientId = WebConfigurationManager.AppSettings["GoogleClientId"],
+            //    ClientSecret = WebConfigurationManager.AppSettings["GoogleSecret"]
             //});
         }
     }

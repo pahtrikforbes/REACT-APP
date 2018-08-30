@@ -64,17 +64,14 @@
                                                 @*@if (Model.LatestOffers[i].OfferImg != null)*@
                                                 @{
                                                     //var userId = User.Identity.GetUserId();
+                                                    const int textMaxLength = 10;
                                                     var userId = Model.LatestOffers[i].Merchant.MerchantID;
-                                                    var basePath = Server.MapPath("~/Content/FileUpload/" + userId + @"/OfferImg/" + Model.LatestOffers[i].OfferName + "/");
+                                                    var basePath = Server.MapPath(@"~\Content\images\" + userId + @"\" + Model.LatestOffers[i].OfferName + @"\");
                                                     var files = Directory.EnumerateFiles(basePath);
-                                                    var basePathWithoutServer = "~/Content/FileUpload/" + userId + @"/OfferImg/" + Model.LatestOffers[i].OfferName + "/";
+                                                    var basePathWithoutServer = @"~\Content\images\" + userId + @"\" + Model.LatestOffers[i].OfferName + @"\";
                                                     var fileName = Path.GetFileName(files.First());
                                                     var fullPath = basePathWithoutServer + fileName;
-                                                    @*<img src="~/Content/Img.jpg" class="img-resposnive" />*@
-                                                    @*<img src="~/Content/FileUpload/17eec02c-53c8-4c21-8187-4ead57844c06/OfferImg/Burger Day/Img.jpg" alt="Image not showing" class="img-resposnive" />*@
-                                                    <img src="@Url.Content(fullPath)" alt="Image not showing" class="img-resposnive" />
-
-                                                    //var image = string.Format(@"<image src={0} />",getImage.RawFormat);
+                                                    <img src="@Url.Content(fullPath)" alt="Image not showing" height="190" width="260" class="img-resposnive" />
                                                 }
                                                 @*else
                                                     {
@@ -82,9 +79,31 @@
                                                     }*@
                                             </div>
                                             <div class="txt-holder">
-                                                <h3 class="heading6" style="color:black;"><a href="coupon-detail.html">@Model.LatestOffers[i].Merchant.CompanyName</a></h3>
-                                                <h3 class="heading6" style="color:black;"><a href="coupon-detail.html">@Model.LatestOffers[i].OfferName</a></h3>
-                                                <h5 class=""><a href="coupon-detail.html">@Model.LatestOffers[i].OfferDetails</a></h5>
+                                                <h3 class="heading6" style="color:black;"><a href="javascript:void(0);">@Model.LatestOffers[i].Merchant.CompanyName</a></h3>
+                                                <h3 class="heading6" style="color:black;"><a href="javascript:void(0);">@Model.LatestOffers[i].OfferName</a></h3>
+                                                @if (Model.LatestOffers[i].OfferDetails.Length < textMaxLength)
+                                                {
+                                                    <h5 class=""><a href="javascript:void(0);">@Model.LatestOffers[i].OfferDetails</a></h5>
+                                                }
+                                                else
+                                                {
+                                                    var words = Model.LatestOffers[i].OfferDetails.Split(' ');
+                                                    var totalCharacters = 0;
+                                                    var summaryWords = new List<string>();
+                                                    foreach (var word in words)
+                                                    {
+                                                        summaryWords.Add(word);
+
+                                                        totalCharacters += word.Length + 1;
+                                                        if (totalCharacters > textMaxLength)
+                                                        {
+                                                            break;
+                                                        }
+                                                    }
+                                                    var summary = String.Join(" ", summaryWords) + " ...";
+                                                    <h5 class=""><a href="javascript:void(0);">@summary</a></h5>
+
+                                                }
                                                 @Html.ActionLink("Get Coupon", "CouponDetails", "Home", new { OfferId = @Model.LatestOffers[i].OfferId }, htmlAttributes: new { @class = "btn-primary md-round text-center text-uppercase" })
                                                 <time class="time text-center" datetime="2017-02-03">Expires On : @Model.LatestOffers[i].OfferEnds.ToString("MMM-dd-yyyy")</time>
                                             </div>

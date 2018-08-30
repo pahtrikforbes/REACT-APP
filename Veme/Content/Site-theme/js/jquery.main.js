@@ -4,9 +4,9 @@ $(document).ready(function() {
 	"use strict";
 	
 	initCustomForms();
-	// initialize custom form elements
+	 //initialize custom form elements
 	function initCustomForms() {
-		jcf.replaceAll();
+		//jcf.replaceAll();
 	}
 
 	initAddClass();

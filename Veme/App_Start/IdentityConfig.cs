@@ -16,6 +16,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Veme.Models;
 using System.Web;
+using System.Text.RegularExpressions;
+using Veme.IdentityExtensions;
+
 namespace Veme
 {
     public class EmailService : IIdentityMessageService
@@ -34,7 +37,7 @@ namespace Veme
 
             //html += HttpUtility.HtmlEncode(@"Or click on the copy the following link on the browser:" + message.Body);
             //#endregion
-           
+
             var basePath = System.Web.HttpContext.Current.Server.MapPath(@"~\Content\EmailTemplates\confirmEmail.html");
             var body = System.IO.File.ReadAllText(basePath);
             body = body.Replace("@url", message.Body);
@@ -52,37 +55,6 @@ namespace Veme
             smtpClient.Credentials = credentials;
             smtpClient.EnableSsl = false;
             await smtpClient.SendMailAsync(msg);
-
-            //            MailMessage mail = new MailMessage();
-            //            mail.From = new MailAddress(WebConfigurationManager.AppSettings["fromEmail"]);
-            //            mail.Subject = message.Subject;
-            //            mail.Body = html;
-            //            //mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
-            //            mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
-
-
-            //            mail.IsBodyHtml = true;
-            //            mail.Priority = MailPriority.Normal;
-            //            //mail.AlternateViews.Add(textView);
-
-            //            string smtpHost = WebConfigurationManager.AppSettings["smtpHost"];
-            //            string smtpAcc = WebConfigurationManager.AppSettings["smtpUser"];
-            //            string smtpPassword = WebConfigurationManager.AppSettings["smtpPassword"];
-            //            int smtpPort = Convert.ToInt32(WebConfigurationManager.AppSettings["smtpPort"]);
-            //            NetworkCredential cred = new NetworkCredential(smtpAcc, smtpPassword);
-
-            //            using (SmtpClient mailClient = new SmtpClient(smtpHost, smtpPort))
-            //            {
-            //                mailClient.EnableSsl = false;
-            //                mailClient.UseDefaultCredentials = false;
-            //                mailClient.Credentials = cred;
-            //#if DEBUG
-            //                    mail.To.Add("dwes_deomar@hotmail.com");
-            //#endif
-            //                mail.To.Add(message.Destination);
-            //                await mailClient.SendMailAsync(mail);
-            //            }
-
         }
     }
 
@@ -103,7 +75,7 @@ namespace Veme
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -114,7 +86,17 @@ namespace Veme
             };
 
             // Configure validation logic for passwords
-            manager.PasswordValidator = new PasswordValidator
+            //manager.PasswordValidator = new PasswordValidator
+            //{
+            //    RequiredLength = 6,
+            //    RequireNonLetterOrDigit = true,
+            //    RequireDigit = true,
+            //    RequireLowercase = true,
+            //    RequireUppercase = true,
+            //};
+
+            //Configure custom vlidation logic for password
+            manager.PasswordValidator = new CustomPasswordValidator
             {
                 RequiredLength = 6,
                 RequireNonLetterOrDigit = true,
@@ -122,7 +104,6 @@ namespace Veme
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
-
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -144,7 +125,7 @@ namespace Veme
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;

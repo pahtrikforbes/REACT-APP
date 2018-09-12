@@ -68,19 +68,19 @@ namespace Veme
                 {
                     OnAuthenticated = async context =>
                     {
-                        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                        context.Identity.AddClaim(new Claim("FacebookAccessToken", context.AccessToken));
                         foreach (var claim in context.User)
                         {
                             var claimType = string.Format("urn:facebook:{0}", claim.Key);
                             string claimValue = claim.Value.ToString();
                             if (!context.Identity.HasClaim(claimType, claimValue))
-                                context.Identity.AddClaim(new System.Security.Claims.Claim(claimType, claimValue, "XmlSchemaString", "Facebook"));
+                                context.Identity.AddClaim(new Claim(claimType, claimValue, "XmlSchemaString", "Facebook"));
                         }
                     }
                 }
             };
-            //faceBookOptions.Scope.Add("email");
 
+            faceBookOptions.Scope.Add("email");
             app.UseFacebookAuthentication(faceBookOptions);
 
 

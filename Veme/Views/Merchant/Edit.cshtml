@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Veme.Models.POCO
+@using Veme.Models;
 @model Veme.Models.EditViewModel
 @{
     ViewBag.Title = "Create Offer";
@@ -125,6 +126,24 @@
                         </div>
                     </div>
                 </div>
+                <!--Display Current Image-->
+                <div class="form-group">
+                    @{
+                        var _context = new ApplicationDbContext();
+                        var getOffer = _context.Offers.FirstOrDefault(c => c.OfferId == Model.offer.OfferId);
+                        var basePath = getOffer.OfferImageLocation;
+                        var fileName = getOffer.OfferImageName;
+                        var fullPath = basePath + fileName;
+                    }
+                    <div class="cols-sm-10">
+                        @Html.Label("", "Current Offer Image", new { @class = "cols-sm-2 control-label heading6" })
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            <img src="@Url.Content(fullPath)" alt="Image not showing" height="190" width="260" class="img-resposnive" />
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="cols-sm-10">
                         @Html.LabelFor(c => c.offer.CouponDurationInMonths, new { @class = "cols-sm-2 control-label heading6" })
@@ -162,9 +181,6 @@
     <script src="~/Scripts/select2/js/select2.min.js"></script>
     <script>
         $(function () {
-            //alert("Hello World");
-            //$('#preview').hide();
-            //ShowPreview();
             $('.datepicker').datepicker({
                 format: 'dd/MM/yyyy',
                 startDate:'@DateTime.Now'

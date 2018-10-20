@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,8 +11,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Veme.Models;
-using System.Web;
-using System.Text.RegularExpressions;
 using Veme.IdentityExtensions;
 
 namespace Veme
@@ -29,16 +23,30 @@ namespace Veme
             //return Task.FromResult(0);
             return SendEmailAsync(message);
         }
+
         private async Task SendEmailAsync(IdentityMessage message)
         {
-            //#region formatter
+            #region formatter
             //string text = string.Format("Please click on this link to {0}: {1}", message.Subject, message.Body);
             //string html = "Please confirm your account by clicking this link: <a href=\"" + message.Body + "\">link</a><br/>";
 
             //html += HttpUtility.HtmlEncode(@"Or click on the copy the following link on the browser:" + message.Body);
-            //#endregion
+            #endregion
+            var basePath = "";
+            switch (message.Subject)
+            {
+                case EmailSubject.ResetPassword:
+                    basePath = HttpContext.Current.Server.MapPath(@"~\Content\EmailTemplates\resetEmail.html");
+                    break;
 
-            var basePath = System.Web.HttpContext.Current.Server.MapPath(@"~\Content\EmailTemplates\confirmEmail.html");
+                case EmailSubject.ConfirmEmail:
+                default:
+                    basePath = HttpContext.Current.Server.MapPath(@"~\Content\EmailTemplates\confirmEmail.html");
+                    break;
+            }
+
+            //var basePath = HttpContext.Current.Server.MapPath(@"~\Content\EmailTemplates\resetEmail.html");
+
             var body = System.IO.File.ReadAllText(basePath);
             body = body.Replace("@url", message.Body);
             MailMessage msg = new MailMessage();
@@ -51,9 +59,10 @@ namespace Veme
             msg.IsBodyHtml = true;
 
             SmtpClient smtpClient = new SmtpClient(WebConfigurationManager.AppSettings["smtpHost"], Convert.ToInt32(WebConfigurationManager.AppSettings["smtpPort"]));
-            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(WebConfigurationManager.AppSettings["smtpUser"], WebConfigurationManager.AppSettings["smtpPassword"]);
+            NetworkCredential credentials = new NetworkCredential(WebConfigurationManager.AppSettings["smtpUser"], WebConfigurationManager.AppSettings["smtpPassword"]);
             smtpClient.Credentials = credentials;
             smtpClient.EnableSsl = false;
+
             await smtpClient.SendMailAsync(msg);
         }
     }

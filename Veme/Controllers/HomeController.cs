@@ -12,6 +12,8 @@ using System.Net;
 using System.Web.Security;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Data.Entity.Core.Objects;
+using System.Threading.Tasks;
 
 namespace Veme.Controllers
 {
@@ -27,14 +29,40 @@ namespace Veme.Controllers
             ViewBag.PublicKey = WebConfigurationManager.AppSettings["StripePublicKeyTest"];
             var viewModel = new HomeViewModel()
             {
-                LatestOffers = _context.Offers.Include(c => c.Merchant).Include(c => c.Categories).OrderByDescending(c => c.CreationDate).Take(8).ToList()
+                //get the latest deals that hasn't expired
+                LatestOffers = _context.Offers
+                                    .Include(c => c.Merchant)
+                                    .Include(c => c.Categories)
+                                    .OrderByDescending(c => c.CreationDate)
+                                    .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
+                                    .Where(c => c.TotalOffer > c.CouponUsed)
+                                    .Take(8)
+                                    .ToList()
 
             };
+            //call check if date expired
+            //var offerExpired = IsExpired(viewModel.LatestOffers[0].OfferEnds.ToShortDateString());
             //var getImg = viewModel.LatestOffers[0].OfferImg;
             //System.IO.File.WriteAllBytes(Server.MapPath("~/Content/Img.jpg"),getImg);
             return View(viewModel);
         }
 
+        //Code to check if date expired
+        [NonAction]
+        public static bool IsExpired(string expireDate)
+        {
+            var flag = false;
+            DateTime currentDate = DateTime.Now;
+
+            DateTime target;
+
+            if (DateTime.TryParse(expireDate, out target))
+                flag = target < currentDate;
+
+            return flag;
+        }
+
+        [Authorize(Roles = RoleName.Customer)]
         public ActionResult CouponDetails(int OfferId)
         {
             ViewBag.PublicKey = WebConfigurationManager.AppSettings["StripePublicKeyTest"];
@@ -50,6 +78,9 @@ namespace Veme.Controllers
             return View(details);
         }
 
+        [Authorize(Roles = RoleName.Customer)]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
         public ActionResult GetCoupon(int OfferId, string stripeToken)
         {
             //if (!ModelState.IsValid)
@@ -77,6 +108,8 @@ namespace Veme.Controllers
             {
                 getRandomProductionCode.OfferId = OfferId;
                 getRandomProductionCode.IsActive = true;
+                //Sets the Date the coupon got bought
+                getRandomProductionCode.PurchaseDate = DateTime.Now.Date;
                 _context.SaveChanges();
             }
 
@@ -91,6 +124,7 @@ namespace Veme.Controllers
         }
 
         //Action shows the Preview of the Coupon
+        [HttpGet]
         public ActionResult PreviewCoupon(GenCouponViewModel model)
         {
             return View("PreviewCoupon", model);
@@ -115,7 +149,9 @@ namespace Veme.Controllers
                 //Replace dummy Value in Coupon Email Template
                 body = body.Replace("#Offerer", model.OfferDetails.Merchant.CompanyName);
                 body = body.Replace("#OfferName", model.OfferDetails.OfferName);
-                body = body.Replace("#OfferEnds", model.OfferDetails.OfferEnds.ToString("MMM-dd-yyyy"));
+                //body = body.Replace("#OfferEnds", model.OfferDetails.OfferEnds.ToString("MMM-dd-yyyy"));
+                var expire = DateTime.Now.AddMonths(model.OfferDetails.CouponDurationInMonths);
+                body = body.Replace("#OfferEnds", expire.ToString("MMM-dd-yyyy"));
                 body = body.Replace("#OfferDetails", model.OfferDetails.OfferDetails);
                 body = body.Replace("#DiscountRate%", model.OfferDetails.DiscountRate.ToString() + "%");
                 body = body.Replace("#CouponCode", model.CouponCode);
@@ -140,9 +176,6 @@ namespace Veme.Controllers
                     mailClient.EnableSsl = false;
                     mailClient.UseDefaultCredentials = false;
                     mailClient.Credentials = cred;
-#if DEBUG
-                    mail.To.Add("dwes_deomar@hotmail.com");
-#endif
                     mail.To.Add(email);
                     mailClient.Send(mail);
                 }
@@ -156,6 +189,7 @@ namespace Veme.Controllers
             return null;
         }
 
+        [AllowAnonymous]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -163,11 +197,48 @@ namespace Veme.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> Contact(ContactViewModel model)
+        {
+            if (!ModelState.IsValid)
+                //return View(model);
+                return await Task.Run(() => View(model));
+
+            //var basePath = HttpContext.Current.Server.MapPath(@"~\Content\EmailTemplates\contactEmail.html");
+            //var basePath = System.IO.File.ReadAllLines(Server.MapPath(@"\Content\EmailTemplates\contactEmail.html"));
+            var basePath = Server.MapPath(@"\Content\EmailTemplates\contactEmail.html");
+            var body = System.IO.File.ReadAllText(basePath);
+            body = body.Replace("@fullName", model.Name);
+            body = body.Replace("@custEmail", model.Email);
+            body = body.Replace("@custNumber", model.PhoneNumber);
+            body = body.Replace("@Body", model.Message);
+
+            MailMessage msg = new MailMessage();
+            msg.Subject = model.Subject;
+            msg.From = new MailAddress(WebConfigurationManager.AppSettings["fromEmail"]);
+            msg.To.Add(new MailAddress("dwes_deomar@hotmail.com"));
+            msg.Subject = model.Subject;
+            msg.Body = body;
+            msg.IsBodyHtml = true;
+
+            SmtpClient smtpClient = new SmtpClient(WebConfigurationManager.AppSettings["smtpHost"], Convert.ToInt32(WebConfigurationManager.AppSettings["smtpPort"]));
+            NetworkCredential credentials = new NetworkCredential(WebConfigurationManager.AppSettings["smtpUser"], WebConfigurationManager.AppSettings["smtpPassword"]);
+            smtpClient.Credentials = credentials;
+            smtpClient.EnableSsl = false;
+
+            await smtpClient.SendMailAsync(msg);
+
+            //return View();
+            return await Task.Run(() => RedirectToAction("Contact"));
         }
     }
 }

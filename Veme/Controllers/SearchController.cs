@@ -20,7 +20,12 @@ namespace Veme.Controllers
         {
             var viewModel = new SearchViewModel
             {
-                AllOffers = _context.Offers.Include(c => c.Merchant).ToList(),
+                //Gets all the offers that hasn't expired
+                AllOffers = _context.Offers
+                                    .Include(c => c.Merchant)
+                                    .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
+                                    .Where(c => c.TotalOffer > c.CouponUsed)
+                                    .ToList(),
             };
             return View(viewModel);
         }
@@ -33,12 +38,20 @@ namespace Veme.Controllers
 
             return View("Index", model);
         }
+
         public ActionResult Search(SearchViewModel model)
         {
             if (!ModelState.IsValid)
                 return View("Index", model);
 
-            var searchOffer = _context.Offers.Include(c => c.Merchant).Where(c => c.OfferName.Contains(model.SearchKey)).ToList();
+            //gets the offers that merchant name or offer name contains search key
+            //that hasn't been expired
+            var searchOffer = _context.Offers
+                                      .Include(c => c.Merchant)
+                                      .Where(c => c.OfferName.Contains(model.SearchKey) || c.Merchant.CompanyName.Contains(model.SearchKey))
+                                      .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
+                                      .Where(c => c.TotalOffer > c.CouponUsed)
+                                      .ToList();
 
             var viewModel = new SearchViewModel
             {
@@ -73,17 +86,20 @@ namespace Veme.Controllers
             if (!String.IsNullOrEmpty(category))
             {
                 //get all offers with joining Merchant details
-                var filterByCategory = _context.Offers.Include(m => m.Merchant).ToList();
+                // that hasn't been expired or out of stock
+                var filterByCategory = _context.Offers
+                                               .Include(m => m.Merchant)
+                                               .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
+                                               .Where(c => c.TotalOffer > c.CouponUsed)
+                                               .ToList();
 
                 //Get the categoryId
-                var catId = _context.Categories.FirstOrDefault(c => c.CategoryName.Contains(category));
+                var catId = _context.Categories
+                                    .FirstOrDefault(c => c.CategoryName.Contains(category));
 
                 if (catId == null)
                     return;
 
-                //get merchants with that offer
-                //var getMerchants = _context.Merchants.Where(c => c.Categories.Any(m => m.CategoryName.Contains(category)));
-                //var getOffers = _context.Offers.Include(c => c.Merchant).Where(m => m.MerchantID == getMerchants.Any(r => r.));
                 List<Offer> searchResult = new List<Offer>();
 
                 foreach (var offer in filterByCategory)
@@ -99,8 +115,10 @@ namespace Veme.Controllers
         public ActionResult Categories(int CategoryId)
         {
             var filterByCat = _context.Offers.Include(c => c.Categories)
-                                 .Include(m => m.Merchant)
-                                 .Where(o => o.Categories.Any(c => c.CategoryId == CategoryId));
+                                             .Include(m => m.Merchant)
+                                             .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
+                                             .Where(c => c.TotalOffer > c.CouponUsed)
+                                             .Where(o => o.Categories.Any(c => c.CategoryId == CategoryId));
             var search = new SearchViewModel
             {
                 AllOffers = filterByCat.ToList()

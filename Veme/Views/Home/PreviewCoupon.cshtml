@@ -1,6 +1,6 @@
 ﻿@model Veme.Models.GenCouponViewModel
 @{
-    ViewBag.Title = "PreviewCoupon";
+    ViewBag.Title = "Preview Coupon";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
@@ -39,7 +39,8 @@
                                     <center>
                                         <p style="font-size:20px"><b>(@Model.OfferDetails.Merchant.CompanyName)</b></p>
                                         <p style="font-size:20px"><b>(@Model.OfferDetails.OfferName)</b></p>
-                                        <p style="font-size:20px">PROMOTION ENDS <b>@Model.OfferDetails.OfferEnds  </b></p>
+                                        <p style="font-size:20px">PROMOTION ENDS <b>@Model.OfferDetails.OfferEnds.ToString("MMM-dd-yyyy") </b></p>
+                                        <p style="font-size:20px">COUPON EXPIRES <b>XXX-XX-XXXX</b></p>
                                         <p style="font-size:15px">Terms & Condition:<b>@Model.OfferDetails.OfferDetails</b></p>
                                     </center>
                                     <center>
@@ -56,6 +57,7 @@
             @*<br />*@
             @using (Html.BeginForm("Index", "Home",FormMethod.Get))
             {
+                @Html.AntiForgeryToken()
                 <div class="form-group ">
                     <center>
                         <input target="_blank" value="Continue" type="submit" id="button" class="btn-primary md-round text-center text-uppercase" />

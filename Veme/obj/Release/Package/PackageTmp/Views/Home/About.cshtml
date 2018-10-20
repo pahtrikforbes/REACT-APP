@@ -1,7 +1,226 @@
 ﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+    ViewBag.Title = "About Us";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 
+}
+<!--
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
 <p>Use this area to provide additional information.</p>
+-->
+<!-- main container of all the page elements -->
+<div id="wrapper">
+    <!-- main of the page -->
+    <main id="main">
+        <!-- banner of the page -->
+        <section class="banner banner3 bg-full overlay" style="background-image: url(../../Content/Site-theme/images/about.jpeg);">
+            @*http://placehold.it/1920x300*@
+            <div class="holder">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <h1>About Us</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- abt sec of the page -->
+        <section class="abt-sec container pad-top-lg pad-bottom-lg">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="img-holder">
+                        <img src="~/Content/Site-theme/images/misson.jpeg" alt="image description" class="img-responsive">
+                    </div>
+                    <!--http://placehold.it/555x365-->
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="abt-txt">
+                        <strong class="title text-uppercase">Who We are</strong>
+                        <h3 class="heading">Our Misson</h3>
+                        <p>
+                            Veme’s mission is to make life more affordable, our team is committed to helping people save more money whenever and wherever they shop.Working with retailers and restaurants both online and at their physical locations, our goal is to work hard every day to secure the best exclusive savings for our website.
+                        </p>
+                        <p>
+                            Working with retailers and restaurants both online and at their physical locations, our goal is to work hard every day to secure the best exclusive savings for our website.
+                        </p>
+                        <p>
+                            Our partnerships team is dedicated to building relationships with the biggest brands in Jamaica to secure amazing exclusive offers that are only available on Veme.
+                        </p>
+                        <p>
+                            Company interested in engaging their customers in new unique way can post their deal to veme and submit content for our Promotional emails. Driving awareness to a broad-reaching or targeted segment of Veme’s audience, while leveraging the higher engagement typical of targeted content.
+                        </p>
+                        <p>
+                            We earn a small commission from brands when someone makes a purchase using an offer on our website. Some brands can pay fixed fees to advertise with us, but that doesn't mean we will promote any offer. We only accept payment where we're genuinely excited about a great saving. And some deals we add to the site without making a dollar. Because, well, they're just too good to miss.
+                        </p>
+                        <!--p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p-->
+                        <!--p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur</p-->
+                        <a href="@Url.Action("Contact","Home")" class="btn-primary text-center text-uppercase md-round">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- service sec of the page -->
+        <!--
+        <section class="service-sec style2 container pad-bottom-md">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                     service of the page
+                    <div class="service mar-bottom-xs">
+                        <span class="icon"><i class="icon-responsive"></i></span>
+                        <h3 class="heading5">Free Mobile App</h3>
+                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laud.</p>
+                        <a href="#" class="read-more text-uppercase">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <-- service of the page
+                    <div class="service mar-bottom-xs">
+                        <span class="icon"><i class="icon-reload"></i></span>
+                        <h3 class="heading5">100% Cashback</h3>
+                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laud.</p>
+                        <a href="#" class="read-more text-uppercase">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <-- service of the page
+                    <div class="service mar-bottom-xs">
+                        <span class="icon"><i class="icon-comments"></i></span>
+                        <h3 class="heading5">Excellent Support</h3>
+                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laud.</p>
+                        <a href="#" class="read-more text-uppercase">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+            -->
+        <!-- counter sec of the page -->
+        <!--
+                <section class="counter-sec bg-full overlay pad-top-sm pad-bottom-xs" style="background-image: url(http://placehold.it/1920x305);">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 text-center mar-bottom-xs">
+                                <span class="icon"><i class="icon-user2"></i></span>
+                                <strong class="counter">300</strong>
+                                <span class="sub-title">Users Registered</span>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 text-center mar-bottom-xs">
+                                <span class="icon"><i class="icon-scissors"></i></span>
+                                <strong class="counter">2900</strong>
+                                <span class="sub-title">Coupons Used Last Month</span>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 text-center mar-bottom-xs">
+                                <span class="icon"><i class="icon-add"></i></span>
+                                <strong class="counter">150</strong>
+                                <span class="sub-title">Coupons Added</span>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 text-center mar-bottom-xs">
+                                <span class="icon"><i class="icon-store"></i></span>
+                                <strong class="counter">3500</strong>
+                                <span class="sub-title">Stores In Coupay</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+        -->
+
+        <!-- testimonail sec of the page -->
+        <!--
+        <section class="testimonail-sec overlay bg-full pad-top-lg pad-bottom-lg" style="background-image: url(http://placehold.it/1920x650);">
+            <div class="container">
+                <div class="row">
+                    <header class="header col-xs-12 text-center">
+                        <h2 class="heading">Words From Our Customers</h2>
+                    </header>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- testimonail slider of the page
+                        <div class="testimonail-slider">
+                            <!-- slide of the page 
+                            <blockquote class="slide md-round">
+                                <q>“ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ”</q>
+                                <cite>
+                                    <span class="img-holder round">
+                                        <img src="http://placehold.it/70x70" alt="image description" class="img-responsive">
+                                    </span>
+                                    <span class="align-left">
+                                        <strong>Micheal Doe</strong>
+                                        <span class="sub-title">Happy Customer</span>
+                                    </span>
+                                </cite>
+                            </blockquote>
+                            <!-- slide of the page
+                            <blockquote class="slide md-round">
+                                <q>“ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ”</q>
+                                <cite>
+                                    <span class="img-holder round">
+                                        <img src="http://placehold.it/70x70" alt="image description" class="img-responsive">
+                                    </span>
+                                    <span class="align-left">
+                                        <strong>Johnson Doe</strong>
+                                        <span class="sub-title">Happy Customer</span>
+                                    </span>
+                                </cite>
+                            </blockquote>
+                            <!-- slide of the page
+                            <blockquote class="slide md-round">
+                                <q>“ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ”</q>
+                                <cite>
+                                    <span class="img-holder round">
+                                        <img src="http://placehold.it/70x70" alt="image description" class="img-responsive">
+                                    </span>
+                                    <span class="align-left">
+                                        <strong>Whity Doe</strong>
+                                        <span class="sub-title">Happy Customer</span>
+                                    </span>
+                                </cite>
+                            </blockquote>
+                            <!-- slide of the page
+                            <blockquote class="slide md-round">
+                                <q>“ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ”</q>
+                                <cite>
+                                    <span class="img-holder round">
+                                        <img src="http://placehold.it/70x70" alt="image description" class="img-responsive">
+                                    </span>
+                                    <span class="align-left">
+                                        <strong>Johnson Doe</strong>
+                                        <span class="sub-title">Happy Customer</span>
+                                    </span>
+                                </cite>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+                            -->
+        
+        <!-- brand sec of the page -->
+        <!--section class="brand-sec container pad-top-lg pad-bottom-md">
+            <div class="row">
+                <header class="col-xs-12 header text-center">
+                    <h2 class="heading">Our Trusted Brands</h2>
+                </header>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="list-unstyled brand-list">
+                        <li><a href="#"><img src="images/logo17.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo18.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo19.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo20.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo21.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo22.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo23.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo24.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo25.png" alt="LOGO" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="images/logo26.png" alt="LOGO" class="img-responsive"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </section-->
+    </main>
+    <!-- main of the page end -->
+    <span id="back-top" class="text-center md-round fa fa-angle-up"></span>
+</div>

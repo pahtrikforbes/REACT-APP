@@ -7,7 +7,6 @@
     ViewBag.Title = "Coupon Details";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     var _context = new ApplicationDbContext();
-    //var userId = User.Identity.GetUserId();
 }
 
 <div class="twocolumns pad-top-lg pad-bottom-lg">
@@ -22,20 +21,11 @@
                             @*<img src="http://placehold.it/770x340" alt="image description" class="img-responsive">*@
                             @{
                                 var userId = Model.Offer.Merchant.MerchantID;
-                                //var basePath = Server.MapPath("~/Content/images/" + userId + @"/OfferImg/" + Model.Offer.OfferName + "/");
-                                var basePath = Server.MapPath(@"~\Content\images\" + userId + @"\" + Model.Offer.OfferName + @"\");
+                                var basePath = Model.Offer.OfferImageLocation;
+                                var fileName = Model.Offer.OfferImageName;
+                                var fullPath = basePath + fileName;
 
-                                var files = Directory.EnumerateFiles(basePath);
-                                //var basePathWithoutServer = "~/Content/images/" + userId + @"/OfferImg/" + Model.Offer.OfferName + "/";
-                                var basePathWithoutServer = @"~\Content\images\" + userId + @"\" + Model.Offer.OfferName + @"\";
-
-                                var fileName = Path.GetFileName(files.First());
-                                var fullPath = basePathWithoutServer + fileName;
-                                @*<img src="~/Content/Img.jpg" class="img-resposnive" />*@
-                                @*<img src="~/Content/FileUpload/17eec02c-53c8-4c21-8187-4ead57844c06/OfferImg/Burger Day/Img.jpg" alt="Image not showing" class="img-resposnive" />*@
                                 <img src="@Url.Content(fullPath)" height="340" width="770" alt="Image not showing" class="img-resposnive" />
-
-                                //var image = string.Format(@"<image src={0} />",getImage.RawFormat);
                             }
                         </div>
                         <div class="txt-holder">
@@ -45,47 +35,45 @@
                                     <img src="@Url.Content(fullPath)" height="50" width="100" alt="Red Cart" class="img-responsive">
                                 </div>
                                 <div class="align-left">
-                                    <!--h3 class="heading3">Upto 15% + Extra 10% Off Home &amp; Kitchen Appliances</h3-->
                                     <h3 class="heading3">@Model.Offer.Merchant.CompanyName (@Model.Offer.OfferName)</h3>
-                                    <h4 class="heading4">@Model.Offer.OfferDetails</h4>
 
-                                    @*<ul class="list-unstyled list-show">
+                                    <!--ul class="list-unstyled list-show">
                                             <li><a href="#"><i class="icon icon-smile"></i> Verified</a></li>
                                             <li><a href="#"><i class="icon icon-user"></i> 35 Used</a></li>
-                                        </ul>*@
+                                    </ul-->
                                 </div>
                             </header>
-                            <p><i>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</i></p>
-                            <p>Exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <p><i><b>Coupon Price: </b>@Model.Offer.CouponPrice.ToString("C")</i></p>
+                            <p>@Model.Offer.OfferDetails</p>
+                            
                             <footer class="footer">
-                                <form action="@Url.Action("GetCoupon","Home")" method="Post">
+                                <form action="@Url.Action("GetCoupon","Home")" method="post">
+                                    @Html.AntiForgeryToken()
                                     @Html.Hidden("OfferId", Model.Offer.OfferId)
                                     <script src="https://checkout.stripe.com/checkout.js" id="" class="stripe-button"
                                             data-key="@ViewBag.PublicKey"
                                             data-amount="@(Model.Offer.CouponPrice == 0? (0*100) : (Model.Offer.CouponPrice)*100)"
-                                            data-name="Solutech Innovation Ltd"
-                                            data-description="Widget"
+                                            data-name="Veme"
+                                            data-description="EVERYBODY SAVES "
                                             data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                                             data-locale="auto"
                                             data-currency="usd"
                                             data-email="@User.Identity.GetUserName()"
                                             data-label="SUBSCRIBE"
-                                            data-panel-label="PAY"
-                                            @*data-SubscriptionId="@item.SubscriptionId.ToString()"*@>
+                                            data-panel-label="PAY">
                                     </script>
                                     <script>
                                         document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
                                     </script>
-                                    @*<a href="#" class="btn-primary text-center text-uppercase">Get Coupon Code</a>*@
                                     <input type="submit" name="Get Coupon" class="btn-primary text-center text-uppercase" value="Get Coupon" />
                                 </form>
 
-                                <ul class="list-unstyled social-network">
-                                    <li><a href="javascript:void(0);"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="javascript:void(0);"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="javascript:void(0);"><i class="fa fa-google-plus"></i></a></li>
-                                    <li><a href="javascript:void(0);"><i class="fa fa-linkedin"></i></a></li>
-                                </ul>
+                                <!--Social Media buttons-->
+                                <!--ul class="list-unstyled social-network">
+                                    <li><a href="https://www.facebook.com/solutechinnovation/"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="http://www.solutechinnovation.com/"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="https://jm.linkedin.com/company/solutech-innovation"><i class="fa fa-linkedin"></i></a></li>
+                                </ul-->
                             </footer>
                         </div>
                     </div>
@@ -117,35 +105,23 @@
                         </ul>
                     </section-->
                     <!-- Widget of the page -->
-                    <!--Section for popular Offers-->
-                    <!--
-                                        <section class="widget popular-widget">
-                                            <h3 class="heading4">Popular Offers</h3>
-                                            <ul class="list-unstyled popular-list">
-                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                                                <li><a href="javascript:void(0);"><img src="http://placehold.it/85x85" alt="image description" class="img-responsive"></a></li>
-                                                <li><a href="javascript:void(0);" class="text-uppercase">View All Stores</a></li>
-                                            </ul>
-                                        </section>
-                    -->
-                    <!-- Widget of the page -->
                     <section class="widget news-widget">
                         <h3 class="heading4">Latest Offers</h3>
                         <ul class="list-unstyled latest-news-list">
                             @{
-                                var latestOffers = _context.Offers.Include(c => c.Merchant).Include(c => c.Categories).OrderByDescending(c => c.CreationDate).Take(3).ToList();
+                                var latestOffers = _context.Offers
+                                                           .Include(c => c.Merchant)
+                                                           .Include(c => c.Categories)
+                                                           .OrderByDescending(c => c.CreationDate)
+                                                           .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
+                                                           .Where(c => c.TotalOffer > c.CouponUsed)
+                                                           .Take(3).ToList();
 
                                 foreach (var offer in latestOffers)
                                 {
                                     var userId2 = offer.Merchant.MerchantID;
-                                    var imgbasePath = Server.MapPath(@"~\Content\images\" + userId2 + @"\" + offer.OfferName + @"\");
-                                    var imgfiles = Directory.EnumerateFiles(imgbasePath);
-                                    var imgbasePathWithoutServer = @"~\Content\images\" + userId2 + @"\" + offer.OfferName + @"\";
-                                    var imgfileName = Path.GetFileName(imgfiles.First());
+                                    var imgbasePathWithoutServer = offer.OfferImageLocation;
+                                    var imgfileName = offer.OfferImageName;
                                     var imgfullPath = imgbasePathWithoutServer + imgfileName;
 
                                     <li>
@@ -157,7 +133,7 @@
                                             <ul class="list-unstyled news-nav">
                                                 <li>By <a href="javascript:void(0)">@offer.Merchant.CompanyName</a></li>
                                                 <li>|</li>
-                                                <li><time datetime="2017-02-03 20:00">Sep 07, 2017</time></li>
+                                                <li><time>@offer.OfferEnds.ToString("MMM.dd.yyyy")</time></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -169,13 +145,12 @@
 
                     <!-- Widget of the page -->
                     <section class="widget tags-widget">
-                        <h3 class="heading4">@*Popular*@Tags</h3>
+                        <h3 class="heading4">Tags</h3>
                         @{
                             var Categories = _context.Categories.ToList();
                             <ul class="list-unstyled tags-list text-center">
                                 @foreach (var category in Categories)
                                 {
-                                    @*<li><a href="@Url.Action("Categories","Search",new { CategoryId = category.CategoryId})">@category.CategoryName</a></li>*@
                                     <li>
                                         @Html.ActionLink(linkText: category.CategoryName, actionName: "Categories", controllerName: "Search", routeValues: new { CategoryId = category.CategoryId }, htmlAttributes: null)
                                     </li>
@@ -183,13 +158,6 @@
                             </ul>
                         }
 
-                        <!--ul class="list-unstyled tags-list text-center">
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Watches</a></li>
-                            <li><a href="#">Sports</a></li>
-                            <li><a href="#">Beauty &amp; Fitness</a></li>
-                            <li><a href="#">Fashion</a></li>
-                        </ul-->
                     </section>
                 </aside>
             </div>

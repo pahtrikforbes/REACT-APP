@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Veme.IdentityExtensions
 {
@@ -16,43 +13,29 @@ namespace Veme.IdentityExtensions
         public bool RequireLowercase { get; set; }
         public bool RequireUppercase { get; set; }
 
-        //public CustomPasswordValidator(int length)
-        //{
-        //    RequiredLength = length;
-        //}
-
         Task<IdentityResult> IIdentityValidator<string>.ValidateAsync(string item)
         {
+            //check the length
             if (String.IsNullOrEmpty(item) || item.Length < RequiredLength)
                 return Task.FromResult(IdentityResult.Failed(String.Format("Password should be of length {0}", RequiredLength)));
 
-            string pattern = @"^(?=.*[0-9])(?=.*[!@#$%^&*])[0-9a-zA-Z!@#$%^&*0-9]{10,}$";
+            //check number
+            var HasNumber = item.Any(char.IsDigit);
+            if(!HasNumber && RequireNonLetterOrDigit)
+                return Task.FromResult(IdentityResult.Failed("Password must have atleast one digit."));
 
-            if (!Regex.IsMatch(item, pattern) && RequireNonLetterOrDigit)
-            {
-                var checkNumber = item.Any(char.IsDigit);
-                if (!checkNumber && RequireDigit)
-                    return Task.FromResult(IdentityResult.Failed("Password must have atleast one digit."));
-
+            //check symbol
+            var HasSpecialChars = item.Any(c => !Char.IsLetterOrDigit(c));
+            if(!HasSpecialChars)
                 return Task.FromResult(IdentityResult.Failed("Password must contain at least one symbol e.g. ! @ # $"));
-            }
 
-            //var checkSymbol = item.Any(char.IsSymbol);
-            //if(!checkSymbol && RequireNonLetterOrDigit)
-            //    return Task.FromResult(IdentityResult.Failed("Password must contain at least one symbol e.g. ! @ # $"));
 
+            //check upper case
             var checkUpperCase = item.Any(char.IsUpper);
             if (!checkUpperCase && RequireUppercase)
                 return Task.FromResult(IdentityResult.Failed("Password must have atleast one upper case letter."));
 
-            //string upperCasePattern = @"[A-Z]";
-            //if (!Regex.IsMatch(item, upperCasePattern) && RequireUppercase)
-
-
-
-            //string lowerCasePattern = @"([a-z])+/gm";
-            //if (!Regex.IsMatch(item, lowerCasePattern) && RequireLowercase)
-
+            //check lower case
             var checkLowerCase = item.Any(char.IsLower);
             if (!checkLowerCase && RequireLowercase)
                 return Task.FromResult(IdentityResult.Failed("Password must have atleast one lower case letter."));

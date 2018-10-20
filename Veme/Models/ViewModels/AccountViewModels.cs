@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Veme.Models.CustomValidation;
 using Veme.Models.POCO;
 
 namespace Veme.Models
@@ -173,6 +174,10 @@ namespace Veme.Models
     public class CustomerRegisterViewModel
     {
         [Required]
+        [Display(Name = "Accept Terms & Condition")]
+        public bool IsCheck { get; set; }
+
+        [Required]
         [MaxLength(50)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -193,6 +198,7 @@ namespace Veme.Models
         [Required]
         //[EmailAddress]
         [Display(Name = "Email")]
+        [CheckEmailExistValidator]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
@@ -303,6 +309,7 @@ namespace Veme.Models
 
         [Required]
         [EmailAddress]
+        [CheckEmailExistValidator]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

@@ -17,6 +17,7 @@ namespace Veme.Models.POCO
 
         [Column(TypeName = "Date")]
         public DateTime OfferEnds { get; set; }
+
         public byte DiscountRate { get; set; }
 
         public int? TotalOffer { get; set; }
@@ -39,7 +40,14 @@ namespace Veme.Models.POCO
         public DateTime CreationDate { get; set; }
 
         //Add Offer Image
-        public byte[] OfferImg { get; set; }
+        //public byte[] OfferImg { get; set; }
+
+        [MaxLength(100)]
+        public string OfferImageName { get; set; }
+
+        [MaxLength(450)]
+        public string OfferImageLocation { get; set; }
+
 
         [Required]
         [Range(minimum:1,maximum:12)]

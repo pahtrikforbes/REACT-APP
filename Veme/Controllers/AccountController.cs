@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,6 +15,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json.Linq;
 using Veme.Models;
 using Veme.Models.POCO;
 
@@ -110,9 +112,10 @@ namespace Veme.Controllers
                             if (UserManager.IsInRole(user.Id, RoleName.Customer))
                                 return RedirectToAction("Index", "Home");
 
-                            //Redirect to createOffer for Merchant Role
+                            //Redirect to validateOffer for Merchant Role
                             if (UserManager.IsInRole(user.Id, RoleName.Merchant))
-                                return RedirectToAction("CreateOffer", "Merchant");
+                                return RedirectToAction("RedeemCoupon", "Merchant");
+                                //return RedirectToAction("CreateOffer", "Merchant");
                         }
                         return RedirectToLocal(returnUrl);
                     case SignInStatus.LockedOut:
@@ -187,6 +190,7 @@ namespace Veme.Controllers
         [AllowAnonymous]
         public ActionResult RegisterCustomer()
         {
+            ViewBag.SiteKey = WebConfigurationManager.AppSettings["reCAPTCHASiteKey"];
             return View();
         }
 
@@ -195,6 +199,7 @@ namespace Veme.Controllers
         [AllowAnonymous]
         public ActionResult RegisterMerchant()
         {
+            ViewBag.SiteKey = WebConfigurationManager.AppSettings["reCAPTCHASiteKey"];
             var viewModel = new RegisterMerchantViewModel
             {
 
@@ -211,6 +216,7 @@ namespace Veme.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+                
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -254,7 +260,14 @@ namespace Veme.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterCustomer(CustomerRegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            var status = VerifyReCaptcha();
+            if (!status)
+                ModelState.AddModelError("", "Google reCaptcha validation failed");
+            
+            if(!model.IsCheck)
+                ModelState.AddModelError("", "Please review and accept Terms & Conditions.");
+
+            if (ModelState.IsValid && status)
             {
                 var user = new ApplicationUser
                 {
@@ -289,6 +302,7 @@ namespace Veme.Controllers
                     //3.Assigns Customer to Customer Role
                     //Assign Customer to user
                     var getRole = _context.Roles.SingleOrDefault(c=> c.Name.Contains(RoleName.Customer));
+
                     if(getRole == null)
                     {
                         //Temp code to create rolls and add user
@@ -335,6 +349,20 @@ namespace Veme.Controllers
             return View(model);
         }
 
+        //1. This method gets the reCapctha and verify its status
+        //2. return true is successful and false if not
+        private bool VerifyReCaptcha()
+        {
+            ViewBag.SiteKey = WebConfigurationManager.AppSettings["reCAPTCHASiteKey"];
+            var response = Request["g-recaptcha-response"];
+            var secretKey = WebConfigurationManager.AppSettings["reCAPTCHASecretKey"];
+            var client = new WebClient();
+            var getResult = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
+            var obj = JObject.Parse(getResult);
+            var status = (bool)obj.SelectToken("success");
+
+            return status;
+        }
 
         //
         // POST: /Account/Register
@@ -344,8 +372,15 @@ namespace Veme.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterMerchant(RegisterMerchantViewModel model)
         {
-            if (ModelState.IsValid)
+            //Validate Google recaptcha here.
+            //get true if recaptcha was successful
+            var status = VerifyReCaptcha();
+            if (!status)
+                ModelState.AddModelError("", "Google reCaptcha validation failed");
+
+            if (ModelState.IsValid && status)
             {
+
                 var user = new ApplicationUser
                                 {
                                     UserName = model.Email.Trim(),
@@ -355,12 +390,12 @@ namespace Veme.Controllers
                                     LastName = model.LastName.Trim(),
                                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     try
                     {
                         //1. Assign the user to a merchant
-
                         var merchant = new Merchant()
                         {
                             MerchantID = user.Id,
@@ -368,6 +403,7 @@ namespace Veme.Controllers
                             CompanyName = model.CompanyName.Trim(),
                             CompanyWebsite = model.CompanyWebsite.Trim()
                         };
+ 
                         //Initialize addresses
                         merchant.Addresses = new List<MerchantAddress>();
                         merchant.Addresses.Add(new MerchantAddress
@@ -386,6 +422,7 @@ namespace Veme.Controllers
                     {
                         throw;
                     }
+
                     //1.Get UserRoles
                     //2.If Role is not there create
                     //3.Assigns Customer to Customer Role
@@ -426,7 +463,7 @@ namespace Veme.Controllers
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", callbackUrl);
+                    await UserManager.SendEmailAsync(user.Id, EmailSubject.ConfirmEmail, callbackUrl);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -477,10 +514,13 @@ namespace Veme.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                Session["ResetPassword"] = true;
+                await UserManager.SendEmailAsync(user.Id, EmailSubject.ResetPassword, callbackUrl);
+                //await UserManager.SendEmailAsync(messageDetails);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -643,12 +683,6 @@ namespace Veme.Controllers
 
                 firstName = myInfo.first_name;
                 lastname = myInfo.last_name;
-                //var dobString = myInfo.birthday;
-                //DateTime d;
-                //if(DateTime.TryParseExact(dobString,"MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out d))
-                //{
-                //    DOB = d;
-                //}
             }
 
             if (loginInfo.Login.LoginProvider == LoginProviders.Google)
@@ -758,6 +792,7 @@ namespace Veme.Controllers
         /// <param name="model"> ExternalLoginConfirmationCustomerViewModel complex type</param>
         /// <param name="returnUrl">The return URL if any</param>
         /// <returns></returns>
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

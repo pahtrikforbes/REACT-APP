@@ -35,7 +35,7 @@
                                     <td>
                                         <center>
                                             <p class="OfferName" style="font-size:20px"><b>@Model.OfferName</b></p>
-                                            <p class="OfferPeriod" style="font-size:20px">@Model.OfferBegins.Value.ToShortDateString() - @Model.OfferEnds.Value.ToShortDateString() </p>
+                                            <p class="OfferPeriod" style="font-size:20px">@Model.OfferBegins.Value.ToString("MMM-dd-yyyy") - @Model.OfferEnds.Value.ToString("MMM-dd-yyyy") </p>
                                             <p class="OfferDetails" style="font-size:15px">@Model.OfferDetails<b></b></p>
                                         </center>
                                         <center>

@@ -21,6 +21,7 @@ namespace Veme.Models.ViewModels
         [StringLength(12)]
         [RegularExpression(@"^\w{3}-\w{3}-\w{3}", ErrorMessage = "Invalid Format")]
         [DisplayName("Coupon Code")]
+        [Required(ErrorMessage ="Required *")]
         public string CouponCode { get; set; }
 
         public string MerchantId { get; set; }

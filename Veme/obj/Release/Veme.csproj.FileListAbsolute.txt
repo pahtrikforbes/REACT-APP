@@ -115,3 +115,9 @@ C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Release\Veme.csproj.CopyCom
 C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Release\Veme.dll
 C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Release\Veme.pdb
 C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\bin\Content\Site-theme\images\signup.jpg
+C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\bin\Facebook.dll
+C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\bin\Facebook.xml
+C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Release\Veme.Migrations.AddCategories.resources
+C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Release\Veme.Migrations.AddPurchaseDateToProductionCode.resources
+C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Release\Veme.Migrations.AddOfferImgNameToOffer.resources
+C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Release\Veme.Migrations.AddOfferImgLocationToOffer.resources

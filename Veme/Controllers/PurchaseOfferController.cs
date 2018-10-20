@@ -130,6 +130,7 @@ namespace Veme.Controllers
         //{
         //    return Json(new SelectList(_context.Offers.Where(c => c.MerchantID == MerchantId), "OfferId", "OfferName"));
         //}
+
         //Populate the Offer ddlist by merchant ID
         [HttpPost]
         public ActionResult GetOffersByMerchant(string MerchantId)

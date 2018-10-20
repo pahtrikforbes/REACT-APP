@@ -6,7 +6,6 @@
 }
 
 <style>
-
     .right {
         float: right;
     }
@@ -22,9 +21,6 @@
             <div class="main-login main-center" style="background-color:#f6f6f6;">
                 <h5 class="heading3">Register Coupon</h5>
                 <p style="color:black;">Fill in the form below</p>
-                @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
-
-
                 <div class="form-group">
                     <div class="cols-sm-10">
                         <div class="input-group">
@@ -38,7 +34,7 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" style="visibility:hidden;" aria-hidden="true"></i></span>
-                            @Html.EditorFor(c => c.DiscountRate, new { htmlAttributes = new { @class = "form-control", placeholder = "Discount Percent *", @min = "1", @type = "number", @max = "100" } })
+                            @Html.EditorFor(c => c.DiscountRate, new { htmlAttributes = new { @class = "form-control", placeholder = "Discount Percent *", @min = "1", @type = "number", @max = "100", Title = "Do not include %", data_toggle = "tooltip", data_placement = "right" } })
                             @Html.ValidationMessageFor(c => c.DiscountRate, "", new { @class = "text-danger" })
 
                         </div>
@@ -48,7 +44,7 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" style="visibility:hidden;" aria-hidden="true"></i></span>
-                            @Html.EditorFor(c => c.TotalOffer, new { htmlAttributes = new { @class = "form-control", placeholder = "Total Coupon" } })
+                            @Html.EditorFor(c => c.TotalOffer, new { htmlAttributes = new { @class = "form-control", placeholder = "Total number of coupons *", Title = "Total number of coupons", data_toggle = "tooltip", data_placement = "right" } })
                             @Html.ValidationMessageFor(c => c.TotalOffer, "", new { @class = "text-danger" })
 
                         </div>
@@ -58,7 +54,7 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="visibility:hidden;" aria-hidden="true"></i></span>
-                            @Html.TextAreaFor(c => c.OfferDetails, new { @class = "form-control", placeholder = "Offer Details *" })
+                            @Html.TextAreaFor(c => c.OfferDetails, new { @class = "form-control", placeholder = "Offer Details *", Title = "Details about the offer.", data_toggle = "tooltip", data_placement = "right" })
                             @Html.ValidationMessageFor(c => c.OfferDetails, "", new { @class = "text-danger" })
 
                         </div>
@@ -69,7 +65,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="visibility:hidden;" aria-hidden="true"></i></span>
                             <select multiple="multiple" id="CategoryIds" class="form-control" name="CategoryIds" required>
-                                @if (Model.Categories.Count() != 0)
+                                @if (Model.Categories.Count() != 0 || Model.Categories != null)
                                 {
                                     foreach (var category in Model.Categories)
                                     {
@@ -110,7 +106,6 @@
                             <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextBoxFor(c => c.OfferImg, new { @class = "form-control", @type = "file", placeholder = "Upload Display Image" })
                             @Html.ValidationMessageFor(c => c.OfferImg, "", new { @class = "text-danger" })
-
                         </div>
                     </div>
                 </div>
@@ -180,7 +175,6 @@
                                             <p class="OfferDetails" style="font-size:15px">Terms & Condition:<b></b></p>
                                         </center>
                                         <center>
-                                            @*<a href="javascript: void(0);" style="display: inline-block; padding: 11px 30px; margin: 20px 0px 30px; font-size: 15px; color: #fff; background: #00c0c8; border-radius: 60px; text-decoration:none;">Upgrade My Account</a>*@
                                             <h3 class="DiscountRate" style="display: inline-block; padding: 11px 30px; margin: 20px 0px 30px; font-size: 60px; color: #fff; background: #d30e2c; border-radius: 60px ; text-decoration:solid;"></h3>
                                         </center>
                                         <p style="font-size:20px"> COUPON CODE: <b class="right">XXX-XXX-XXX</b></p>
@@ -191,14 +185,6 @@
                     </div>
                 </div>
                 <br />
-                @*@using (Html.BeginForm("StoreOffer", "Admin"))
-                        {
-                            <div class="form-group ">
-                                <center>
-                                    <input target="_blank" value="Continue" type="submit" id="button" class="btn btn-primary login-button" />
-                                </center>
-                            </div>
-                    }*@
                 @Html.HiddenFor(c => c.Merchant.CompanyName)
                 <div class="form-group ">
                     <center>
@@ -219,24 +205,11 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/select2/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" type="text/javascript"></script>
     <script>
-        //$(document).ready(function () {
-        //    $('#button').on('click', function (e) {
-        //        e.preventDefault();
-
-        //        if ($('form').isValid) {
-        //            alert('form is valid');
-        //        }
-        //        else {
-        //            alert('form not valid');
-        //        }
-        //        alert('button click');
-        //        //alert(formValid);
-        //    });
-        //});
 
         $(function () {
-            //alert("Hello World");
             $('#preview').hide();
             ShowPreview();
             $('.datepicker').datepicker({
@@ -247,42 +220,20 @@
             $('select').select2({
                 placeholder: "Assign Categories",
             });
+
+            //for tooltip
+            $('[data-toggle="tooltip"]').tooltip();
         });
 
         function ShowPreview() {
-            //$(document).on('click', 'form button[type=submit]', function (e) {
-            //    var isValid = $(e.target).parents('form').isValid();
-            //    if (!isValid) {
-            //        e.preventDefault(); //prevent the default action
-            //        alert('form prevented');
-            //    }
-            //});
-            //$('#button').click(function (e) {
-            //    e.preventDefault();
-            //    alert($(e.target).parent('form').isValid());
-            //    return;
-            //    //var isValid = $(e.target).parent('form').isValid();
-            //    //alert('About to validate');
-            //    //if (!isValid) {
-            //    //    alert('form not valid');
-            //    //    return;
-            //    //}
-            //    $('#form').fadeToggle();
-            //    $('#preview').fadeToggle();
-            //    //Update preview
-            //    var getCompanyName = $('#Merchant_CompanyName').val();
-            //    $('.CompanyName').html(getCompanyName);
-            //    $('.OfferName').text($('#OfferName').val());
-            //    var begin = $('#OfferBegins').val().toString();
-            //    var ends = $('#OfferEnds').val().toString();
-            //    $('.OfferPeriod').append('<b>' + begin + ' - ' + ends + '</b>');
-            //    $('.OfferDetails').append('<br>' + $('#OfferDetails').val() + '</b>');
-            //    $('.DiscountRate').text($('#DiscountRate').val() + '%');
-            //    //selected catogories
-            //    //var catsText = $('#Cats :selected').text();
-            //    //alert($('#DiscountRate').val() + '%');
+            var result = '@ViewBag.IsEdit';
+            if (result == 'True') {
+                //uncomment to position center
+                //toastr.options.positionClass = "toast-top-center";
+                toastr.success('Offer Updated.');
+            }
+            console.log(result);
 
-            //});
         }
     </script>
 }}

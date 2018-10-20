@@ -205,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="IdentityExtensions\CustomPasswordValidator.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -336,11 +337,31 @@
     <Compile Include="Migrations\201807251731547_SetOfferImgToVibinaryMax.Designer.cs">
       <DependentUpon>201807251731547_SetOfferImgToVibinaryMax.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809111620359_AddCategories.cs" />
+    <Compile Include="Migrations\201809111620359_AddCategories.Designer.cs">
+      <DependentUpon>201809111620359_AddCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809112003355_AddPurchaseDateToProductionCode.cs" />
+    <Compile Include="Migrations\201809112003355_AddPurchaseDateToProductionCode.Designer.cs">
+      <DependentUpon>201809112003355_AddPurchaseDateToProductionCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810181945077_AddOfferImgNameToOffer.cs" />
+    <Compile Include="Migrations\201810181945077_AddOfferImgNameToOffer.Designer.cs">
+      <DependentUpon>201810181945077_AddOfferImgNameToOffer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810181946226_AddOfferImgLocationToOffer.cs" />
+    <Compile Include="Migrations\201810181946226_AddOfferImgLocationToOffer.Designer.cs">
+      <DependentUpon>201810181946226_AddOfferImgLocationToOffer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CustomValidation\CheckEmailExistValidator.cs" />
+    <Compile Include="Models\EmailSubject.cs" />
     <Compile Include="Models\ImgManipulator.cs" />
     <Compile Include="Models\LoginProviders.cs" />
+    <Compile Include="Models\MailerHandler.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\POCO\Category.cs" />
+    <Compile Include="Models\POCO\CouponRepository.cs" />
     <Compile Include="Models\POCO\StripeCustomer.cs" />
     <Compile Include="Models\SocialCaller.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -357,6 +378,7 @@
     <Compile Include="Models\POCO\Merchant.cs" />
     <Compile Include="Models\POCO\Offer.cs" />
     <Compile Include="Models\POCO\ProductionCode.cs" />
+    <Compile Include="Models\ViewModels\ContactViewModel.cs" />
     <Compile Include="Models\ViewModels\CouponViewModel.cs" />
     <Compile Include="Models\ViewModels\EditOfferViewModel.cs" />
     <Compile Include="Models\ViewModels\GenCouponViewModel.cs" />
@@ -380,7 +402,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="404.html" />
+    <Content Include="Content\Coupon Templates\_PreCoupon.html" />
     <Content Include="Content\EmailTemplates\confirmEmail.html" />
+    <Content Include="Content\EmailTemplates\contactEmail.html" />
+    <Content Include="Content\EmailTemplates\resetEmail.html" />
     <Content Include="Content\images\17eec02c-53c8-4c21-8187-4ead57844c06\Burger Day\Img.jpg" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap.css" />
@@ -404,9 +430,11 @@
     <Content Include="Content\Site-theme\css\_bootstrap-custom.css" />
     <Content Include="Content\Site-theme\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Site-theme\fonts\icomoon.svg" />
+    <Content Include="Content\Site-theme\images\about.jpeg" />
     <Content Include="Content\Site-theme\images\app-btn.png" />
     <Content Include="Content\Site-theme\images\bk.jpg" />
     <Content Include="Content\Site-theme\images\burgerdeals.jpg" />
+    <Content Include="Content\Site-theme\images\contact.png" />
     <Content Include="Content\Site-theme\images\g-btn.png" />
     <Content Include="Content\Site-theme\images\home-banner.jpg" />
     <Content Include="Content\Site-theme\images\icon01.jpg" />
@@ -426,6 +454,7 @@
     <Content Include="Content\Site-theme\images\logo24.png" />
     <Content Include="Content\Site-theme\images\logo25.png" />
     <Content Include="Content\Site-theme\images\logo26.png" />
+    <Content Include="Content\Site-theme\images\misson.jpeg" />
     <Content Include="Content\Site-theme\images\signup.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -540,7 +569,9 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -575,7 +606,6 @@
     <Content Include="Views\Shared\_CustomerLayout.cshtml" />
     <Content Include="Views\Shared\_CustomerLoginPartial.cshtml" />
     <Content Include="Views\Shared\_CustomerNav.cshtml" />
-    <Content Include="Views\Home\Index1.cshtml" />
     <Content Include="Views\Home\PreviewCoupon.cshtml" />
     <Content Include="Views\Account\Login1.cshtml" />
     <Content Include="Views\Account\Register1.cshtml" />
@@ -599,6 +629,7 @@
     <Content Include="Views\Account\CustomerExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial - Copy.cshtml" />
     <Content Include="Views\Account\MerchantExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Shared\_Nav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -703,6 +734,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807251731547_SetOfferImgToVibinaryMax.resx">
       <DependentUpon>201807251731547_SetOfferImgToVibinaryMax.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809111620359_AddCategories.resx">
+      <DependentUpon>201809111620359_AddCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809112003355_AddPurchaseDateToProductionCode.resx">
+      <DependentUpon>201809112003355_AddPurchaseDateToProductionCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810181945077_AddOfferImgNameToOffer.resx">
+      <DependentUpon>201810181945077_AddOfferImgNameToOffer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810181946226_AddOfferImgLocationToOffer.resx">
+      <DependentUpon>201810181946226_AddOfferImgLocationToOffer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

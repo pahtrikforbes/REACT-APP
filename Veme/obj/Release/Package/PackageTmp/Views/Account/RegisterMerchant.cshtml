@@ -1,9 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Veme.Models
 @model Veme.Models.RegisterMerchantViewModel
 @{
     ViewBag.Title = "RegisterMerchant";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewBag.Subcriber = SocialCaller.MerchantRegister;
 }
 <!-- banner of the page -->
 <section class="banner banner3 bg-full overlay" style="background-image: url(http://placehold.it/1920x320);">
@@ -29,34 +30,40 @@
                         <p>Fill the forum to confirm your registration</p>
                         @using (Html.BeginForm("RegisterMerchant", "Account", FormMethod.Post, new { @class = "register-form", autocomplete = "off" }))
                         {
-                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <fieldset>
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                            </fieldset>
                             @Html.AntiForgeryToken()
                             <fieldset>
                                 @Html.TextBoxFor(c => c.FirstName, new { @class = "form-control", placeholder = "First Name *" })
                                 @Html.TextBoxFor(c => c.LastName, new { @class = "form-control", placeholder = "Last Name *" })
                                 @Html.TextBoxFor(c => c.CompanyName, new { @class = "form-control", placeholder = "Company Name *" })
-                                @Html.TextBoxFor(c => c.CompanyWebsite, new { @class = "form-control", placeholder = "Company Website *" })
+                                @Html.TextBoxFor(c => c.CompanyWebsite, new { @class = "form-control", placeholder = "Company Website" })
                                 @Html.TextAreaFor(c => c.CompanyDescription, new { @class = "form-control", placeholder = "Company Description *", rows = "8" })
-                                @Html.TextBoxFor(c => c.MerchantAddress.StreetAddress1, new { @class = "form-control", placeholder = "Street Address 1 *" })
-                                @Html.TextBoxFor(c => c.MerchantAddress.StreetAddress2, new { @class = "form-control", placeholder = "Street Address 2 *" })
-                                @Html.TextBoxFor(c => c.MerchantAddress.City, new { @class = "form-control", placeholder = "City *" })
-                                @Html.TextBoxFor(c => c.MerchantAddress.Parish, new { @class = "form-control", placeholder = "Parish *" })
-                                @Html.TextBoxFor(c => c.MerchantAddress.Country, new { @class = "form-control", placeholder = "Country *" })
+                                @Html.TextBoxFor(c => c.StreetAddress1, new { @class = "form-control", placeholder = "Street Address 1 *" })
+                                @Html.TextBoxFor(c => c.StreetAddress2, new { @class = "form-control", placeholder = "Street Address 2" })
+                                @Html.TextBoxFor(c => c.City, new { @class = "form-control", placeholder = "City *" })
+                                @Html.TextBoxFor(c => c.Parish, new { @class = "form-control", placeholder = "Parish *" })
+                                @Html.TextBoxFor(c => c.Country, new { @class = "form-control", placeholder = "Country *" })
                                 @Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control", placeholder = "876-555-5690 *" })
                                 @Html.TextBoxFor(c => c.Email, new { @class = "form-control", placeholder = "Email *", type = "email" })
                                 @Html.TextBoxFor(c => c.ConfirmEmail, new { @class = "form-control", placeholder = "Confirm Email *", type = "email" })
                                 @Html.PasswordFor(c => c.Password, new { @class = "form-control", placeholder = "Password *" })
                                 @Html.PasswordFor(c => c.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password *" })
                                 @*<div class="form-check">
-                                      <input type="checkbox" name="vehicle" value="Car"> Accept <a href="#" class="clr">Terms and Conditions</a>
+                                          <input type="checkbox" name="vehicle" value="Car"> Accept <a href="#" class="clr">Terms and Conditions</a>
                                     </div>*@
+                                <!--This is needed for recaptcha-->
+                                <div class="g-recaptcha" data-sitekey="@ViewBag.SiteKey"></div>
+                                <br />
                                 <button type="submit" class="btn-primary text-center text-uppercase">Register Now</button>
                             </fieldset>
                         }
+                        <!--Social Login
                         <div class="btn-holder">
-                            <a href="#" class="google-btn"><i class="fa fa-google-plus"></i> Sign in with Goolge</a>
-                            <a href="#" class="fb-btn"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+                            @Html.Partial("_ExternalLoginsListPartialCustomer", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl, Subcriber = ViewBag.Subcriber })
                         </div>
+                            -->
                     </div>
                     <div class="img-holder">
                         <!--img src="http://placehold.it/600x520" alt="image description" class="img-responsive"-->

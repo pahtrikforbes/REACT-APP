@@ -7,10 +7,6 @@
     ViewBag.Subcriber = SocialCaller.Login;
 }
 
-@*@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-    @Html.AntiForgeryToken()*@
-<hr />
 <!-- banner of the page -->
 <section class="banner banner3 bg-full overlay" style="background-image: url(../../Content/Site-theme/images/login-banner.jpg);background-size:1920px 320px">
     <!--url(http://placehold.it/1920x320);">-->
@@ -43,11 +39,11 @@
                                 @*<input type="text" class="form-control" placeholder="Username *">*@
                                 @*<input type="password" class="form-control" placeholder="Password *">*@
                                 <div>
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder="email" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email" })
                                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                 </div>
                                 <div>
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder="password" })
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "password" })
                                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-check">
@@ -56,15 +52,14 @@
                                     @Html.LabelFor(m => m.RememberMe)
                                 </div>
                                 <button type="submit" class="btn-primary text-center text-uppercase">Login Now</button>
+                                @Html.ActionLink("Forget Password?", "ForgotPassword", "Account")
                             </fieldset>
                         }
-                            <div class="btn-holder">
-                                @Html.Partial("_ExternalLoginsListPartialCustomer", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl, Subcriber = ViewBag.Subcriber })
-                            </div>
-                        @*<div class="btn-holder">
-                            <a href="#" class="google-btn"><i class="fa fa-google-plus"></i> Sign in with Goolge</a>
-                            <a href="#" class="fb-btn"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
-                        </div>*@
+                        <!-- Social Login
+                        <div class="btn-holder">
+                            @Html.Partial("_ExternalLoginsListPartialCustomer", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl, Subcriber = ViewBag.Subcriber })
+                        </div>
+                        -->
                     </div>
                     <div class="img-holder">
                         <img src="~/Content/Site-theme/images/login.jpg" height="390" width="570" alt="image description" class="img-responsive">

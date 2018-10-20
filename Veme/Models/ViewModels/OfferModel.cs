@@ -51,24 +51,30 @@ namespace Veme.Models
 
         [Required(ErrorMessage = "Required *")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyy", ApplyFormatInEditMode = true)]
+        [Display(Name = "Offer Begins")]
         public DateTime? OfferBegins { get; set; }
 
         [Required(ErrorMessage = "Required *")]
         [DisplayFormat(DataFormatString ="{0:dd/MM/yyy",ApplyFormatInEditMode =true)]
+        [Display(Name = "Offer Ends")]
         public DateTime? OfferEnds { get; set; }
 
         [Required(ErrorMessage ="Required *")]
+        [Display(Name = "Discount Rate")]
         public byte? DiscountRate { get; set; }
 
         [Required(ErrorMessage = "Required *")]
+        [Display(Name = "Total Offer")]
         public int? TotalOffer { get; set; }
 
         [MaxLength(255)]
         [Required(ErrorMessage = "Required *")]
+        [Display(Name ="Offer Name")]
         public string OfferName { get; set; }
 
         [MaxLength(255)]
         [Required(ErrorMessage = "Required *")]
+        [Display(Name = "Offer Details")]
         public string OfferDetails { get; set; }
 
         public int CouponUsed { get; set; }
@@ -89,9 +95,11 @@ namespace Veme.Models
 
         [Required(ErrorMessage = "Required *")]
         [Range(minimum: 1, maximum: 12)]
+        [Display(Name = "Coupon Duration (In Months)")]
         public byte? CouponDurationInMonths { get; set; }
 
         [Required(ErrorMessage = "Required *")]
+        [Display(Name = "Coupon Price")]
         public decimal? CouponPrice { get; set; }
 
         //List to control category object
@@ -100,33 +108,6 @@ namespace Veme.Models
         [Required(ErrorMessage = "Required *")]
         public int[] CategoryIds { get; set; }
 
-        public byte[] ConvertImgToByteArray()
-        {
-            //1. Get stream from Image file and return byte Array
-            //var stream = uploadedImg.InputStream;
-            var stream = OfferImg.InputStream;
-            var buffer = new byte[stream.Length];
-            stream.Read(buffer, 0, buffer.Length);
-            var ms = new MemoryStream(buffer);
-            return ms.ToArray();
-            #region Convert StreamTo Img
-            //convert stream into image
-            //Image myImage = Image.FromStream(new MemoryStream(buffer));
-            //myImage.Save(@"c:\myimage.jpg");
-            //using (var ms = new MemoryStream())
-            //{
-            //    OfferImg.Save(ms, OfferImg.RawFormat);
-            //    return ms.ToArray();
-            //}
-            #endregion
-        }
-
-        public Image ByteArrayToImg(byte[] byteArray)
-        {
-            MemoryStream ms = new MemoryStream(byteArray);
-            //Image returnImage = Image.FromStream(ms);
-            return Image.FromStream(ms);
-        }
     }
 
     public class CouponDetailsViewModel
@@ -141,6 +122,7 @@ namespace Veme.Models
         public int OfferId { get; set; }
 
         public IEnumerable<Offer> Offers { get; set; } = new List<Offer>();
+        public Offer Offer { get; set; }
     }
 
     public class EditViewModel

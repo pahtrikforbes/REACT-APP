@@ -1,15 +1,32 @@
 ﻿
 @using Microsoft.AspNet.Identity
+@using Veme.Models
+@using System.Data.Entity
 @if (Request.IsAuthenticated)
 {
+    ApplicationDbContext context = new ApplicationDbContext();
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
 
         <li><a href="@Url.Action("RegisterMerchant","Account",null)"><i class="fa fa-briefcase"></i> Register Merchant</a></li>
         <li>
-            @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-            <a href="@Url.Action("Index","Manage",null)"><i class="fa fa-user"></i> Hello @User.Identity.GetUserName() !</a>
+            @*<a href="@Url.Action("Index","Manage",null)"><i class="fa fa-user"></i> Hello @User.Identity.GetUserName() !</a>*@
+            @if (User.IsInRole(RoleName.Customer))
+            {
+                var getUserName = User.Identity.GetUserName();
+                var getUser = context.Users.FirstOrDefault(c => c.UserName == getUserName);
+                var fullName = getUser.FirstName + " " + getUser.LastName;
+                <a href="@Url.Action("Index","Manage",null)"><i class="fa fa-user"></i> Hello @fullName !</a>
+
+            }
+            @if (User.IsInRole(RoleName.Merchant))
+            {
+                var userName = User.Identity.GetUserName();
+                var getMerchant = context.Users.Include(c => c.Merchant).FirstOrDefault(c => c.UserName == userName);
+                <a href="@Url.Action("Index","Manage",null)"><i class="fa fa-user"></i> Hello @getMerchant.Merchant.CompanyName !</a>
+
+            }
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-unlock-alt"></i>Log off</a></li>
     }

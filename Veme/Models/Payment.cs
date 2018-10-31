@@ -52,7 +52,7 @@ namespace Veme.Models
 
             var customerOptions = new StripeCustomerCreateOptions()
             {
-                Description = "Veme Customer for joseph.garcia@example.com",
+                Description = "Veme Customer",
                 SourceToken = stripeToken,
                 Email = getUser.Email
             };

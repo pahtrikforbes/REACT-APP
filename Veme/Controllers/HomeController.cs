@@ -205,6 +205,19 @@ namespace Veme.Controllers
             return View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Conditions()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Policy()
+        {
+            return View();
+        }
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Contact(ContactViewModel model)

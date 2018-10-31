@@ -98,6 +98,8 @@ namespace Veme.Controllers
                         if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                         {
                             ModelState.AddModelError("", "You need to confirm your email.");
+                            //Ensure the cookie is destroyed
+                            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                             return View(model);
                         }
                         //Add to check if user account is locked

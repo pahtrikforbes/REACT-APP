@@ -435,6 +435,7 @@
     <Content Include="Content\Site-theme\images\bk.jpg" />
     <Content Include="Content\Site-theme\images\burgerdeals.jpg" />
     <Content Include="Content\Site-theme\images\contact.png" />
+    <Content Include="Content\Site-theme\images\search-logo.jpg" />
     <Content Include="Content\Site-theme\images\g-btn.png" />
     <Content Include="Content\Site-theme\images\home-banner.jpg" />
     <Content Include="Content\Site-theme\images\icon01.jpg" />
@@ -630,6 +631,8 @@
     <Content Include="Views\Account\_ExternalLoginsListPartial - Copy.cshtml" />
     <Content Include="Views\Account\MerchantExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Shared\_Nav.cshtml" />
+    <Content Include="Views\Home\Conditions.cshtml" />
+    <Content Include="Views\Home\Policy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

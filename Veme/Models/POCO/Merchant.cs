@@ -28,6 +28,9 @@ namespace Veme.Models.POCO
 
         //Create Many-to-many relationship between merchant and category
         public virtual ICollection<Category> Categories { get; set; }
+
+        //Create Many-to-Many relationship between merchant and offer
+        public ICollection<Offer> Offers { get; set; }
     }
 
     public class MerchantAddress

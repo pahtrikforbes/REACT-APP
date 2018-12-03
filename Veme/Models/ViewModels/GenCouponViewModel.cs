@@ -11,5 +11,7 @@ namespace Veme.Models
         public string CouponCode { get; set; }
         public Offer OfferDetails { get; set; }
 
+        //Stores the purchase Date and Time
+        public DateTime CouponExpireDateTimeDisplay { get; set; }
     }
 }

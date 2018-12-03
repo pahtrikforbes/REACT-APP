@@ -262,3 +262,5 @@ C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Debug\Veme.Migrations.AddCa
 C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Debug\Veme.Migrations.AddPurchaseDateToProductionCode.resources
 C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Debug\Veme.Migrations.AddOfferImgNameToOffer.resources
 C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Debug\Veme.Migrations.AddOfferImgLocationToOffer.resources
+C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Debug\Veme.Migrations.AllowPurchaseCouponToAcceptDateAndTime.resources
+C:\Users\Wesley Dwyer\Documents\GitHub\veme\Veme\obj\Debug\Veme.Migrations.AddStoredProcedureToUpDateCouponPurchaseDate.resources

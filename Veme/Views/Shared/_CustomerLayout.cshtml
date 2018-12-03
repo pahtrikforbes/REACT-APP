@@ -166,7 +166,7 @@
                                     @foreach (var category in Categories)
                                     {
                                         //check if category has offers that are active
-                                        var hasActiveOffer = category.Offers.FirstOrDefault(c=> c.OfferEnds > DateTime.Now);
+                                        var hasActiveOffer = category.Offers.FirstOrDefault(c => c.OfferEnds > DateTime.Now);
                                         if (category.Offers.Count > 0 && hasActiveOffer != null)
                                         {
                                             <li>
@@ -184,27 +184,43 @@
                                 <li><a href="https://jm.linkedin.com/company/solutech-innovation"><i class="fa fa-linkedin"></i></a></li>
                             </ul>
                         </div>
-                        <!--
-                            <div class="col4">
-                                <h3 class="text-uppercase">Recent Tweets</h3>
-                                <ul class="list-unstyled recent-tweet">
-                                    <li>
-                                        <span class="icon"><i class="fa fa-twitter"></i></span>
-                                        <div class="txt-holder">
-                                            <p><a href="#">Micheal Doe</a> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accu santium dolo remque laudan tium, </p>
-                                            <time datetime="2018-02-03 20:00" class="time">Posted on 29 Sep</time>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="icon"><i class="fa fa-twitter"></i></span>
-                                        <div class="txt-holder">
-                                            <p><a href="#">Micheal Doe</a> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accu santium dolo remque laudan tium, </p>
-                                            <time datetime="2018-02-03 20:00" class="time">Posted on 29 Sep</time>
-                                        </div>
-                                    </li>
+                        <div class="col4">
+                            <h3 class="text-uppercase">Merchants</h3>
+                            @{
+                                //var Merchants = _context.Merchants.Include(c => c.Categories).ToList();
+                                var Merchants = _context.Merchants.Include(c => c.Offers).ToList();
+                                <ul class="list-unstyled tags">
+                                    @foreach (var merchant in Merchants)
+                                    {
+                                        //check if category has offers that are active
+                                        //var hasActiveOffer = merchant.Offers.FirstOrDefault(c => c.OfferEnds > DateTime.Now);
+                                        var hasActiveOffer = merchant.Offers.FirstOrDefault(c => c.OfferEnds > DateTime.Now);
+                                        if (merchant.Offers.Count > 0 && hasActiveOffer != null)
+                                        {
+                                            <li>
+                                                @Html.ActionLink(linkText: merchant.CompanyName, actionName: "Merchants", controllerName: "Search", routeValues: new { MerchantId = merchant.MerchantID }, htmlAttributes: null)
+                                            </li>
+                                        }
+                                    }
                                 </ul>
-                            </div>
-                        -->
+                            }
+                            <!--ul class="list-unstyled recent-tweet">
+                                <li>
+                                    <span class="icon"><i class="fa fa-twitter"></i></span>
+                                    <div class="txt-holder">
+                                        <p><a href="#">Micheal Doe</a> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accu santium dolo remque laudan tium, </p>
+                                        <time datetime="2018-02-03 20:00" class="time">Posted on 29 Sep</time>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="icon"><i class="fa fa-twitter"></i></span>
+                                    <div class="txt-holder">
+                                        <p><a href="#">Micheal Doe</a> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accu santium dolo remque laudan tium, </p>
+                                        <time datetime="2018-02-03 20:00" class="time">Posted on 29 Sep</time>
+                                    </div>
+                                </li>
+                            </ul-->
+                        </div>
                     </div>
                 </div>
             </div>

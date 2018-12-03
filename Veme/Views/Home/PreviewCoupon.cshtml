@@ -40,7 +40,8 @@
                                         <p style="font-size:20px"><b>(@Model.OfferDetails.Merchant.CompanyName)</b></p>
                                         <p style="font-size:20px"><b>(@Model.OfferDetails.OfferName)</b></p>
                                         <p style="font-size:20px">PROMOTION ENDS <b>@Model.OfferDetails.OfferEnds.ToString("MMM-dd-yyyy") </b></p>
-                                        <p style="font-size:20px">COUPON EXPIRES <b>XXX-XX-XXXX</b></p>
+                                        <p style="font-size:20px">COUPON EXPIRES <b>@Model.CouponExpireDateTimeDisplay.ToString("MMM-dd-yyyy") at @Model.CouponExpireDateTimeDisplay.ToString("hh:mm tt")</b></p>
+                                        <!--p style="font-size:20px">COUPON EXPIRES <b>XXX-XX-XXXX</b></p-->
                                         <p style="font-size:15px">Terms & Condition:<b>@Model.OfferDetails.OfferDetails</b></p>
                                     </center>
                                     <center>

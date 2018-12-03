@@ -48,7 +48,7 @@ namespace Veme.Controllers
             //that hasn't been expired
             var searchOffer = _context.Offers
                                       .Include(c => c.Merchant)
-                                      .Where(c => c.OfferName.Contains(model.SearchKey) || c.Merchant.CompanyName.Contains(model.SearchKey))
+                                      .Where(c => c.OfferName.Contains(model.SearchKey) || c.Merchant.CompanyName.Contains(model.SearchKey) || c.Categories.Any(a => a.CategoryName.Contains(model.SearchKey)))
                                       .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
                                       .Where(c => c.TotalOffer > c.CouponUsed)
                                       .ToList();
@@ -122,6 +122,21 @@ namespace Veme.Controllers
             var search = new SearchViewModel
             {
                 AllOffers = filterByCat.ToList()
+            };
+            return Index(search);
+        }
+
+        public ActionResult Merchants(string MerchantId)
+        {
+            var filterByMerchant = _context.Offers.Include(c => c.Categories)
+                                                  .Include(m => m.Merchant)
+                                                  .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
+                                                  .Where(c => c.TotalOffer > c.CouponUsed)
+                                                  .Where(c => c.MerchantID == MerchantId);
+                                                    //.Where(o => o.Categories.Any(c => c.CategoryId == CategoryId));
+            var search = new SearchViewModel
+            {
+                AllOffers = filterByMerchant.ToList()
             };
             return Index(search);
         }

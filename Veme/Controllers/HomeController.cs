@@ -14,6 +14,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Data.Entity.Core.Objects;
 using System.Threading.Tasks;
+using System.Data.SqlTypes;
+using Veme.Models.DBFirstContext;
 
 namespace Veme.Controllers
 {
@@ -21,7 +23,7 @@ namespace Veme.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
-
+        private DBFirstContext _DBFirstContext = new DBFirstContext();
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Index()
@@ -81,7 +83,7 @@ namespace Veme.Controllers
         [Authorize(Roles = RoleName.Customer)]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult GetCoupon(int OfferId, string stripeToken)
+        public ActionResult GetCoupon(int OfferId)//, string stripeToken)
         {
             //if (!ModelState.IsValid)
             //1.Return View if something is wrong
@@ -92,16 +94,20 @@ namespace Veme.Controllers
             var getOffer = _context.Offers.Include(c => c.Merchant).FirstOrDefault(c => c.OfferId == OfferId);
 
             //2. Charge the customer
-            var charge = Payment.Charge(stripeToken, getOffer);
+            //var charge = Payment.Charge(stripeToken, getOffer);
 
             //Check if the money was paid
             //Return the user 
-            if (!charge)
-                return RedirectToAction("Index");
+            //if (!charge)
+            //    return RedirectToAction("Index");
 
             //3.Gets a random code from Production Table to assign to the Coupon
             var getRandomProductionCode = _context.ProductionCodes.Where(c => c.IsActive == false && c.IsUsed == false && c.OfferId == null).OrderBy(c => Guid.NewGuid()).FirstOrDefault();
 
+            //Set coupon Purchase Time stamp
+            var couponPurchaseTimeStamp = DateTime.Now;
+            //sql DateTime object
+            SqlDateTime sqlDateTime = new SqlDateTime(couponPurchaseTimeStamp);
             //4.The Production Code that was receive
             //will be assigned to the Offer and label as Active.
             if (getRandomProductionCode != null)
@@ -109,14 +115,16 @@ namespace Veme.Controllers
                 getRandomProductionCode.OfferId = OfferId;
                 getRandomProductionCode.IsActive = true;
                 //Sets the Date the coupon got bought
-                getRandomProductionCode.PurchaseDate = DateTime.Now.Date;
+                _DBFirstContext.SetCouponCodePurchaseDateTimeById(getRandomProductionCode.ProductionCodeID);
+                //getRandomProductionCode.PurchaseDate = couponPurchaseTimeStamp;//.TryParse("yyyy-MM-dd HH:mm:ss.fff");//this will capture the date and time of purchase //DateTime.Now.Date;
                 _context.SaveChanges();
             }
 
             var details = new GenCouponViewModel()
             {
                 OfferDetails = getOffer,
-                CouponCode = getRandomProductionCode.CouponCode
+                CouponCode = getRandomProductionCode.CouponCode,
+                CouponExpireDateTimeDisplay = couponPurchaseTimeStamp.AddHours(24)
             };
             //return RedirectToAction("Index");
             EmailCouponTOCustomer(details);

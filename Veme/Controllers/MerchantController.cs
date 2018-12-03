@@ -230,6 +230,13 @@ namespace Veme.Controllers
             if (checkCoupon.Offers.TotalOffer == checkCoupon.Offers.CouponUsed)
                 return "Offer Coupon Exhausted";
 
+            //Check if coupon expires
+            var getPurchaseDate = checkCoupon.PurchaseDate;
+            var addOneDay = checkCoupon.PurchaseDate.Value.AddHours(24);
+
+            if (addOneDay < DateTime.Now)
+                return "Coupon Expired.";
+
             //Increment coupons used
             checkCoupon.Offers.CouponUsed += 1;
             checkCoupon.IsUsed = true;

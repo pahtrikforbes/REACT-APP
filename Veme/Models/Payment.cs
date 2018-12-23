@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Configuration;
 using Veme.Models.POCO;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace Veme.Models
 {
@@ -31,7 +32,6 @@ namespace Veme.Models
                 ReceiptEmail = loginUser.User.Email, // returns the email address
                 //SourceTokenOrExistingSourceId = token,
                 CustomerId = customerId
-
             };
             var service = new StripeChargeService();
             StripeCharge charge = service.Create(option);
@@ -40,6 +40,40 @@ namespace Veme.Models
             return charge.Paid;
         }
 
+        public async static Task<bool> Charge(string stripeToken, CouponValidationPackage package,string MerchantId)
+        {
+            StripeConfiguration.SetApiKey(WebConfigurationManager.AppSettings["StripeSecretKey"]);
+
+            var token = stripeToken;
+            var loginUser = _context.Merchants.Include(c => c.User).FirstOrDefault(c => c.MerchantID == MerchantId);
+            //Create stripe customerID
+            //var customerId = CreateStripeCustomer(loginUser.User.Id, token);
+
+            var option = new StripeChargeCreateOptions
+            {
+                Amount = Convert.ToInt32(package.PackagePrice * 100),
+                Currency = "usd",
+                Description = "Veme - " + package.PackageName,
+                ReceiptEmail = loginUser.User.Email, // returns the email address
+                SourceTokenOrExistingSourceId = token,
+                Capture = true,
+                
+            };
+            var service = new StripeChargeService();
+            StripeCharge charge = service.Create(option);
+            //Assign Package to Merchant if charge successful
+            if (charge.Paid)
+                await Payment.AssignPackage(package.Id, loginUser.MerchantID);
+            //return Json(new { charge.Paid});
+            return charge.Paid;
+        }
+
+        private async static Task AssignPackage(int PackageId,string userId)
+        {
+            var user = _context.Merchants.FirstOrDefault(c => c.MerchantID == userId);
+            user.PackageId = PackageId;
+            await _context.SaveChangesAsync();
+        }
         private static string CreateStripeCustomer(string userId, string stripeToken)
         {
             var customerService = new StripeCustomerService();

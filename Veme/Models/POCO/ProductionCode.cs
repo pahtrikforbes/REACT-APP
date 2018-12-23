@@ -23,7 +23,8 @@ namespace Veme.Models.POCO
 
         public Offer Offers { get; set; }
 
-        [Column(TypeName = "Date")]
-        public DateTime? PurchaseDate = new DateTime();
+        //[Column(TypeName = "Date")]
+        //public DateTime? PurchaseDate = new DateTime();
+        public DateTime? PurchaseDate { get; set; }
     }
 }

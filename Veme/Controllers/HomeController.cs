@@ -23,7 +23,7 @@ namespace Veme.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
-        private DBFirstContext _DBFirstContext = new DBFirstContext();
+        //private DBFirstContext _DBFirstContext = new DBFirstContext();
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Index()
@@ -107,7 +107,7 @@ namespace Veme.Controllers
             //Set coupon Purchase Time stamp
             var couponPurchaseTimeStamp = DateTime.Now;
             //sql DateTime object
-            SqlDateTime sqlDateTime = new SqlDateTime(couponPurchaseTimeStamp);
+            //SqlDateTime sqlDateTime = new SqlDateTime(couponPurchaseTimeStamp);
             //4.The Production Code that was receive
             //will be assigned to the Offer and label as Active.
             if (getRandomProductionCode != null)
@@ -115,7 +115,8 @@ namespace Veme.Controllers
                 getRandomProductionCode.OfferId = OfferId;
                 getRandomProductionCode.IsActive = true;
                 //Sets the Date the coupon got bought
-                _DBFirstContext.SetCouponCodePurchaseDateTimeById(getRandomProductionCode.ProductionCodeID);
+                getRandomProductionCode.PurchaseDate = DateTime.Now;
+                //_DBFirstContext.SetCouponCodePurchaseDateTimeById(getRandomProductionCode.ProductionCodeID);
                 //getRandomProductionCode.PurchaseDate = couponPurchaseTimeStamp;//.TryParse("yyyy-MM-dd HH:mm:ss.fff");//this will capture the date and time of purchase //DateTime.Now.Date;
                 _context.SaveChanges();
             }

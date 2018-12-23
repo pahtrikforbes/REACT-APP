@@ -31,6 +31,12 @@ namespace Veme.Models.POCO
 
         //Create Many-to-Many relationship between merchant and offer
         public ICollection<Offer> Offers { get; set; }
+
+        public int? PackageId { get; set; }
+
+        public virtual CouponValidationPackage Package { get; set; }
+
+        public int? ValidationCallsMade { get; set; }
     }
 
     public class MerchantAddress

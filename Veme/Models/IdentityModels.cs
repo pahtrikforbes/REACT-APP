@@ -46,6 +46,10 @@ namespace Veme.Models
 
         public DbSet<StripeCustomer> StripeCustomers { get; set; }
 
+        public DbSet<CouponValidationPackage> CouponValidationPackages { get; set; }
+
+        public DbSet<RedeemedCoupon> RedeemedCoupons { get; set; }
+
         //This is responsible for fluent API
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

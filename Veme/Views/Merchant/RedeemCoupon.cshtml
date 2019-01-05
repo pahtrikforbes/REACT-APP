@@ -97,10 +97,15 @@
                 //toastr.options.positionClass = "toast-top-center";
                 toastr.error(data.Message);
             }
+            else if (data.Message == 'Valid Coupon')
+            {
+                toastr.success(data.Message);
+            }
             else {
                 //uncomment to position center
                 //toastr.options.positionClass = "toast-top-center";
-                toastr.success(data.Message);
+                //toastr.success(data.Message);
+                toastr.warning(data.Message);
             }
         }
 

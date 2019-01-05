@@ -1,0 +1,89 @@
+﻿@model Veme.Models.ViewModels.PackageViewModel
+@using Microsoft.AspNet.Identity
+@{
+    int i = 0;
+    ViewBag.Title = "Packages";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<!-- banner of the page -->
+<section class="banner banner3 bg-full overlay" style="background-image: url(../../Content/Site-theme/images/login-banner.jpg);background-size:1920px 320px">
+    <!--url(http://placehold.it/1920x320);">-->
+    <div class="holder">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h1>Packages</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="latest-coupon container pad-top-lg pad-bottom-md">
+    <div class="row">
+        <header class="col-xs-12 text-center header">
+            <h2 class="heading">Packages</h2>
+        </header>
+    </div>
+    <div class="row">
+        @{
+            foreach (var package in Model.Packages)
+            {
+                <div class="col-xs-12 col-sm-4 mar-bottom-xs">
+                    <!-- coupon box of the page -->
+                    <div class="coupon-box">
+                        <div class="img-holder">
+                            <img src="http://placehold.it/350x230" alt="image description" class="img-resposnive">
+                        </div>
+                        <div class="txt-holder">
+                            <h3 class="heading6"><a href="javascript:void(0);">@package.PackageName</a></h3>
+                            <ul class="list-unstyled list-show">
+                                <li><a href="javascript:void(0);"> <i class="fa fa-check"></i><!--i class="icon icon-smile"></i--> Validations @package.Quantity</a></li>
+                                <br />
+                                <li><a href="javascript:void(0);"><i class="fa fa-money" aria-hidden="true"></i> Prices: @package.PackagePrice.ToString("c")</a></li>
+                                <!--li><a href="#"><i class="icon icon-user"></i> Used</a></li-->
+                            </ul>
+                            @*<form action="Charge" method="post">*@
+                            @using (Html.BeginForm("Charge", "Merchant", FormMethod.Post))
+                            {
+                                <script src="https://checkout.stripe.com/checkout.js" id="" class="stripe-button"
+                                        data-key="@ViewBag.PublicKey"
+                                        data-amount="@(package.PackagePrice == 0? (0*100) : (package.PackagePrice)*100)"
+                                        data-name="Veme"
+                                        data-description="EVERYBODY SAVES "
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                        data-locale="auto"
+                                        data-currency="usd"
+                                        data-email="@User.Identity.GetUserName()"
+                                        data-label="GET PACKAGE"
+                                        data-panel-label="PAY">
+                                </script>
+                                <script>
+                                    //document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                                    document.getElementsByClassName("stripe-button-el")[@i].style.display = 'none';
+                                </script>
+                                @Html.Hidden("PackageId",package.Id)
+                                @Html.Hidden("Packages",Model.Packages)
+                                <input type="submit" name="Get Package" class="btn-primary text-center text-uppercase" value="Get Package" />
+                            }
+                            @*</form>*@
+                            @*<a href="#" class="btn-primary md-round text-center text-uppercase">Get Package</a>*@
+                            <!--time class="time text-center" datetime="2017-02-03 20:00">Expires On : 03 Sep, 2017</time-->
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        }
+    </div>
+</section>
+@section scripts
+{
+    <script>
+        //document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+        document.getElementsByClassName("stripe-button-el").style.display = 'none';
+    </script>
+}
+

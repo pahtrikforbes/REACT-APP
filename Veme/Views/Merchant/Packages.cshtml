@@ -1,4 +1,6 @@
 ﻿@model Veme.Models.ViewModels.PackageViewModel
+@using Veme.Models;
+@using System.Data.Entity;
 @using Microsoft.AspNet.Identity
 @{
     int i = 0;
@@ -64,9 +66,21 @@
                                     //document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
                                     document.getElementsByClassName("stripe-button-el")[@i].style.display = 'none';
                                 </script>
-                                @Html.Hidden("PackageId",package.Id)
-                                @Html.Hidden("Packages",Model.Packages)
-                                <input type="submit" name="Get Package" class="btn-primary text-center text-uppercase" value="Get Package" />
+                                @Html.Hidden("PackageId", package.Id)
+                                @Html.Hidden("Packages", Model.Packages)
+
+                                var getMerchantId = User.Identity.GetUserId();
+                                var _context = new ApplicationDbContext();
+                                var getMerchant = _context.Merchants.Include(p => p.Package).FirstOrDefault(c => c.MerchantID == getMerchantId);
+
+                                if (getMerchant.Package != null && getMerchant.PackageId.Value == package.Id)
+                                {
+                                    <input disabled type="submit" name="Get Package" class="btn-primary text-center text-uppercase" value="Current Package" />
+                                }
+                                else
+                                {
+                                    <input type="submit" name="Get Package" class="btn-primary text-center text-uppercase" value="Get Package" />
+                                }
                             }
                             @*</form>*@
                             @*<a href="#" class="btn-primary md-round text-center text-uppercase">Get Package</a>*@

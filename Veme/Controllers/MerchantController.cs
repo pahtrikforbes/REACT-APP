@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNet.Identity;
+﻿//using Veme.Model;
+using Microsoft.AspNet.Identity;
+using Stripe;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using Veme.Models;
 using Veme.Models.POCO;
@@ -25,6 +29,19 @@ namespace Veme.Controllers
             HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
         }
 
+        [AllowAnonymous]
+        public ActionResult Packages()
+        {
+            StripeConfiguration.SetApiKey(WebConfigurationManager.AppSettings["StripeSecretKey"]);
+            ViewBag.PublicKey = WebConfigurationManager.AppSettings["StripePublicKeyTest"];
+
+            var getValidationPakages = _context.CouponValidationPackages.ToList();
+            var viewModel = new PackageViewModel
+            {
+                Packages = getValidationPakages
+            };
+            return View(viewModel);
+        }
         // GET: Merchant
         public ActionResult Index()
         {
@@ -54,6 +71,42 @@ namespace Veme.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Dashboard()
+        {
+            var merchantId = User.Identity.GetUserId();
+
+            var getMerchant = await _context.Merchants.Include(c => c.Package).FirstOrDefaultAsync(m => m.MerchantID == merchantId);
+
+            var packageInfo = new PackageInfo();
+
+            var getPurchaseOverTimeData = new PurchaseOverTime();
+
+            //var getRedeemPerMonth = _context.RedeemedCoupons.Where(c => c.MerchantId == merchantId).ToList();
+
+            var SalesPerMonth = new List<int>();
+            for (int i = 1; i <= 12; i++)
+            {
+                var getRedeemPerMonth = _context.RedeemedCoupons.Where(c => c.MerchantId == merchantId && c.RedeemDate.Month == i && c.RedeemDate.Year == DateTime.Now.Year).ToList();
+                SalesPerMonth.Add(getRedeemPerMonth.Count);
+            }
+
+            getPurchaseOverTimeData.SalesPerMonth = SalesPerMonth.ToArray();
+
+            if (getMerchant.Package != null)
+            {
+                packageInfo.Quantity = getMerchant.Package.Quantity;
+                packageInfo.CallsMade = getMerchant.ValidationCallsMade.GetValueOrDefault();
+                packageInfo.PackageName = getMerchant.Package.PackageName;
+            }
+
+            var viewModel = new DashboardViewModel
+            {
+                PackageInfo = packageInfo,
+                SalesPerMonth = getPurchaseOverTimeData
+            };
+            return View(viewModel);
+        }
 
         public ActionResult Preview(MerchantCreateOfferViewModel model)
         {
@@ -65,13 +118,23 @@ namespace Veme.Controllers
             if (!ModelState.IsValid)
                 return View("CreateOffer", model);
 
+            //Check if merchant has package
+            var getMerchantId = User.Identity.GetUserId();
+            var getMerchant = _context.Merchants
+                                      .Include(c => c.Package)
+                                      .FirstOrDefault(c => c.MerchantID == getMerchantId);
+            if(getMerchant.Package == null)
+            {
+                TempData["NoPackage"] = "Please purchase a package first.";
+                return View("CreateOffer", model);
+            }
             //1.Store model in a variable
             //To Send send to View
             var viewModel = model;
 
             //2.Stores the image in temp varibale to
             //pass to another action
-            if(model.OfferImg != null)
+            if (model.OfferImg != null)
                 TempData["img"] = model.OfferImg;
 
             return View(model);
@@ -104,7 +167,7 @@ namespace Veme.Controllers
 
             if (model == null)
                 return RedirectToAction("CreateOffer");//return View("CreateOffer");
-           
+
             //Create a new Offer
             var offerObj = new Offer()
             {
@@ -123,10 +186,10 @@ namespace Veme.Controllers
 
             //path for storing img to file System
             var basePath = Server.MapPath(@"~\Content\images\" + userId + @"\" + offerObj.OfferName + @"\");
-            
+
             //path stored in database for image retrieval
             var basePathWithoutServer = @"~\Content\images\" + userId + @"\" + offerObj.OfferName + @"\";
-            
+
             //1.Checks if the path exist before creating
             if (!Directory.Exists(basePath))
                 Directory.CreateDirectory(basePath);
@@ -221,7 +284,20 @@ namespace Veme.Controllers
         private string ValidateCoupon(MerchantRedeemViewModel model)
         {
             //1.Check if coupon code exist for this merchant
-            var checkCoupon = _context.ProductionCodes.Include(c => c.Offers).FirstOrDefault(c => c.CouponCode.Replace("-", "") == model.CouponCode.Replace("-", "") && c.IsUsed == false && c.IsActive == true && c.Offers.MerchantID == model.MerchantId);
+            var checkCoupon = _context.ProductionCodes.Include(c => c.Offers)
+                                      .FirstOrDefault(c => c.CouponCode.Replace("-", "") == model.CouponCode.Replace("-", "") && c.IsUsed == false && c.IsActive == true && c.Offers.MerchantID == model.MerchantId);
+
+            //check if service pack
+            var getMerchantId = User.Identity.GetUserId();
+            var getMerchant = _context.Merchants.Include(p => p.Package).FirstOrDefault(c => c.MerchantID == getMerchantId);
+            if (getMerchant.Package == null)
+                return "You need to purchase a service pack.";
+            else
+            {
+                //Check if all validatation calls have been used
+                if (getMerchant.ValidationCallsMade >= getMerchant.Package.Quantity)
+                    return "Insufficient Validation Calls.";
+            }
 
             if (checkCoupon == null)
                 return "Invalid Coupon";
@@ -232,8 +308,9 @@ namespace Veme.Controllers
 
             //Check if coupon expires
             var getPurchaseDate = checkCoupon.PurchaseDate;
-            var addOneDay = checkCoupon.PurchaseDate.Value.AddHours(24);
-
+            //var addOneDay = checkCoupon.PurchaseDate.Value.AddHours(24);
+            //add five minutes for testing
+            var addOneDay = checkCoupon.PurchaseDate.Value.AddMinutes(5);
             if (addOneDay < DateTime.Now)
                 return "Coupon Expired.";
 
@@ -241,6 +318,15 @@ namespace Veme.Controllers
             checkCoupon.Offers.CouponUsed += 1;
             checkCoupon.IsUsed = true;
 
+            //Increment Calls Made
+            getMerchant.ValidationCallsMade += 1;
+            //insert redeemedCoupons
+            _context.RedeemedCoupons.Add(new RedeemedCoupon
+            {
+                MerchantId = model.MerchantId,
+                OfferId = checkCoupon.OfferId.Value,
+                RedeemDate = DateTime.Now
+            });
             //save changes to the database
             _context.SaveChanges();
 
@@ -320,14 +406,14 @@ namespace Veme.Controllers
             return View("Edit", viewModel);
         }
 
- 
+
         [HttpPost]
         public ActionResult Edit(EditViewModel model)
         {
             var userId = User.Identity.GetUserId();
 
             //retrieve upload file
-            var file = Request.Files.Count > 0 ? Request.Files["OfferImg"]:null;
+            var file = Request.Files.Count > 0 ? Request.Files["OfferImg"] : null;
 
             if (model == null)
                 return RedirectToAction("CreateOffer");
@@ -336,11 +422,11 @@ namespace Veme.Controllers
             //Checks if offer has Id
             if (model.offer.OfferId.HasValue)
             {
-                var editOffer = _context.Offers.Include(c => c.Merchant).Include(c =>c.Categories).FirstOrDefault(c => c.OfferId == model.offer.OfferId);
+                var editOffer = _context.Offers.Include(c => c.Merchant).Include(c => c.Categories).FirstOrDefault(c => c.OfferId == model.offer.OfferId);
 
                 //path on file system
                 var basePath = Server.MapPath(@"~\Content\images\" + userId + @"\" + editOffer.OfferName + @"\");
-                
+
                 //path stored in database
                 var basePathWithoutServer = @"~\Content\images\" + userId + @"\" + editOffer.OfferName + @"\";
 
@@ -348,7 +434,7 @@ namespace Veme.Controllers
                     Directory.CreateDirectory(basePath);
 
                 //Check if new file has has the same name as the old file before changing.
-                if(editOffer.OfferImageName != Path.GetFileName(file.FileName))
+                if (editOffer.OfferImageName != Path.GetFileName(file.FileName))
                 {
                     if (file != null && file.ContentLength > 0 && file.ContentLength < MAXMEGABYTES)
                     {
@@ -402,5 +488,53 @@ namespace Veme.Controllers
             return View("Select");
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Charge(PackageViewModel model)
+        {
+            var getPackage = _context.CouponValidationPackages.FirstOrDefault(c => c.Id == model.PackageId);
+            var getUser = User.Identity.GetUserId();
+
+            //var SalesPerMonth = new List<int>();
+            var charged = await Payment.Charge(model.stripeToken, getPackage, getUser);
+            if (!charged)
+                return View("Do something to display charge was unsuccessful");
+
+            var getMerchantId = User.Identity.GetUserId();
+            await AssignPackageToMerchant(getMerchantId, model.PackageId);
+
+            //var packageInfo = new PackageInfo
+            //{
+
+            //};
+            //var purchaseOverTime = new PurchaseOverTime
+            //{
+            //    SalesPerMonth = SalesPerMonth.ToArray()
+            //};
+            //var viewModel = new DashboardViewModel
+            //{
+            //    PackageInfo = packageInfo,
+            //    SalesPerMonth = purchaseOverTime
+            //};
+            //return View("Dashboard",viewModel);
+            return RedirectToAction("Dashboard");
+        }
+
+        private async Task AssignPackageToMerchant(string merchantId, int packageId)
+        {
+            var getMerchant = await _context.Merchants.FirstOrDefaultAsync(m => m.MerchantID == merchantId);
+            if (getMerchant == null)
+                return;
+            getMerchant.PackageId = packageId;
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task RemovePackageFromMerchant(string merchantId)
+        {
+            var getMerchant = await _context.Merchants.FirstOrDefaultAsync(m => m.MerchantID == merchantId);
+            if (getMerchant == null)
+                return;
+            getMerchant.PackageId = null;
+            await _context.SaveChangesAsync();
+        }
     }
 }

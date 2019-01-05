@@ -56,7 +56,12 @@
 
             </div>
             @*<br />*@
-            @using (Html.BeginForm("Index", "Home",FormMethod.Get))
+            <div class="form-group">
+                <center>
+                    <a class="btn-primary md-round text-center text-uppercase" href="@Url.Action("Index","Home",null)">Continue</a>
+                </center>
+            </div>
+            @*using (Html.BeginForm("Index", "Home",FormMethod.Get))
             {
                 @Html.AntiForgeryToken()
                 <div class="form-group ">
@@ -64,7 +69,7 @@
                         <input target="_blank" value="Continue" type="submit" id="button" class="btn-primary md-round text-center text-uppercase" />
                     </center>
                 </div>
-            }
+            }*@
         </div>
     </div>
 

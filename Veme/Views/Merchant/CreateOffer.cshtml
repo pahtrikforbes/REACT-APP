@@ -212,6 +212,7 @@
         $(function () {
             $('#preview').hide();
             ShowPreview();
+            ShowPurchasePackageMessage();
             $('.datepicker').datepicker({
                 format: 'dd/MM/yyyy',
                 startDate:'@DateTime.Now'
@@ -235,5 +236,14 @@
             console.log(result);
 
         }
+
+        function ShowPurchasePackageMessage() {
+            var message = '@TempData["NoPackage"]';
+            if (message != '') {
+                toastr.error(message);
+            }
+            //console.log(message);
+            //alert(message);
+        } 
     </script>
 }}

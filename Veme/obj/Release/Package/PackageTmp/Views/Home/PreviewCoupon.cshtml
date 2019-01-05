@@ -40,7 +40,8 @@
                                         <p style="font-size:20px"><b>(@Model.OfferDetails.Merchant.CompanyName)</b></p>
                                         <p style="font-size:20px"><b>(@Model.OfferDetails.OfferName)</b></p>
                                         <p style="font-size:20px">PROMOTION ENDS <b>@Model.OfferDetails.OfferEnds.ToString("MMM-dd-yyyy") </b></p>
-                                        <p style="font-size:20px">COUPON EXPIRES <b>XXX-XX-XXXX</b></p>
+                                        <p style="font-size:20px">COUPON EXPIRES <b>@Model.CouponExpireDateTimeDisplay.ToString("MMM-dd-yyyy") at @Model.CouponExpireDateTimeDisplay.ToString("hh:mm tt")</b></p>
+                                        <!--p style="font-size:20px">COUPON EXPIRES <b>XXX-XX-XXXX</b></p-->
                                         <p style="font-size:15px">Terms & Condition:<b>@Model.OfferDetails.OfferDetails</b></p>
                                     </center>
                                     <center>
@@ -55,7 +56,12 @@
 
             </div>
             @*<br />*@
-            @using (Html.BeginForm("Index", "Home",FormMethod.Get))
+            <div class="form-group">
+                <center>
+                    <a class="btn-primary md-round text-center text-uppercase" href="@Url.Action("Index","Home",null)">Continue</a>
+                </center>
+            </div>
+            @*using (Html.BeginForm("Index", "Home",FormMethod.Get))
             {
                 @Html.AntiForgeryToken()
                 <div class="form-group ">
@@ -63,7 +69,7 @@
                         <input target="_blank" value="Continue" type="submit" id="button" class="btn-primary md-round text-center text-uppercase" />
                     </center>
                 </div>
-            }
+            }*@
         </div>
     </div>
 

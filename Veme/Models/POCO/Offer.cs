@@ -49,9 +49,9 @@ namespace Veme.Models.POCO
         public string OfferImageLocation { get; set; }
 
 
-        [Required]
-        [Range(minimum:1,maximum:12)]
-        public byte CouponDurationInMonths { get; set; }
+        //[Required]
+        //[Range(minimum:1,maximum:12)]
+        //public byte CouponDurationInMonths { get; set; }
 
         [Required]
         [Column(TypeName = "Money")]

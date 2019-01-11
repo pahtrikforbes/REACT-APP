@@ -93,10 +93,10 @@ namespace Veme.Models
         [Required(ErrorMessage = "Required *")]
         public HttpPostedFileBase OfferImg { get; set; }
 
-        [Required(ErrorMessage = "Required *")]
-        [Range(minimum: 1, maximum: 12)]
-        [Display(Name = "Coupon Duration (In Months)")]
-        public byte? CouponDurationInMonths { get; set; }
+        //[Required(ErrorMessage = "Required *")]
+        //[Range(minimum: 1, maximum: 12)]
+        //[Display(Name = "Coupon Duration (In Months)")]
+        //public byte? CouponDurationInMonths { get; set; }
 
         [Required(ErrorMessage = "Required *")]
         [Display(Name = "Coupon Price")]

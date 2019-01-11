@@ -113,16 +113,6 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
-                            @Html.TextBoxFor(c => c.CouponDurationInMonths, new { @class = "form-control", placeholder = "Coupon Valid Duration in Months" })
-                            @Html.ValidationMessageFor(c => c.CouponDurationInMonths, "", new { @class = "text-danger" })
-
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
                             @Html.TextBoxFor(c => c.CouponPrice, new { @class = "form-control", placeholder = "Coupon Price" })
                             @Html.ValidationMessageFor(c => c.CouponPrice, "", new { @class = "text-danger" })
 
@@ -212,6 +202,7 @@
         $(function () {
             $('#preview').hide();
             ShowPreview();
+            ShowPurchasePackageMessage();
             $('.datepicker').datepicker({
                 format: 'dd/MM/yyyy',
                 startDate:'@DateTime.Now'
@@ -235,5 +226,14 @@
             console.log(result);
 
         }
+
+        function ShowPurchasePackageMessage() {
+            var message = '@TempData["NoPackage"]';
+            if (message != '') {
+                toastr.error(message);
+            }
+            //console.log(message);
+            //alert(message);
+        } 
     </script>
 }}

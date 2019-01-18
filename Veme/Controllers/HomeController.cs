@@ -159,7 +159,8 @@ namespace Veme.Controllers
                 body = body.Replace("#Offerer", model.OfferDetails.Merchant.CompanyName);
                 body = body.Replace("#OfferName", model.OfferDetails.OfferName);
                 //body = body.Replace("#OfferEnds", model.OfferDetails.OfferEnds.ToString("MMM-dd-yyyy"));
-                var expire = DateTime.Now.AddMonths(model.OfferDetails.CouponDurationInMonths);
+                //var expire = DateTime.Now.AddMonths(model.OfferDetails.CouponDurationInMonths);
+                var expire = model.OfferDetails.CreationDate.AddHours(24);
                 var expireTimeFormat = expire.ToString("MMM-dd-yyyy") + " at " + expire.ToString("hh:mm tt");
                 //body = body.Replace("#OfferEnds", expire.ToString("MMM-dd-yyyy"));
                 body = body.Replace("#OfferEnds", expireTimeFormat);

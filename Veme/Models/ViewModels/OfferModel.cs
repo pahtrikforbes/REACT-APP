@@ -98,10 +98,10 @@ namespace Veme.Models
         //[Display(Name = "Coupon Duration (In Months)")]
         //public byte? CouponDurationInMonths { get; set; }
 
-        [Required(ErrorMessage = "Required *")]
-        [Display(Name = "Coupon Price")]
-        [Range(minimum:0.1,maximum:9999999,ErrorMessage ="Price must be greater than 0")]
-        public decimal? CouponPrice { get; set; }
+        //[Required(ErrorMessage = "Required *")]
+        //[Display(Name = "Coupon Price")]
+        //[Range(minimum:0.1,maximum:9999999,ErrorMessage ="Price must be greater than 0")]
+        //public decimal? CouponPrice { get; set; }
 
         //List to control category object
         public IEnumerable<Category> Categories { get; set; }

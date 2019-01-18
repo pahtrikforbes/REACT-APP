@@ -179,8 +179,8 @@ namespace Veme.Controllers
                 OfferName = model.OfferName,
                 MerchantID = model.MerchantID,
                 CreationDate = DateTime.Now.Date, //Set the creation date
-                CouponDurationInMonths = model.CouponDurationInMonths.Value,
-                CouponPrice = model.CouponPrice.Value,
+                //CouponDurationInMonths = model.CouponDurationInMonths.Value,
+                //CouponPrice = model.CouponPrice.Value,
                 Categories = new List<Category>()
             };
 
@@ -319,7 +319,10 @@ namespace Veme.Controllers
             checkCoupon.IsUsed = true;
 
             //Increment Calls Made
-            getMerchant.ValidationCallsMade += 1;
+            if(getMerchant.ValidationCallsMade == null)
+                getMerchant.ValidationCallsMade = 1;
+            else
+                getMerchant.ValidationCallsMade += 1;
             //insert redeemedCoupons
             _context.RedeemedCoupons.Add(new RedeemedCoupon
             {
@@ -386,8 +389,8 @@ namespace Veme.Controllers
                 offer = new MerchantCreateOfferViewModel
                 {
                     OfferId = getOffer.OfferId,
-                    CouponDurationInMonths = getOffer.CouponDurationInMonths,
-                    CouponPrice = getOffer.CouponPrice,
+                    //CouponDurationInMonths = getOffer.CouponDurationInMonths,
+                    //CouponPrice = getOffer.CouponPrice,
                     DiscountRate = getOffer.DiscountRate,
                     MerchantID = getOffer.Merchant.MerchantID,
                     OfferBegins = getOffer.OfferBegins,
@@ -465,8 +468,8 @@ namespace Veme.Controllers
                 editOffer.OfferDetails = model.offer.OfferDetails;
                 editOffer.TotalOffer = model.offer.TotalOffer;
                 editOffer.OfferName = model.offer.OfferName;
-                editOffer.CouponDurationInMonths = model.offer.CouponDurationInMonths.Value;
-                editOffer.CouponPrice = model.offer.CouponPrice.Value;
+                //editOffer.CouponDurationInMonths = model.offer.CouponDurationInMonths.Value;
+                //editOffer.CouponPrice = model.offer.CouponPrice.Value;
 
                 editOffer.Categories = new List<Category>();
 

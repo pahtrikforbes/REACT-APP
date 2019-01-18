@@ -53,9 +53,6 @@ namespace Veme.Models.POCO
         //[Range(minimum:1,maximum:12)]
         //public byte CouponDurationInMonths { get; set; }
 
-        [Required]
-        [Column(TypeName = "Money")]
-        public decimal CouponPrice { get; set; }
 
         //Create many-to-many relationship between Offer and category
         public ICollection<Category> Categories { get; set; }

@@ -144,16 +144,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="cols-sm-10">
-                        @Html.LabelFor(c => c.offer.CouponPrice, new { @class = "cols-sm-2 control-label heading6" })
-
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
-                            @Html.TextBoxFor(c => c.offer.CouponPrice, new { @class = "form-control", placeholder = "Coupon Price" })
-                        </div>
-                    </div>
-                </div>
                 @Html.HiddenFor(c => c.offer.OfferId)
                 @Html.HiddenFor(c => c.offer.MerchantID)
                 <div class="form-group ">

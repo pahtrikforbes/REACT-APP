@@ -109,16 +109,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
-                            @Html.TextBoxFor(c => c.CouponPrice, new { @class = "form-control", placeholder = "Coupon Price" })
-                            @Html.ValidationMessageFor(c => c.CouponPrice, "", new { @class = "text-danger" })
-
-                        </div>
-                    </div>
-                </div>
                 @Html.HiddenFor(c => c.OfferId)
                 @Html.HiddenFor(c => c.MerchantID)
                 <div class="form-group ">

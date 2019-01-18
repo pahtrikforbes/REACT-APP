@@ -15,30 +15,30 @@ namespace Veme.Models
         static ApplicationDbContext _context = new ApplicationDbContext();
 
         //Collect single charge for coupon
-        public static bool Charge(string stripeToken, Offer offer)
-        {
-            StripeConfiguration.SetApiKey(WebConfigurationManager.AppSettings["StripeSecretKey"]);
+        //public static bool Charge(string stripeToken, Offer offer)
+        //{
+        //    StripeConfiguration.SetApiKey(WebConfigurationManager.AppSettings["StripeSecretKey"]);
 
-            var token = stripeToken;
-            var loginUser = _context.Merchants.Include(c => c.User).FirstOrDefault(c => c.MerchantID == offer.MerchantID);
-            //Create stripe customerID
-            var customerId = CreateStripeCustomer(loginUser.User.Id, token);
+        //    var token = stripeToken;
+        //    var loginUser = _context.Merchants.Include(c => c.User).FirstOrDefault(c => c.MerchantID == offer.MerchantID);
+        //    //Create stripe customerID
+        //    var customerId = CreateStripeCustomer(loginUser.User.Id, token);
 
-            var option = new StripeChargeCreateOptions
-            {
-                Amount = Convert.ToInt32(offer.CouponPrice * 100),
-                Currency = "usd",
-                Description = "Veme",
-                ReceiptEmail = loginUser.User.Email, // returns the email address
-                //SourceTokenOrExistingSourceId = token,
-                CustomerId = customerId
-            };
-            var service = new StripeChargeService();
-            StripeCharge charge = service.Create(option);
-            //if (charge.Paid)
-            //return Json(new { charge.Paid});
-            return charge.Paid;
-        }
+        //    var option = new StripeChargeCreateOptions
+        //    {
+        //        Amount = Convert.ToInt32(offer.CouponPrice * 100),
+        //        Currency = "usd",
+        //        Description = "Veme",
+        //        ReceiptEmail = loginUser.User.Email, // returns the email address
+        //        //SourceTokenOrExistingSourceId = token,
+        //        CustomerId = customerId
+        //    };
+        //    var service = new StripeChargeService();
+        //    StripeCharge charge = service.Create(option);
+        //    //if (charge.Paid)
+        //    //return Json(new { charge.Paid});
+        //    return charge.Paid;
+        //}
 
         public async static Task<bool> Charge(string stripeToken, CouponValidationPackage package,string MerchantId)
         {

@@ -43,31 +43,13 @@
                                     </ul-->
                                 </div>
                             </header>
-                            <p><i><b>Coupon Price: </b>@Model.Offer.CouponPrice.ToString("C")</i></p>
+                            <!--p><i><b>Coupon Price: </b>Model.Offer.CouponPrice.ToString("C")</i></p-->
                             <p>@Model.Offer.OfferDetails</p>
 
                             <footer class="footer">
                                 <form action="@Url.Action("GetCoupon","Home")" method="post">
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("OfferId", Model.Offer.OfferId)
-                                    <!--Code that accepts payment-->
-                                    <!--
-                                    <script src="https://checkout.stripe.com/checkout.js" id="" class="stripe-button"
-                                            data-key="@ViewBag.PublicKey"
-                                            data-amount="@(Model.Offer.CouponPrice == 0? (0*100) : (Model.Offer.CouponPrice)*100)"
-                                            data-name="Veme"
-                                            data-description="EVERYBODY SAVES "
-                                            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                            data-locale="auto"
-                                            data-currency="usd"
-                                            data-email="@User.Identity.GetUserName()"
-                                            data-label="SUBSCRIBE"
-                                            data-panel-label="PAY">
-                                    </script>
-                                    <script>
-                                        document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
-                                    </script>
-                                        -->
                                     <input type="submit" name="Get Coupon" class="btn-primary text-center text-uppercase" value="Get Coupon" />
                                 </form>
 

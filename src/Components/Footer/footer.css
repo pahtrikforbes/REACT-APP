@@ -1,0 +1,136 @@
+.h-footer {
+    background-color: #000;
+    color: #ffffff;
+}
+
+.footer-widget .title {
+    margin-bottom: 30px;
+}
+
+.h-footer-list li a {
+    color: #f2f2f2;
+    font-weight: 300;
+}
+
+.h-footer-list li a:hover {
+    color: #3a9928;
+}
+
+.h-footer .footer-widget {
+    margin: 50px 0;
+}
+
+.h-footer-list {
+    list-style-type: none;
+    padding: 0;
+}
+.payment-follow .h-footer-list {
+    list-style-type: none;
+    padding: 0;
+    float: left;
+    display: inline-flex;
+}
+
+.h-footer-list li {
+    margin-bottom: 18px;
+}
+.h-subscribe span {
+    float: left;
+    font-size: 14px;
+    padding: 6px 0;
+}
+.h-subscribe span a {
+    text-decoration: underline;
+}
+.h-subscribe span a:hover {
+    color: #3a9928;
+}
+.h-subscribe input[type=email] {
+    border-radius: 33px 0 0 33px;
+    width: 70%;
+    display: inline-block;
+    padding: 15px;
+    height: 45px;
+}
+
+.h-subscribe button {
+    margin: 0;
+    border-radius: 0 33px 33px 0;
+    display: inline-block;
+    box-shadow: none;
+    padding: 5px;
+    height: 45px;
+    width: 30%;
+    position: relative;
+    top: -1px;
+    color: #000 !important;
+    background-color: #fdb62f !important;
+    text-transform: unset;
+}
+
+.h-socket, .h-socket a {
+    padding: 15px 0;
+    color: #222222 !important;
+}
+
+.h-socket a:hover {
+    color: #3a9928 !important;
+}
+
+.h-socket-links-list {
+    list-style-type: none;
+    padding: 0;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: space-between;
+    margin: 0;
+    height: 37px;
+    align-items: center;
+}
+.h-socket-copy-right {
+    display: -webkit-flex;
+    display: flex;
+    margin: 0;
+    height: 37px;
+    align-items: center;
+}
+.h-socket-links-list li {
+    display: inline;
+    margin: 0 20px;
+}
+.h-footer-bottom {
+    background-color: #ffffff;
+}
+.payment-follow {
+    width: 100%;
+    float: left;
+}
+.payment-follow .pth-footer {
+    float: left; 
+    width: 50%;
+}
+.h-social {
+    margin: -11px 0 0 0;
+}
+.pth-footer ul li a {
+    float: left;
+    margin: 0 22px 0 0;
+}
+
+@media (max-width: 1080px) {
+    .h-footer .footer-widget {
+        margin: 20px 0;
+    }
+    
+}
+
+@media (max-width: 768px) {
+
+.h-socket-copy-right, .h-socket-links-list {
+    display: block;
+    height: auto;
+}
+
+    
+}

@@ -1,0 +1,44 @@
+.navbar.navbar-dark .navbar-toggler {
+    background: #388f3c;
+}
+.h-search-bar {
+    position: relative;
+    margin: 2px 0 0;
+    width: 70%;
+}
+.h-search-icon {
+    position: absolute;
+    z-index: 100;
+    left: 20px;
+    top: 12px;
+    border: none;
+}
+.h-search-bar input {
+    padding: 5px 0 5px 60px;
+    border-radius: 5px;
+    border-color: #000;
+}
+.h-login {
+    float: right;
+}
+.h-search-bar .form-control-sm {
+    height: calc(2em + .5rem + 2px);
+}
+.navbar.navbar-dark .breadcrumb .nav-item .nav-link, .navbar.navbar-dark .navbar-nav .nav-item .nav-link   {
+    color: #000;
+    float: left;
+}
+.navbar.navbar-dark .breadcrumb .nav-item .nav-link:hover, .navbar.navbar-dark .navbar-nav .nav-item .nav-link:hover {
+    color: #205f35;
+}
+.h-navbar span, .h-user-icon {
+    float: left;
+    line-height: 42px;
+}
+
+@media (max-width: 768px) {
+    .rh-navbar .navbar-collapse {
+        margin-top: 15px;
+        border-top: solid 1px #cccccc;
+    }
+}

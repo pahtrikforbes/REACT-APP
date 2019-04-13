@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import FoodDeals1 from '../../../statics/images/products/food-deals1.png';
 import FoodDeals2 from '../../../statics/images/products/food-deals2.png';
 import FoodDeals3 from '../../../statics/images/products/food-deals3.png';
+import FoodDeals4 from '../../../statics/images/products/food-deals4.png';
 
 
 
@@ -14,7 +15,7 @@ class FoodDeals extends Component {
           { title: 'Chilitos Jamexican Food', title1: '- Taco Tuesdays', img: FoodDeals1 },
           { title: 'KFC - BIG BOX ', title1: '#HARDTOSHARE', img: FoodDeals2 },
           { title: 'SUBWAY ', title1: '$550 Lunch Combo', img: FoodDeals3 },
-          { title: 'Tastee ', title1: '$250 `Jerk It` Combo', img: FoodDeals1 },
+          { title: 'Tastee ', title1: '$250 `Jerk It` Combo', img: FoodDeals4 },
         ]
       };
     
@@ -25,7 +26,7 @@ class FoodDeals extends Component {
             { title: 'Chilitos Jamexican Food', title1: '- Taco Tuesdays', img: FoodDeals1 },
             { title: 'KFC - BIG BOX ', title1: '#HARDTOSHARE', img: FoodDeals2 },
             { title: 'SUBWAY ', title1: '$550 Lunch Combo', img: FoodDeals3 },
-            { title: 'Tastee ', title1: '$250 `Jerk It` Combo', img: FoodDeals1 },
+            { title: 'Tastee ', title1: '$250 `Jerk It` Combo', img: FoodDeals4 },
         ];
         setTimeout(() => {
           this.setState({

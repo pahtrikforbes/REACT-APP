@@ -102,7 +102,7 @@
 .product-fav i {
     color: #000;
 }
-.product-fav a:hover i {
+.product-fav a:hover i, .shoes-title a:hover i {
     color: #b3000f;
     font-weight: 900;
 } 
@@ -220,7 +220,10 @@ body {
     border-radius: 3px;
 }
 .h-carousel-slider .card img {
-    width: 100%;
+    width: auto;
+    max-height: 178px;
+    margin: 0 auto; 
+    min-height: 178px;
 }
 .featured-sec {
     padding: 20px;
@@ -240,7 +243,8 @@ body {
     padding: 10px 0px 0;
 }
 .featured-sec .card img {
-    width: 100%;
+    max-height: 235px;
+    min-height: 235px;
 }
 .featured-sec .t-heading {
     padding: 0;
@@ -270,7 +274,11 @@ body {
     padding: 30px 0;
 }
 .product-card {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+}
+.infinite-scroll-component  {
+    overflow: hidden !important;
+    padding: 7px;
 }
 
 @media (max-width: 1080px) {

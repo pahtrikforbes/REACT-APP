@@ -4,6 +4,8 @@ import { MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBContainer, MDBRow, M
 
 import Wellness1 from '../../../statics/images/products/wellness1.jpg';
 import Wellness2 from '../../../statics/images/products/wellness2.jpg';
+import Wellness3 from '../../../statics/images/products/wellness3.jpg';
+import Wellness4 from '../../../statics/images/products/wellness4.jpg';
 
 
 
@@ -22,7 +24,7 @@ class WellnessSpa extends Component {
                                 <MDBCarouselItem itemId="1">
                                     <MDBCol md="3" className="clearfix d-md-block product-card">
                                         <MDBCard className="mb-2">
-                                            <MDBCardImage src={Wellness2} />
+                                            <MDBCardImage src={Wellness1} />
                                             <MDBCardBody>
                                                 <div className="product-title">
                                                     <a href="#!">
@@ -80,7 +82,7 @@ class WellnessSpa extends Component {
 
                                     <MDBCol md="3" className="clearfix d-md-block product-card">
                                         <MDBCard className="mb-2">
-                                            <MDBCardImage src={Wellness1} className="img-fluid" />
+                                            <MDBCardImage src={Wellness3} className="img-fluid" />
                                             <MDBCardBody>
                                                 <div className="product-title">
                                                     <a href="#!">
@@ -109,7 +111,7 @@ class WellnessSpa extends Component {
 
                                     <MDBCol md="3" className="clearfix d-md-block product-card">
                                         <MDBCard className="mb-2">
-                                            <MDBCardImage src={Wellness1} className="img-fluid" />
+                                            <MDBCardImage src={Wellness4} className="img-fluid" />
                                             <MDBCardBody>
                                                 <div className="product-title">
                                                     <a href="#!">
@@ -138,9 +140,9 @@ class WellnessSpa extends Component {
                                 </MDBCarouselItem>
 
                                 <MDBCarouselItem itemId="2">
-                                    <MDBCol md="2" className="clearfix d-md-block product-card">
+                                    <MDBCol md="3" className="clearfix d-md-block product-card">
                                         <MDBCard className="mb-2">
-                                            <MDBCardImage src={Wellness2} />
+                                            <MDBCardImage src={Wellness1} />
                                             <MDBCardBody>
                                                 <div className="product-title">
                                                     <a href="#!">
@@ -167,7 +169,7 @@ class WellnessSpa extends Component {
                                         </MDBCard>
                                     </MDBCol>
                                     
-                                    <MDBCol md="2" className="clearfix d-md-block product-card">
+                                    <MDBCol md="3" className="clearfix d-md-block product-card">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={Wellness2} />
                                             <MDBCardBody>
@@ -196,9 +198,9 @@ class WellnessSpa extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol md="4" className="clearfix d-md-block product-card">
+                                    <MDBCol md="3" className="clearfix d-md-block product-card">
                                         <MDBCard className="mb-2">
-                                            <MDBCardImage src={Wellness1} className="img-fluid" />
+                                            <MDBCardImage src={Wellness3} className="img-fluid" />
                                             <MDBCardBody>
                                                 <div className="product-title">
                                                     <a href="#!">
@@ -225,9 +227,9 @@ class WellnessSpa extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol md="4" className="clearfix d-md-block product-card">
+                                    <MDBCol md="3" className="clearfix d-md-block product-card">
                                         <MDBCard className="mb-2">
-                                            <MDBCardImage src={Wellness1} className="img-fluid" />
+                                            <MDBCardImage src={Wellness4} className="img-fluid" />
                                             <MDBCardBody>
                                                 <div className="product-title">
                                                     <a href="#!">

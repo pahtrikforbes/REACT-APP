@@ -4,6 +4,8 @@ import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBIc
 import FeaturedTitle from '../../../statics/images/featured-title.png';
 import Featured1 from '../../../statics/images/products/featured1.jpg';
 import Featured2 from '../../../statics/images/products/featured2.jpg';
+import Featured3 from '../../../statics/images/products/featured3.jpg';
+import Featured4 from '../../../statics/images/products/featured4.jpg';
 
 
 
@@ -79,7 +81,7 @@ class FeaturedDeals extends Component {
                         </MDBCol>
                         <MDBCol md="4">
                             <MDBCard>
-                                <MDBCardImage className="img-fluid" src={Featured1} />
+                                <MDBCardImage className="img-fluid" src={Featured3} />
                                 <MDBCardBody>
                                     <div className="product-title featured-p-title">
                                         <a href="#!">
@@ -107,7 +109,7 @@ class FeaturedDeals extends Component {
                         </MDBCol>
                         <MDBCol md="2">
                             <MDBCard>
-                                <MDBCardImage className="img-fluid" src={Featured2} />
+                                <MDBCardImage className="img-fluid" src={Featured4} />
                                 <MDBCardBody>
                                     <div className="product-title featured-p-title">
                                         <a href="#!">

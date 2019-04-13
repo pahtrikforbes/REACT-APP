@@ -8,10 +8,6 @@ import WellnessSpa from './WellnessSpa';
 import ProductAdd from './ProductAdd';
 import FoodDeals from './FoodDeals';
 
-
-
-
-
 class OurProducts extends Component {
     render() {
         return(
@@ -22,10 +18,7 @@ class OurProducts extends Component {
                 <Shoes />
                 <WellnessSpa />
                 <ProductAdd />
-                <FoodDeals />
-                
-                
-                
+                <FoodDeals />                            
             </div>
         )
     }

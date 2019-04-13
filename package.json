@@ -8,6 +8,7 @@
     "mdbreact": "4.10.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-infinite-scroll-component": "^4.5.2",
     "react-point": "^3.0.1",
     "react-rangeslider": "^2.2.0",
     "react-router-dom": "^4.3.1",

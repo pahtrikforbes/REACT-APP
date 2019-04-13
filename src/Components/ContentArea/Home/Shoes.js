@@ -19,11 +19,11 @@ class Shoes extends Component {
                         <MDBCarouselInner>
                             <MDBRow>
                                 <MDBCarouselItem itemId="1">
-                                    <MDBCol md="2" className="clearfix d-md-block">
+                                    <MDBCol md="3" className="clearfix d-md-block">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={ShoesImage} />
                                             <MDBCardBody>
-                                                <div className="product-title">
+                                                <div className="product-title shoes-title">
                                                     <span><a href="#!">Nike Shoes</a></span>
                                                     <a href="#!"><i class="far fa-heart"></i></a>
                                                 </div>
@@ -35,11 +35,11 @@ class Shoes extends Component {
                                         </MDBCard>
                                     </MDBCol>
                                     
-                                    <MDBCol md="2" className="clearfix d-md-block">
+                                    <MDBCol md="3" className="clearfix d-md-block">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={ShoesImage} />
                                             <MDBCardBody>
-                                                <div className="product-title">
+                                                <div className="product-title shoes-title">
                                                     <span><a href="#!">Nike Shoes</a></span>
                                                     <a href="#!"><i class="far fa-heart"></i></a>
                                                 </div>
@@ -51,11 +51,11 @@ class Shoes extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol md="2" className="clearfix d-md-block">
+                                    <MDBCol md="3" className="clearfix d-md-block">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={ShoesImage} />
                                             <MDBCardBody>
-                                                <div className="product-title">
+                                                <div className="product-title shoes-title">
                                                     <span><a href="#!">Nike Shoes</a></span>
                                                     <a href="#!"><i class="far fa-heart"></i></a>
                                                 </div>
@@ -67,11 +67,11 @@ class Shoes extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol md="2" className="clearfix d-md-block">
+                                    <MDBCol md="3" className="clearfix d-md-block">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={ShoesImage} />
                                             <MDBCardBody>
-                                                <div className="product-title">
+                                                <div className="product-title shoes-title">
                                                     <span><a href="#!">Nike Shoes</a></span>
                                                     <a href="#!"><i class="far fa-heart"></i></a>
                                                 </div>
@@ -81,47 +81,15 @@ class Shoes extends Component {
                                                 </div>
                                             </MDBCardBody>
                                         </MDBCard>
-                                    </MDBCol>
-
-                                    <MDBCol md="2" className="clearfix d-md-block">
-                                        <MDBCard className="mb-2">
-                                            <MDBCardImage src={ShoesImage} />
-                                            <MDBCardBody>
-                                                <div className="product-title">
-                                                    <span><a href="#!">Nike Shoes</a></span>
-                                                    <a href="#!"><i class="far fa-heart"></i></a>
-                                                </div>
-                                                <div className="product-price">
-                                                    <span>$8,930.00</span>
-                                                    <span className="old-price">$8,930.00</span>
-                                                </div>
-                                            </MDBCardBody>
-                                        </MDBCard>
-                                    </MDBCol>
-
-                                    <MDBCol md="2" className="clearfix d-md-block">
-                                        <MDBCard className="mb-2">
-                                            <MDBCardImage src={ShoesImage} />
-                                            <MDBCardBody>
-                                                <div className="product-title">
-                                                    <span><a href="#!">Nike Shoes</a></span>
-                                                    <a href="#!"><i class="far fa-heart"></i></a>
-                                                </div>
-                                                <div className="product-price">
-                                                    <span>$8,930.00</span>
-                                                    <span className="old-price">$8,930.00</span>
-                                                </div>
-                                            </MDBCardBody>
-                                        </MDBCard>
-                                    </MDBCol>
+                                    </MDBCol>                                    
                                 </MDBCarouselItem>
 
                                 <MDBCarouselItem itemId="2">
-                                    <MDBCol md="2" className="clearfix d-md-block">
+                                    <MDBCol md="3" className="clearfix d-md-block">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={ShoesImage} />
                                             <MDBCardBody>
-                                                <div className="product-title">
+                                                <div className="product-title shoes-title">
                                                     <span><a href="#!">Nike Shoes</a></span>
                                                     <a href="#!"><i class="far fa-heart"></i></a>
                                                 </div>
@@ -133,11 +101,11 @@ class Shoes extends Component {
                                         </MDBCard>
                                     </MDBCol>
                                     
-                                    <MDBCol md="2" className="clearfix d-md-block">
+                                    <MDBCol md="3" className="clearfix d-md-block">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={ShoesImage} />
                                             <MDBCardBody>
-                                                <div className="product-title">
+                                                <div className="product-title shoes-title">
                                                     <span><a href="#!">Nike Shoes</a></span>
                                                     <a href="#!"><i class="far fa-heart"></i></a>
                                                 </div>
@@ -149,11 +117,11 @@ class Shoes extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol md="2" className="clearfix d-md-block">
+                                    <MDBCol md="3" className="clearfix d-md-block">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={ShoesImage} />
                                             <MDBCardBody>
-                                                <div className="product-title">
+                                                <div className="product-title shoes-title">
                                                     <span><a href="#!">Nike Shoes</a></span>
                                                     <a href="#!"><i class="far fa-heart"></i></a>
                                                 </div>
@@ -165,11 +133,11 @@ class Shoes extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol md="2" className="clearfix d-md-block">
+                                    <MDBCol md="3" className="clearfix d-md-block">
                                         <MDBCard className="mb-2">
                                             <MDBCardImage src={ShoesImage} />
                                             <MDBCardBody>
-                                                <div className="product-title">
+                                                <div className="product-title shoes-title">
                                                     <span><a href="#!">Nike Shoes</a></span>
                                                     <a href="#!"><i class="far fa-heart"></i></a>
                                                 </div>
@@ -179,39 +147,7 @@ class Shoes extends Component {
                                                 </div>
                                             </MDBCardBody>
                                         </MDBCard>
-                                    </MDBCol>
-
-                                    <MDBCol md="2" className="clearfix d-md-block">
-                                        <MDBCard className="mb-2">
-                                            <MDBCardImage src={ShoesImage} />
-                                            <MDBCardBody>
-                                                <div className="product-title">
-                                                    <span><a href="#!">Nike Shoes</a></span>
-                                                    <a href="#!"><i class="far fa-heart"></i></a>
-                                                </div>
-                                                <div className="product-price">
-                                                    <span>$8,930.00</span>
-                                                    <span className="old-price">$8,930.00</span>
-                                                </div>
-                                            </MDBCardBody>
-                                        </MDBCard>
-                                    </MDBCol>
-
-                                    <MDBCol md="2" className="clearfix d-md-block">
-                                        <MDBCard className="mb-2">
-                                            <MDBCardImage src={ShoesImage} />
-                                            <MDBCardBody>
-                                                <div className="product-title">
-                                                    <span><a href="#!">Nike Shoes</a></span>
-                                                    <a href="#!"><i class="far fa-heart"></i></a>
-                                                </div>
-                                                <div className="product-price">
-                                                    <span>$8,930.00</span>
-                                                    <span className="old-price">$8,930.00</span>
-                                                </div>
-                                            </MDBCardBody>
-                                        </MDBCard>
-                                    </MDBCol>
+                                    </MDBCol>                                    
                                 </MDBCarouselItem>
                             </MDBRow>
                         </MDBCarouselInner>

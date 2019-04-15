@@ -238,6 +238,7 @@ body {
 .featured-sec .card {
     box-shadow: none;
     margin-bottom: 20px;
+    text-transform: uppercase;
 }
 .featured-sec .card-body {
     padding: 10px 0px 0;
@@ -280,7 +281,71 @@ body {
     overflow: hidden !important;
     padding: 7px;
 }
-
+/* Spring page css */
+.lg-banner-text {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 55%;
+}
+.lg-banner-text h1 {
+    font-size: 8rem;
+    font-weight: 900;
+    float: left;
+    width: 100%;
+}
+.lg-banner-text span {
+    font-size: 4.3rem;
+    float: left;
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 55px;
+}
+.lg-banner-text a {
+    background: linear-gradient(to bottom, #7fcf92 0%,#5aaa69 50%,#7fcf92 50%,#5aaa69 100%);
+    color: #000;
+    padding: 5px 40px;
+    border-radius: 30px;
+    font-size: 2.3rem;
+    font-weight: 500;
+}
+.lg-banner-text a:hover {
+    background: linear-gradient(to bottom, #5aaa69 0%,#7fcf92 50%,#5aaa69 50%,#7fcf92 100%);
+}
+.lg-banner-caption {
+    display: flex;
+    justify-content: flex-end;
+    text-align: center;
+}
+.lg-crousel .carousel-caption {
+    height: 80%;
+}
+.lg-carousel-slider img {
+    width: 100% !important;
+    min-height: 290px !important;
+    max-height: 290px !important;
+    min-height: 290px !important;
+    
+}
+.new-deals-height .card {
+    max-height: 300px;
+    min-height: 300px;
+}
+.side-categories {
+    position: absolute;
+    left: 0;
+    top: 55rem;
+    z-index: 10000;
+    background-color: #dbdbdb;
+    border-radius: 0 8px 8px 0;
+}
+.side-categories ul {
+    list-style: none;
+    padding: 10px;
+    text-align: center;
+}
+.side-categories ul li {
+    margin-bottom: 10px;
+}
 @media (max-width: 1080px) {
     
 }

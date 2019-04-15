@@ -340,7 +340,7 @@ body {
 }
 .side-categories ul {
     list-style: none;
-    padding: 10px;
+    padding: 30px 10px 0;
     text-align: center;
 }
 .side-categories ul li {

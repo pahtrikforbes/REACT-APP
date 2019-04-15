@@ -7,7 +7,6 @@ import NewDeals from './NewDeals';
 import RecentlyViewed from './RecentlyViewed';
 import WellnessSpa from './WellnessSpa';
 import FoodDeals from './FoodDeals';
-import Sticky from './Sticky';
 
 class OurProducts extends Component {
     render() {

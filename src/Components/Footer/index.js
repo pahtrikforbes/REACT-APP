@@ -75,10 +75,10 @@ const Footer = () => {
                             <h4 className="title">Company</h4>    
                             <ul className="h-footer-list">
                                 <li>
-                                    <a href="#!">Missoion</a>
+                                    <a href="#!">Mission</a>
                                 </li>
                                 <li>
-                                    <a href="#!">Inverstors</a>
+                                    <a href="#!">Investors</a>
                                 </li>
                                 <li>
                                     <a href="#!">Careers</a>

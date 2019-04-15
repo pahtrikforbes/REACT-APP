@@ -20,7 +20,7 @@ class RecentlyViewed extends Component {
                         <MDBCarouselInner>
                             <MDBRow>
                                 <MDBCarouselItem itemId="1">
-                                    <MDBCol size="3" className="clearfix d-md-block product-card">
+                                    <MDBCol size="12" md="3" className="clearfix d-md-block product-card">
                                         <MDBCard>
                                             <MDBCardImage src={FoodDeals1} />
                                             <MDBCardBody>
@@ -49,7 +49,7 @@ class RecentlyViewed extends Component {
                                         </MDBCard>
                                     </MDBCol>
                                     
-                                    <MDBCol size="3" className="clearfix d-md-block product-card">
+                                    <MDBCol size="12" md="3" className="clearfix d-md-block product-card">
                                         <MDBCard>
                                             <MDBCardImage src={FoodDeals2} />
                                             <MDBCardBody>
@@ -78,7 +78,7 @@ class RecentlyViewed extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol size="3" className="clearfix d-md-block product-card">
+                                    <MDBCol size="12" md="3" className="clearfix d-md-block product-card">
                                         <MDBCard>
                                             <MDBCardImage src={FoodDeals3} />
                                             <MDBCardBody>
@@ -107,7 +107,7 @@ class RecentlyViewed extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol size="3" className="clearfix d-md-block product-card">
+                                    <MDBCol size="12" md="3" className="clearfix d-md-block product-card">
                                         <MDBCard>
                                             <MDBCardImage src={FoodDeals4} />
                                             <MDBCardBody>
@@ -138,7 +138,7 @@ class RecentlyViewed extends Component {
                                 </MDBCarouselItem>
 
                                 <MDBCarouselItem itemId="2">
-                                    <MDBCol size="3" className="clearfix d-md-block product-card">
+                                    <MDBCol size="12" md="3" className="clearfix d-md-block product-card">
                                         <MDBCard>
                                             <MDBCardImage src={FoodDeals1} />
                                             <MDBCardBody>
@@ -167,7 +167,7 @@ class RecentlyViewed extends Component {
                                         </MDBCard>
                                     </MDBCol>
                                     
-                                    <MDBCol size="3" className="clearfix d-md-block product-card">
+                                    <MDBCol size="12" md="3" className="clearfix d-md-block product-card">
                                         <MDBCard>
                                             <MDBCardImage src={FoodDeals2} />
                                             <MDBCardBody>
@@ -196,7 +196,7 @@ class RecentlyViewed extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol size="3" className="clearfix d-md-block product-card">
+                                    <MDBCol size="12" md="3" className="clearfix d-md-block product-card">
                                         <MDBCard>
                                             <MDBCardImage src={FoodDeals3} />
                                             <MDBCardBody>
@@ -225,7 +225,7 @@ class RecentlyViewed extends Component {
                                         </MDBCard>
                                     </MDBCol>
 
-                                    <MDBCol size="3" className="clearfix d-md-block product-card">
+                                    <MDBCol size="12" md="3" className="clearfix d-md-block product-card">
                                         <MDBCard>
                                             <MDBCardImage src={FoodDeals4} />
                                             <MDBCardBody>

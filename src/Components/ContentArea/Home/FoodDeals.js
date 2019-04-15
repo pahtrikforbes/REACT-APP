@@ -56,7 +56,7 @@ class FoodDeals extends Component {
                         <MDBRow>
                             {this.state.items.map((data, index) => (
                                 
-                                <MDBCol size="3" className="clearfix d-md-block product-card" key={index}>
+                                <MDBCol size="12" md="3" className="clearfix d-md-block product-card" key={index}>
                                     <MDBCard>
                                         <MDBCardImage src={data.img} />
                                         <MDBCardBody>

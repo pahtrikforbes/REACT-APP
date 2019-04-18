@@ -335,19 +335,26 @@ body {
     left: 0;
     top: 55rem;
     z-index: 10000;
-    background-color: #dbdbdb;
+    background-color: rgba(219,219,219,0.6);
     border-radius: 0 8px 8px 0;
 }
+
 .side-categories ul {
     list-style: none;
-    padding: 30px 10px 0;
+    padding: 10px 5px 0;
     text-align: center;
+    margin-bottom: 0rem;
+}
+.side-categories ul li:last-child {
+    margin-bottom: 0px;
 }
 .side-categories ul li {
     margin-bottom: 10px;
 }
-@media (max-width: 1080px) {
-    
+@media (max-width: 1500px) {
+    .side-categories ul li img {
+        max-width: 45px;
+    }
 }
 
 @media (max-width: 768px) {

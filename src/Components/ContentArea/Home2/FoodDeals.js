@@ -14,7 +14,7 @@ class RecentlyViewed extends Component {
                 <MDBContainer>
                     <div className="t-heading">
                         <span>Food Deals</span>
-                        <a href="#!">See all</a>
+                        <a href="#!">See all deals</a>
                     </div>
                     <MDBCarousel activeItem={1} length={2} slide={true} showControls={true} showIndicators={false} multiItem className="h-carousel-slider lg-carousel-slider">
                         <MDBCarouselInner>

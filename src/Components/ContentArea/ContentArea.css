@@ -1,0 +1,408 @@
+
+/*Css For Veme*/
+.section {
+    padding: 25px 0;
+}
+.navbar {
+    background: #ffffff;
+}
+.carousel .carousel-control-prev-icon, .carousel .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+}
+.carousel .carousel-control-next-icon {
+    background-image: url(./../../statics/images/right-arrow.png);
+}
+.carousel .carousel-control-prev-icon {
+    background-image: url(./../../statics/images/left-arrow.png);
+}
+.h-banner-caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.red-mask {
+    background-color: rgba(182, 8, 0, 0.7);
+}
+.h-banner-text {
+    text-align: left;
+    margin: 3rem 7rem 0 0;
+}
+.h-banner-text h1 {
+    font-size: 14rem;
+    font-weight: 900;
+    line-height: 12rem;
+    margin: 0;
+}
+.h-banner-text span {
+    display: block;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0 0 5rem; 
+}
+.h-banner-text a {
+    background: #ffffff;
+    padding: 5px 30px;
+    color: #000;
+    float: left;
+}
+.h-banner-text a:hover {
+    background: transparent;
+    border: 1px solid #000;
+    color: #ffffff;
+}
+.t-heading{
+    padding: 0 30px;
+    z-index: 1000;
+    position: relative;
+    margin: 0 0 20px;
+    float: left;
+    width: 100%;
+}
+.t-heading span {
+    float: left;
+    font-size: 22px;
+}
+.t-heading a {
+    float: right;
+    font-size: 20px;
+}
+.t-heading h5 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+}
+.product-title, .product-price, .product-review, .product-fav {
+    width: 100%;
+    float: left;
+}
+.product-title span {
+    float: left;
+    width: 100%;
+    font-size: 18px;
+}
+.product-title a {
+    color: #000;
+}
+.product-title a:hover {
+    color: #368c0e;
+}
+.product-title .flt-right {
+    float: right;
+}
+.shoes-title span {
+    width: auto;
+}
+.shoes-title a {
+    float: right;
+}
+.product-fav a {
+    float: right;
+}
+.product-fav i {
+    color: #000;
+}
+.product-fav a:hover i, .shoes-title a:hover i {
+    color: #b3000f;
+    font-weight: 900;
+} 
+.old-price {
+    text-decoration: line-through;
+    float: right;
+    color: #dbdbdb;
+}
+.product-review span {
+    font-size: 12px;
+    float: left;
+    color: #00aeef;
+}
+.product-card img {
+    padding: 15px 15px 0px;
+    width: 100%;
+}
+.product-raiting {
+    float: left;
+    margin: 0 5px 0 0;
+} 
+.product-raiting i {
+    font-size: 12px;
+    vertical-align: middle;
+}
+.product-raiting-checked {
+    font-weight:900; 
+}
+
+.categories-list ul {
+    padding: 0px;
+    text-align: center;
+}
+.categories-list ul li:nth-child(1) {
+    margin-left:0px;
+  }
+  .categories-list ul li:nth-child(9) {
+    margin-right:0px;
+  }
+.categories-list ul li {
+    list-style: none;
+    text-align: center;
+    display: inline-block;
+    margin: 0 36px 20px;
+
+}
+.categories-list ul li img {
+    margin-bottom: 8px;
+}
+.categories-list ul li a {
+    color: #000;
+    font-size: 20px;
+}
+.categories-list ul li:hover a, .categories-list ul li:hover .product-more i {
+   color: #35a084;
+}
+.categories-list ul li a {
+    display: block;
+}
+.categories-list ul li .product-more i {
+    
+    font-size: 3.5rem;
+    vertical-align: text-top;
+}
+.h-carousel-slider .card-body {
+    padding: 10px 15px;
+}
+.h-carousel-slider .carousel-inner {
+    padding: 7px;
+}
+.h-carousel-slider .controls-top a {
+    background-color: #368c0e;
+    color: #ffffff;
+    font-size: 30px;
+    border-radius: 4px;
+    opacity: 0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 42px;
+}
+
+.h-carousel-slider .controls-top a:hover {
+    background-color: #4aa51f;
+    color: #ffffff;
+}
+
+.h-carousel-slider:hover .controls-top a {
+    opacity: 1;
+}
+
+.h-carousel-slider .controls-top a:first-child {
+    float: left;
+    left: -20px;
+}
+
+.h-carousel-slider .controls-top a:last-child {
+    float: right;
+}
+.h-carousel-slider .controls-top {
+    position: absolute;
+    top: calc(50% - 25px);
+    width: 100%;
+    z-index: 1000;
+}
+.product-add img {
+    min-width: 100%;
+}
+body {
+    background-color: #f5f5f5;
+}
+.h-carousel-slider .card {
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16), 0 0px 10px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 3px;
+}
+.h-carousel-slider .card img {
+    width: auto;
+    max-height: 178px;
+    margin: 0 auto; 
+    min-height: 178px;
+}
+.featured-sec {
+    padding: 20px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+.featured-sec-border {
+    padding: 20px 30px 0px;
+    border: 4px dashed #000;
+}
+.featured-sec .card {
+    box-shadow: none;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+.featured-sec .card-body {
+    padding: 10px 0px 0;
+}
+.featured-sec .card img {
+    max-height: 235px;
+    min-height: 235px;
+}
+.featured-sec .t-heading {
+    padding: 0;
+}
+.featured-p-title span {
+    width: 100%;
+}
+.featured-p-title span a {
+    float: left;
+    text-transform: uppercase;
+    font-size: 17px;
+}
+.scroll-link {
+    text-align: center;
+    padding: 20px 0;
+}
+.scroll-link a {
+    font-size: 22px;
+}
+.carousel-multi-item .carousel-item {
+    display: flex !important;
+}
+.scroll-text {
+    text-align: center;
+    color: #006ce6;
+    font-size: 26px;
+    padding: 30px 0;
+}
+.product-card {
+    margin-bottom: 30px;
+}
+.infinite-scroll-component  {
+    overflow: hidden !important;
+    padding: 7px;
+}
+/* Spring page css */
+.lg-banner-text {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 55%;
+}
+.lg-banner-text h1 {
+    font-size: 8rem;
+    font-weight: 900;
+    float: left;
+    width: 100%;
+}
+.lg-banner-text span {
+    font-size: 4.3rem;
+    float: left;
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 55px;
+}
+.lg-banner-text a {
+    background: linear-gradient(to bottom, #7fcf92 0%,#5aaa69 50%,#7fcf92 50%,#5aaa69 100%);
+    color: #000;
+    padding: 5px 40px;
+    border-radius: 30px;
+    font-size: 2.3rem;
+    font-weight: 500;
+}
+.lg-banner-text a:hover {
+    background: linear-gradient(to bottom, #5aaa69 0%,#7fcf92 50%,#5aaa69 50%,#7fcf92 100%);
+}
+.lg-banner-caption {
+    display: flex;
+    justify-content: flex-end;
+    text-align: center;
+}
+.lg-crousel .carousel-caption {
+    height: 80%;
+}
+.lg-carousel-slider img {
+    width: 100% !important;
+    min-height: 290px !important;
+    max-height: 290px !important;
+    min-height: 290px !important;
+    
+}
+.new-deals-height .card {
+    max-height: 300px;
+    min-height: 300px;
+}
+.side-categories {
+    position: absolute;
+    left: 0;
+    top: 55rem;
+    z-index: 10000;
+    background-color: rgba(219,219,219,0.6);
+    border-radius: 0 8px 8px 0;
+}
+
+.side-categories ul {
+    list-style: none;
+    padding: 10px 5px 0;
+    text-align: center;
+    margin-bottom: 0rem;
+}
+.side-categories ul li:last-child {
+    margin-bottom: 0px;
+}
+.side-categories ul li {
+    margin-bottom: 10px;
+}
+@media (max-width: 1500px) {
+    .side-categories ul li img {
+        max-width: 45px;
+    }
+}
+
+@media (max-width: 768px) {
+    
+    .section {
+        padding: 30px 10px;
+    }
+    .h-search-bar {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .carousel-multi-item .carousel-item {
+        display: inline-block !important;
+    }
+
+    .h-carousel-slider .controls-top {
+        position: relative;
+        top: 0;
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+
+    .h-carousel-slider .controls-top a {
+        opacity: 1;
+    }
+    .h-banner-text h1 {
+        font-size: 6rem;
+    font-weight: 600;
+    line-height: 5rem;
+    }
+    .h-banner-text span {
+        font-size: 1.3rem;
+        font-weight: 300;
+        margin: 0 0 2rem;
+    }
+    
+    .categories-list ul li {
+        margin: 20px !important;
+    }
+    .h-carousel-slider .card {
+        margin-bottom: 20px!important;
+    }
+    .h-banner-caption .col {
+        width: 500%;
+        float: left;
+    }
+    .h-banner-caption img {
+        display: none;
+    }
+}

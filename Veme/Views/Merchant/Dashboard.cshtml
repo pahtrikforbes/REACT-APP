@@ -1,0 +1,34 @@
+﻿@model Veme.Models.ViewModels.DashboardViewModel
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@Styles.Render("~/Content/register")
+@Styles.Render("~/Content/datepicker")
+
+@*<h2>Dashboard</h2>*@
+
+<div class="twocolumns pad-top-lg pad-bottom-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <article id="content">
+                    <h2>Sales Per Month</h2>
+                    <div class="post-detail style2">
+                        @*@Html.Partial("_Chart")*@
+                        @Html.Partial("_Chart",Model)
+                    </div>
+                </article>
+
+                <aside id="sidebar">
+                    @Html.Partial("CurrentPackage", Model)
+                </aside>
+            </div>
+        </div>
+
+        @*<article id="content">
+                <h2>This is where the content will go</h2>
+            </article>*@
+    </div>
+</div>

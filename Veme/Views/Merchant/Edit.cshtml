@@ -1,0 +1,176 @@
+﻿@using Microsoft.AspNet.Identity
+@using Veme.Models.POCO
+@using Veme.Models;
+@model Veme.Models.EditViewModel
+@{
+    ViewBag.Title = "Create Offer";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<style>
+
+    .right {
+        float: right;
+    }
+</style>
+@Styles.Render("~/Content/register")
+@Styles.Render("~/Content/datepicker")
+@Styles.Render("~/Content/select2.min.css")
+
+@using (Html.BeginForm("Edit", "Merchant", FormMethod.Post, new { autocomplete = "off", enctype = "multipart/form-data" }))
+{
+    <div class="container" id="form">
+        <div class="row main">
+            <div class="main-login main-center" style="background-color:#f6f6f6;">
+                <h5 class="heading3">Edit Coupon</h5>
+                <p style="color:black;">Fill in the form below</p>
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        @Html.LabelFor(c => c.offer.OfferName, new { @class = "cols-sm-2 control-label heading6" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            @Html.TextBoxFor(c => c.offer.OfferName, new { @class = "form-control", placeholder = "Offer Name" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        @Html.LabelFor(c => c.offer.DiscountRate, new { @class = "cols-sm-2 control-label heading6" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            @Html.EditorFor(c => c.offer.DiscountRate, new { htmlAttributes = new { @class = "form-control", placeholder = "Discount Percent *", @min = "1", @type = "number", @max = "100" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        @Html.LabelFor(c => c.offer.TotalOffer, new { @class = "cols-sm-2 control-label heading6" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            @Html.EditorFor(c => c.offer.TotalOffer, new { htmlAttributes = new { @class = "form-control", placeholder = "Total Coupon" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        @Html.LabelFor(c => c.offer.OfferDetails, new { @class = "cols-sm-2 control-label heading6" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            @Html.TextAreaFor(c => c.offer.OfferDetails, new { @class = "form-control", placeholder = "Offer Details *" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            <select multiple="multiple" id="CategoryIds" class="form-control" name="CategoryIds" required>
+                                @if (Model.offer.Categories.Count() != 0)
+                                {
+                                    foreach (var category in Model.offer.Categories)
+                                    {
+                                        var test = Model.OfferCategories.Any(c => c.CategoryId == category.CategoryId);
+                                        if (Model.OfferCategories.Any(c => c.CategoryId == category.CategoryId))
+                                        {
+                                            <option selected="selected" value="@category.CategoryId">
+                                                @category.CategoryName
+                                            </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@category.CategoryId">
+                                                @category.CategoryName
+                                            </option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        @Html.LabelFor(c => c.offer.OfferBegins, new { @class = "cols-sm-2 control-label heading6" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            @Html.TextBoxFor(c => c.offer.OfferBegins, new { @class = "form-control datepicker", placeholder = "Offer Begins" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        @Html.LabelFor(c => c.offer.OfferEnds, new { @class = "cols-sm-2 control-label heading6" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            @Html.TextBoxFor(c => c.offer.OfferEnds, new { @class = "form-control datepicker", placeholder = "Offer Ends" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        @Html.LabelFor(c => c.offer.OfferImg, new { @class = "cols-sm-2 control-label heading6" })
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            <input type="file" placeholder="Upload Display Image" class="form-control" name="OfferImg" value="OfferImg" />
+                            @*@Html.TextBoxFor(c => c.offer.OfferImg, new { @class = "form-control", @type = "file", placeholder = "Upload Display Image" })*@
+                        </div>
+                    </div>
+                </div>
+                <!--Display Current Image-->
+                <div class="form-group">
+                    @{
+                        var _context = new ApplicationDbContext();
+                        var getOffer = _context.Offers.FirstOrDefault(c => c.OfferId == Model.offer.OfferId);
+                        var basePath = getOffer.OfferImageLocation;
+                        var fileName = getOffer.OfferImageName;
+                        var fullPath = basePath + fileName;
+                    }
+                    <div class="cols-sm-10">
+                        @Html.Label("", "Current Offer Image", new { @class = "cols-sm-2 control-label heading6" })
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users fa" style="visibility:hidden;" aria-hidden="true"></i></span>
+                            <img src="@Url.Content(fullPath)" alt="Image not showing" height="190" width="260" class="img-resposnive" />
+                        </div>
+                    </div>
+                </div>
+
+                @Html.HiddenFor(c => c.offer.OfferId)
+                @Html.HiddenFor(c => c.offer.MerchantID)
+                <div class="form-group ">
+                    <center>
+                        <input target="_blank" value="Submit Changes" type="submit" id="button" class="btn btn-primary btn-lg btn-block login-button" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@section scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/select2/js/select2.min.js"></script>
+    <script>
+        $(function () {
+            $('.datepicker').datepicker({
+                format: 'dd/MM/yyyy',
+                startDate:'@DateTime.Now'
+            });
+
+            $('select').select2({
+                placeholder: "Assign Categories",
+            });
+
+
+        });
+    </script>
+}}

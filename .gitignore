@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/config
+/.vs/Veme/v15
+/Veme/obj/Release/Package/PackageTmp/Scripts/select2/js/i18n
+/Veme/Scripts

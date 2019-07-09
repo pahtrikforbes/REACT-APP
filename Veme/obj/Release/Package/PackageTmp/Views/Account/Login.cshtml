@@ -1,0 +1,75 @@
+﻿@using Veme.Models
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewBag.Subcriber = SocialCaller.Login;
+}
+
+<!-- banner of the page -->
+<section class="banner banner3 bg-full overlay" style="background-image: url(../../Content/Site-theme/images/login-banner.jpg);background-size:1920px 320px">
+    <!--url(http://placehold.it/1920x320);">-->
+    <div class="holder">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h1>Login</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- twocolumns of the page -->
+<div class="twocolumns pad-top-lg pad-bottom-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- Register holder of the page -->
+                <div class="register-holder">
+                    <div class="txt-holder">
+                        <h3 class="heading2">Login Now!</h3>
+                        <p>Enter your details for login</p>
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <fieldset>
+                                @*<input type="text" class="form-control" placeholder="Username *">*@
+                                @*<input type="password" class="form-control" placeholder="Password *">*@
+                                <div>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "password" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-check">
+                                    @*<input type="checkbox" name="vehicle" value="Car"> Remember Me*@
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </div>
+                                <button type="submit" class="btn-primary text-center text-uppercase">Login Now</button>
+                                @Html.ActionLink("Forget Password?", "ForgotPassword", "Account")
+                            </fieldset>
+                        }
+                        <!-- Social Login
+                        <div class="btn-holder">
+                            @Html.Partial("_ExternalLoginsListPartialCustomer", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl, Subcriber = ViewBag.Subcriber })
+                        </div>
+                        -->
+                    </div>
+                    <div class="img-holder">
+                        <img src="~/Content/Site-theme/images/login.jpg" height="390" width="570" alt="image description" class="img-responsive">
+                        <!--img src="http://placehold.it/570x390" alt="image description" class="img-responsive"-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*}*@
+

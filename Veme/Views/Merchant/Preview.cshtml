@@ -1,0 +1,75 @@
+﻿
+@using Microsoft.AspNet.Identity
+@model Veme.Models.MerchantCreateOfferViewModel
+@{
+    ViewBag.Title = "Create Offer";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@using (Html.BeginForm("StoreOffer", "Merchant", FormMethod.Post,new { enctype = "multipart/form-data" }))
+{
+    <div class="container" id="preview">
+        <div id="div1" width="100%" style="padding: 0px 0px; font-family:arial; line-height:28px; height:100%;  width: 100%; color: #514d6a;">
+            <div id="div2" style="max-width: 700px; padding:50px 0;  margin: 0px auto; font-size: 14px">
+                @*<table border="0" cellpadding="0" cellspacing="0" style="width: 100%; margin-bottom: 20px">
+            <tbody>
+                <tr>
+                    <td style="vertical-align: top; padding-bottom:30px;" align="center">
+                        <h3>Veme image</h3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>*@
+                <div id="whiteBackground" style="padding: 20px; background: #fff;">
+                    <div id="redBox" style="padding: 40px; background: #d30e2c; color:#fff;padding-top:10px;padding-bottom:10px;border-radius:25px;">
+                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="CompanyName" style="font-size:30px;font-family:'Comic Sans MS' Arial, Helvetica, sans-serif;background:#d30e2c; padding:20px; color:#fff; text-align:center;">@Model.Merchant.CompanyName</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <center>
+                                            <p class="OfferName" style="font-size:20px"><b>@Model.OfferName</b></p>
+                                            <p class="OfferPeriod" style="font-size:20px">@Model.OfferBegins.Value.ToString("MMM-dd-yyyy") - @Model.OfferEnds.Value.ToString("MMM-dd-yyyy") </p>
+                                            <p class="OfferDetails" style="font-size:15px">@Model.OfferDetails<b></b></p>
+                                        </center>
+                                        <center>
+                                            @*<a href="javascript: void(0);" style="display: inline-block; padding: 11px 30px; margin: 20px 0px 30px; font-size: 15px; color: #fff; background: #00c0c8; border-radius: 60px; text-decoration:none;">Upgrade My Account</a>*@
+                                            <h3 class="DiscountRate" style="display: inline-block; padding: 11px 30px; margin: 20px 0px 30px; font-size: 60px; color: #fff; background: #d30e2c; border-radius: 60px ; text-decoration:solid;">@Model.DiscountRate%</h3>
+                                        </center>
+                                        <p style="font-size:20px"> COUPON CODE: <b class="right">XXX-XXX-XXX</b></p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br />
+                @Html.HiddenFor(c => c.OfferName)
+                @Html.HiddenFor(c => c.DiscountRate)
+                @Html.HiddenFor(c => c.TotalOffer)
+                @Html.HiddenFor(c => c.OfferDetails)
+                @Html.HiddenFor(c => c.CategoryIds)
+                @Html.HiddenFor(c => c.OfferBegins)
+                @Html.HiddenFor(c => c.OfferEnds)
+                @Html.HiddenFor(c => c.OfferImg)
+                @*@Html.HiddenFor(c => c.CouponDurationInMonths)*@
+
+                @Html.HiddenFor(c => c.Merchant.CompanyName)
+                @Html.HiddenFor(c => c.MerchantID)
+
+                <div class="form-group ">
+                    <center>
+                        <input target="_blank" value="Continue" type="submit" id="btnContinue" class="btn btn-primary login-button" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

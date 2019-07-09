@@ -1,0 +1,53 @@
+﻿@model Veme.Models.ViewModels.DashboardViewModel
+
+<!--
+<div class="row main">
+    <div class="col-xs-12 col-lg-8 main-login main-center">
+        <h3>Current Package</h3>
+        <table class="table">
+            <tr>
+                <td><span class="label label-info">@Html.LabelFor(c => c.PackageInfo.PackageName)</span></td>
+                <td><span class="label label-primary">@Model.PackageInfo.PackageName</span></td>
+            </tr>
+            <tr>
+                <td><span class="label control-label label-info">Validation Done</span></td>
+                <td><span class="label label-primary">@Model.PackageInfo.CallsMade / @Model.PackageInfo.Quantity</span></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+-->
+<h3>Current Package</h3>
+
+<section class="widget">
+    <table class="table">
+        <tr>
+            <td><span class="label label-info">@Html.LabelFor(c => c.PackageInfo.PackageName)</span></td>
+            @{
+                if (String.IsNullOrEmpty(Model.PackageInfo.PackageName))
+                {
+                    <td><span class="label label-primary">N/A</span></td>
+                }
+                else
+                {
+                    <td><span class="label label-primary">@Model.PackageInfo.PackageName</span></td>
+                }
+            }
+        </tr>
+        <tr>
+            <td><span class="label control-label label-info">Validation Done</span></td>
+            @{
+                if (Model.PackageInfo.Quantity == 0 && Model.PackageInfo.CallsMade == 0)
+                {
+                    <td><span class="label label-primary">N/A</span></td>
+                }
+                else
+                {
+                    <td><span class="label label-primary">@Model.PackageInfo.CallsMade / @Model.PackageInfo.Quantity</span></td>
+                }
+            }
+        </tr>
+    </table>
+</section>
+

@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNet.Identity
+@using Veme.Models
+@model Veme.Models.CustomerRegisterViewModel
+@{
+    ViewBag.Title = "Register Customer";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewBag.Subcriber = SocialCaller.CustomerRegister;
+}
+@Styles.Render("~/Content/datepicker")
+
+<style>
+    .tooltip-inner {
+        white-space: pre-wrap;
+    }
+</style>
+<!-- banner of the page -->
+<section class="banner banner3 bg-full overlay" style="background-image: url(http://placehold.it/1920x320);">
+    <div class="holder">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h1>Register Customer</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- twocolumns of the page -->
+<div class="twocolumns pad-top-lg pad-bottom-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- Register holder of the page -->
+                <div class="register-holder">
+                    <div class="txt-holder">
+                        <h3 class="heading2">Register Customer Now</h3>
+                        <p>Fill the forum to confirm your registration</p>
+                        @using (Html.BeginForm("RegisterCustomer", "Account", FormMethod.Post, new { @class = "register-form", autocomplete = "off" }))
+                        {
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            @Html.AntiForgeryToken()
+                        <fieldset>
+                            @Html.TextBoxFor(c => c.FirstName, new { @class = "form-control", placeholder = "First Name *" })
+                            @Html.TextBoxFor(c => c.LastName, new { @class = "form-control", placeholder = "Last Name *" })
+                            @Html.TextBoxFor(c => c.DOB, new { @class = "form-control datepicker", placeholder = "DOB *" })
+                            @Html.TextBoxFor(c => c.MobileNumber, new { @class = "form-control", placeholder = "Mobile Number 876-555-6635 *" })
+                            @Html.TextBoxFor(c => c.Email, new { @class = "form-control", placeholder = "Email *", type = "email" })
+                            @Html.TextBoxFor(c => c.ConfirmEmail, new { @class = "form-control", placeholder = "Confirm Email *", type = "email" })
+                            @Html.PasswordFor(c => c.Password, new { @class = "form-control", placeholder = "Password *", Title = "<ul><li>Atleast 6 characters</li><li>Atleast 1 symbols !@#$ etc</li><li>Atleast 1 digit</li></ul>", data_html=true})
+                            @Html.PasswordFor(c => c.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password *" })
+
+                            <div class="form-check">
+                                <!--input type="checkbox" name="vehicle" value="Car"> Accept <a href="#" class="clr">Terms and Conditions</a>
+                                <br/-->
+                                @Html.CheckBoxFor(c => c.IsCheck, false) 
+                                Accept <a href="#" class="clr">Terms and Conditions</a>
+                            </div>
+                            <div class="g-recaptcha" data-sitekey="@ViewBag.SiteKey"></div>
+                            <br />
+                            <button type="submit" class="btn-primary text-center text-uppercase">Register</button>
+                        </fieldset>
+
+                        }
+                        <!--Social Login
+                        <div class="btn-holder">
+                            @Html.Partial("_ExternalLoginsListPartialCustomer", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl, Subcriber = ViewBag.Subcriber })
+                        </div>
+                            -->
+                    </div>
+                    <div class="img-holder">
+                        @*<img src="http://placehold.it/600x520" alt="image description" class="img-responsive">*@
+                        <img src="~/Content/Site-theme/images/signup.jpg" height="520" width="600" alt="image description" class="img-responsive">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/cleave.min.js"></script>
+    <script>
+        $(function () {
+            $('#Password').tooltip({
+                placement: "right",
+                trigger:"focus"
+            });
+
+            $('.datepicker').datepicker({
+                format: 'dd/MM/yyyy',
+                endDate:'@DateTime.Now'
+            });
+
+            var teleFormat = new Cleave('#MobileNumber', {
+                delimiter: '-',
+                blocks: [3, 3, 4]
+            });
+        });
+    </script>
+}

@@ -1,0 +1,171 @@
+﻿@using Microsoft.AspNet.Identity
+@using System.Data.Entity
+@using Veme.Models.POCO
+@using Veme.Models
+@model Veme.Models.CouponDetailsViewModel
+@{
+    ViewBag.Title = "Coupon Details";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    var _context = new ApplicationDbContext();
+}
+
+<div class="twocolumns pad-top-lg pad-bottom-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- content of the page -->
+                <article id="content">
+                    <!-- post detail of the page -->
+                    <div class="post-detail style2">
+                        <div class="img-holder">
+                            @*<img src="http://placehold.it/770x340" alt="image description" class="img-responsive">*@
+                            @{
+                                var userId = Model.Offer.Merchant.MerchantID;
+                                var basePath = Model.Offer.OfferImageLocation;
+                                var fileName = Model.Offer.OfferImageName;
+                                var fullPath = basePath + fileName;
+
+                                <img src="@Url.Content(fullPath)" height="340" width="770" alt="Image not showing" class="img-resposnive" />
+                            }
+                        </div>
+                        <div class="txt-holder">
+                            <header class="header">
+                                <div class="coupon-logo">
+                                    <!--img src="http://placehold.it/100x50" alt="Red Cart" class="img-responsive"-->
+                                    <img src="@Url.Content(fullPath)" height="50" width="100" alt="Red Cart" class="img-responsive">
+                                </div>
+                                <div class="align-left">
+                                    <h3 class="heading3">@Model.Offer.Merchant.CompanyName (@Model.Offer.OfferName)</h3>
+
+                                    <!--ul class="list-unstyled list-show">
+                                            <li><a href="#"><i class="icon icon-smile"></i> Verified</a></li>
+                                            <li><a href="#"><i class="icon icon-user"></i> 35 Used</a></li>
+                                    </ul-->
+                                </div>
+                            </header>
+                            <p><i><b>Coupon Price: </b>@Model.Offer.CouponPrice.ToString("C")</i></p>
+                            <p>@Model.Offer.OfferDetails</p>
+
+                            <footer class="footer">
+                                <form action="@Url.Action("GetCoupon","Home")" method="post">
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("OfferId", Model.Offer.OfferId)
+                                    <!--Code that accepts payment-->
+                                    <!--
+                                    <script src="https://checkout.stripe.com/checkout.js" id="" class="stripe-button"
+                                            data-key="@ViewBag.PublicKey"
+                                            data-amount="@(Model.Offer.CouponPrice == 0? (0*100) : (Model.Offer.CouponPrice)*100)"
+                                            data-name="Veme"
+                                            data-description="EVERYBODY SAVES "
+                                            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                            data-locale="auto"
+                                            data-currency="usd"
+                                            data-email="@User.Identity.GetUserName()"
+                                            data-label="SUBSCRIBE"
+                                            data-panel-label="PAY">
+                                    </script>
+                                    <script>
+                                        document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                                    </script>
+                                        -->
+                                    <input type="submit" name="Get Coupon" class="btn-primary text-center text-uppercase" value="Get Coupon" />
+                                </form>
+
+                                <!--Social Media buttons-->
+                                <!--ul class="list-unstyled social-network">
+                                    <li><a href="https://www.facebook.com/solutechinnovation/"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="http://www.solutechinnovation.com/"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="https://jm.linkedin.com/company/solutech-innovation"><i class="fa fa-linkedin"></i></a></li>
+                                </ul-->
+                            </footer>
+                        </div>
+                    </div>
+
+                </article>
+                <!------------------------->
+                <!-- sidebar of the page -->
+                <!------------------------->
+                <aside id="sidebar">
+                    <!-- Widget of the page -->
+                    <section class="widget search-widget">
+                        <form action="@Url.Action("Search","Search")" class="search-form">
+                            <fieldset>
+                                <!--input type="search" class="form-control" placeholder="Enter Keyword"-->
+                                @Html.TextBox("SearchKey", "", new { @class = "form-control", placeholder = "Enter Keyword . . .", id = "search" })
+                                <button type="submit" class="sub-btn text-center text-uppercase">GO</button>
+                            </fieldset>
+                        </form>
+                    </section>
+                    <!-- Widget of the page -->
+                    <!--section class="widget category-widget">
+                        <h3 class="heading4">Blog Categories</h3>
+                        <ul class="list-unstyled category-list">
+                            <li><a href="#"><span class="pull-left">All Categories</span><span class="pull-right">(10)</span></a></li>
+                            <li><a href="#"><span class="pull-left">Beauty</span><span class="pull-right">(07)</span></a></li>
+                            <li><a href="#"><span class="pull-left">Health</span><span class="pull-right">(15)</span></a></li>
+                            <li><a href="#"><span class="pull-left">Fitness</span><span class="pull-right">(13)</span></a></li>
+                            <li><a href="#"><span class="pull-left">Watches</span><span class="pull-right">(05)</span></a></li>
+                        </ul>
+                    </section-->
+                    <!-- Widget of the page -->
+                    <section class="widget news-widget">
+                        <h3 class="heading4">Latest Offers</h3>
+                        <ul class="list-unstyled latest-news-list">
+                            @{
+                                var latestOffers = _context.Offers
+                                                           .Include(c => c.Merchant)
+                                                           .Include(c => c.Categories)
+                                                           .OrderByDescending(c => c.CreationDate)
+                                                           .Where(c => DbFunctions.TruncateTime(c.OfferEnds) > DbFunctions.TruncateTime(DateTime.Now))
+                                                           .Where(c => c.TotalOffer > c.CouponUsed)
+                                                           .Take(3).ToList();
+
+                                foreach (var offer in latestOffers)
+                                {
+                                    var userId2 = offer.Merchant.MerchantID;
+                                    var imgbasePathWithoutServer = offer.OfferImageLocation;
+                                    var imgfileName = offer.OfferImageName;
+                                    var imgfullPath = imgbasePathWithoutServer + imgfileName;
+
+                                    <li>
+                                        <div class="img-holder round">
+                                            <a href="javascript:void(0)"><img src="@Url.Content(imgfullPath)" height="75" width="75" alt="image description" class="img-responsive"></a>
+                                        </div>
+                                        <div class="txt-holder">
+                                            <h3><a href="javascript:void(0);">@offer.OfferName</a></h3>
+                                            <ul class="list-unstyled news-nav">
+                                                <li>By <a href="javascript:void(0)">@offer.Merchant.CompanyName</a></li>
+                                                <li>|</li>
+                                                <li><time>@offer.OfferEnds.ToString("MMM.dd.yyyy")</time></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                }
+                            }
+                        </ul>
+                    </section>
+
+                    <!-- Widget of the page -->
+                    <section class="widget tags-widget">
+                        <h3 class="heading4">Tags</h3>
+                        @{
+                            var Categories = _context.Categories.ToList();
+                            <ul class="list-unstyled tags-list text-center">
+                                @foreach (var category in Categories)
+                                {
+                                    <li>
+                                        @Html.ActionLink(linkText: category.CategoryName, actionName: "Categories", controllerName: "Search", routeValues: new { CategoryId = category.CategoryId }, htmlAttributes: null)
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                    </section>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+
+

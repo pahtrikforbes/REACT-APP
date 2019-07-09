@@ -1,0 +1,139 @@
+﻿@model Veme.Models.ViewModels.ContactViewModel
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<!--h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+<address>
+    One Microsoft Way<br />
+    Redmond, WA 98052-6399<br />
+    <abbr title="Phone">P:</abbr>
+    425.555.0100
+</address-->
+<!--address>
+    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+</address-->
+<!-- main of the page -->
+<main id="main">
+    <!-- banner of the page -->
+    <section class="banner banner3 bg-full overlay" style="background-image: url(../../Content/Site-theme/images/contact.png);">
+        <!--http://placehold.it/1920x2320-->
+        <div class="holder">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <h1>Contact Us</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- contact sec of the page -->
+    <section class="contact-sec container pad-top-lg pad-bottom-lg">
+        <div class="row">
+            <header class="col-xs-12 header text-center">
+                <h3 class="heading">Feel Free To Connect With Us</h3>
+                <p>Get in touch with our team</p>
+            </header>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- contact list of the page -->
+                <ul class="list-unstyled contact-list">
+                    <li>
+                        <span class="icon icon-location"></span>
+                        <div class="align-left">
+                            <strong class="title">Our Location</strong>
+                            <!--address>No:50%, Coupmy Street, Sydney, Australia</address-->
+                            <address>21 Connolley Avenue,</address>
+                            <address>Kingston 4, Jamaica, W.I.</address>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="icon icon-phone"></span>
+                        <div class="align-left">
+                            <strong class="title">Call Us</strong>
+                            <span class="tel">
+                                <a href="tel:18766486481">+1(876) 648 6481</a>
+                                <!--a href="tel:008528529955">+(00) 852 852 9955</a-->
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="icon icon-email"></span>
+                        <div class="align-left">
+                            <strong class="title">Email Address</strong>
+                            <span class="mail">
+                                <a href="mailto:info@veme.com">info@veme.com</a>
+                                <!--a href="mailto:info@solutechinnovation.com">info@solutechinnovation.com</a-->
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <!-- contact form of the page -->
+                <!--form action="#" class="contact-form"-->
+                @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { @class = "contact-form" }))
+                {
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="col">
+                                <label for="name">Name <span class="clr">*</span></label>
+                                <!--input type="text" id="name" class="form-control"-->
+                                @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                <label for="email">Email Address <span class="clr">*</span></label>
+                                <!--input type="email" id="email" class="form-control"-->
+                                @Html.TextBoxFor(c => c.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col">
+                                <label for="tel">Phone <span class="clr">*</span></label>
+                                <!--input type="tel" id="tel" class="form-control"-->
+                                @Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control", @type = "tel", placeholder = "876-899-8088" })
+                                @Html.ValidationMessageFor(c => c.PhoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                <label for="sub">Subject</label>
+                                <!--input type="text" id="sub" class="form-control"-->
+                                @Html.TextBoxFor(c => c.Subject, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Subject, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="msg">Your Message <span class="clr">*</span></label>
+                            <!--textarea name="message" id="msg"></textarea-->
+                            @Html.TextAreaFor(c => c.Message, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(c => c.Message, "", new { @class = "text-danger" })
+                        </div>
+                        <button type="submit" class="btn-primary text-uppercase text-center">Send Message</button>
+                    </fieldset>
+                }
+                <!--/form-->
+            </div>
+        </div>
+    </section>
+    <!-- map holder of the page -->
+    <!--div class="map-holder">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7589.693421743478!2d-76.79004777361945!3d17.985867355457042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8edb3f9c866e2de3%3A0x1d5d3e585307c83b!2sConnolley+Rd%2C+Kingston!5e0!3m2!1sen!2sjm!4v1536097032991" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div-->
+</main>
+<!-- main of the page end -->
+@section Scripts
+{
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/cleave.min.js"></script>
+    <script>
+        var teleFormat = new Cleave('#PhoneNumber', {
+            delimiter: '-',
+            blocks: [3, 3, 4]
+        });
+
+    </script>
+}

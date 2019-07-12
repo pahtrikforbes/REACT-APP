@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import Home2 from './Home2';
 
-
 import './ContentArea.css';
 
 const ContentArea = () => (

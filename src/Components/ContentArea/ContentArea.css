@@ -134,6 +134,10 @@
 .categories-list ul {
     padding: 0px;
     text-align: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    width: 100%;
 }
 .categories-list ul li:nth-child(1) {
     margin-left:0px;
@@ -145,7 +149,7 @@
     list-style: none;
     text-align: center;
     display: inline-block;
-    margin: 0 36px 20px;
+    margin: 0 15px;
 
 }
 .categories-list ul li img {
@@ -275,6 +279,7 @@ body {
 }
 .product-card {
     margin-bottom: 30px;
+    cursor: pointer;
 }
 .infinite-scroll-component  {
     overflow: hidden !important;

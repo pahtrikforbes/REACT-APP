@@ -33,6 +33,11 @@
 
 .h-footer-list li {
     margin-bottom: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.h-footer-list li:hover {
+    color: #3a9928;
 }
 .h-subscribe span {
     float: left;
@@ -98,6 +103,10 @@
 .h-socket-links-list li {
     display: inline;
     margin: 0 20px;
+    cursor: pointer;
+}
+.h-socket-links-list li:hover {
+    color: #3a9928;
 }
 .h-footer-bottom {
     background-color: #ffffff;
@@ -118,6 +127,19 @@
     margin: 0 22px 0 0;
 }
 
+.w1230 {
+    max-width: 1230px;
+}
+
+.w654 {
+    max-width: 654px;
+}
+.w924 {
+    max-width: 924px;
+}
+.w1112 {
+    max-width: 1112px;
+}
 @media (max-width: 1080px) {
     .h-footer .footer-widget {
         margin: 20px 0;
